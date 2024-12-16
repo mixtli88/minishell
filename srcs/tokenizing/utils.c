@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/14 16:36:57 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/16 12:25:28 by mabril           ###   ########.fr       */
+/*   Created: 2024/12/16 10:00:16 by mabril            #+#    #+#             */
+/*   Updated: 2024/12/16 10:02:09 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+void com_eje(int *ac, char **av)
 {
-	(void) argc;
-	(void) argv;
-	(void) envp;
-	ft_putstr_fd("main\n", STDOUT_FILENO);
-	tokenizing();
-	parsing();
-	builtin();
-	exec();
-	return (0);
+	int i;
+
+	i = 0;
+
+	
 }
