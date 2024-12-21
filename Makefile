@@ -6,8 +6,7 @@ NAME = minishell
 
 BUILTINS = builtin.c 
 EXEC = exec.c 
-PARSING = parsing.c 
-TOKENIZING = tokenizing.c 
+TOKENIZING = tokenizing.c error.c utils.c
 MAIN = main.c 
 
 BUILTINS_DIR = builtins/
@@ -30,13 +29,18 @@ GET_OBJ = $(addprefix $(GET_DIR), $(GET:.c=.o))
 INC_DIR = includes/
 INCLUDES = -I $(INC_DIR)
 
+
+
+LIBRL_DIR	=	$(INC_DIR)readline/
+LIBRL_H		=	chardefs.h history.h keymaps.h readline.h rlconf.h rlstdc.h rltypedefs.h tilde.h
+
 LIBFT_DIR = Libft/
 LIBFT_OBJ = $(addprefix $(LIBFT_DIR), libft.a)
 
 # Minishell targets
 all: $(NAME)
 $(NAME): $(LIBFT_OBJ) $(GET_OBJ) $(SRC_OBJ)
-	$(CC) $(CFLAGS) $(INCLUDES) $(LIBFT_OBJ) $(GET_OBJ) $(SRC_OBJ) -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -lreadline $(LIBFT_OBJ) $(GET_OBJ) $(SRC_OBJ) $(HISTORY_LIB) $(READLINE_LIB) $(LIBRL_DIR)libreadline.a $(LIBRL_DIR)libhistory.a -o $@
 # create "Libft/libft.a"
 $(LIBFT_OBJ):
 	make bonus -C $(LIBFT_DIR)

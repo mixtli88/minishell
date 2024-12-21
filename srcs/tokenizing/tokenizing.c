@@ -6,76 +6,90 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/17 18:43:11 by mabril           ###   ########.fr       */
+/*   Updated: 2024/12/20 19:30:19 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int get_tokend(char *token)
+int get_type(char *token)
 {
-	if (ft_strcmp(token, "|") == 0)
+	if (ft_strncmp(token, "|", 1) == 0)
 		return(TOKEN_PIPE);
 	else if (ft_strncmp(token, ">", 1) == 0 ||  ft_strncmp(token, "<", 1) == 0)
-		return(TOKEN_PIPE);
+		return(TOKEN_REDIRECTION);
 	else if (ft_strncmp(token, ";", 1) == 0)
 		return(TOKEN_SEPARATOR);
 	else if (ft_strncmp(token, "&", 1 ) == 0)
 		return(TOKEN_BACKGROUND);
 	else if (token[0] == '$')
 		return(TOKEN_VARIABLE);
-	else if (isalpha(token[0]))
-		return(TOKEN_VARIABLE);
+	else if (ft_isalpha(token[0]))
+		return(TOKEN_COMMAND);
 	else 
-		return(TOKEN_PIPE);
+		return(TOKEN_INVALID);
 	
 }
-t_token *creat_token(int type, char *value)
+void creat_token(t_token **head,char *value, int type)
 {
-	t_token *token;
-	token = malloc(sizeof (t_token));
-	if(!token)
-		return (NULL);
-	
-	token->type = type;
-	token->value = ft_strdup(value);
-	token->next = NULL;
-	return (token);
-	
-}
-
-void ft_list_token(t_token **head, char *str)
-{
-	t_token *token;
+	t_token *new;
 	t_token *last;
-	
-	token =  creat_token(get_tokend(str), str);
+		
+	new = malloc(sizeof (t_token));
+	// if(!new)
+	// 	return();
+	new->value = ft_strdup(value);
+	new->type = type;
+	new->next = NULL;
 	if(*head == NULL)
-		*head = token;
+		*head = new;
 	else
 	{
-		last = head;
+		last = *head;
 		while(last->next != NULL)
 			last = last->next;
-		last->next = token;
-	}
+		last->next = new;
+	}	
 }
 
-void	tokenizing(int argc, char *argv[], char *envp[])
+t_token *lexer(char *input)
 {
-	t_token *list_token;
-	
+	t_token *head;
+	char **split;
 	int i;
 
 	i = 0;
-	ft_putstr_fd("tokenizing\n", STDOUT_FILENO);
-	if (argc == 2)
+	split = ft_split(input, ' ');
+	while(split[i])
 	{
-		argv = ft_split(argv[2], " ");	
-		while(argv[i])
-		{
-			token(arg[i]);
-			i++;
-		}
-	}	
+		creat_token(&head, split[i], get_type(split[i]));
+		i++;
+	}
+	free_table(split);
+	return(head);
+}
+
+void ft_minishell_loop(void)
+{
+    char *input;
+
+    while (1)
+	{
+        input = readline("minishell$ ");
+        if (!input)
+		{ 
+            printf("exit\n");
+            break;
+        }
+        if (strcmp(input, "exit") == 0) {
+            printf("exit\n");
+            free(input); 
+			break;
+        }
+        if (*input)
+            add_history(input);
+        printf("Entrada recibida: %s\n", input);
+		lexer(input);
+        free(input);
+    }
 }
