@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/14 16:36:57 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/21 22:55:08 by fwu              ###   ########.fr       */
+/*   Created: 2024/12/21 22:31:21 by fwu               #+#    #+#             */
+/*   Updated: 2024/12/21 23:01:43 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#ifndef ERROR_H
+# define ERROR_H
 
-int	main(int argc, char *argv[], char *envp[])
-{
-	static t_minishell	ms;
+/* **************************   ERROR MESSAGE   *************************** */
+# define ENV_ERROR "ENV ERROR"
+# define PWD_ERROR "PWD ERROR"
 
-	(void) argc;
-	(void) argv;
-	(void) envp;
-	ms.envp = envp;
-	builtin(&ms);
-	return (0);
-}
+#endif //ERROR_H

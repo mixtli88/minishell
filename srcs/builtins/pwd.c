@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/14 16:36:57 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/21 22:55:08 by fwu              ###   ########.fr       */
+/*   Created: 2024/12/21 21:58:31 by fwu               #+#    #+#             */
+/*   Updated: 2024/12/21 23:06:34 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+bool	pwd(void)
 {
-	static t_minishell	ms;
+	char	*env_pwd;
 
-	(void) argc;
-	(void) argv;
-	(void) envp;
-	ms.envp = envp;
-	builtin(&ms);
-	return (0);
+	env_pwd = getenv("PWD");
+	if (!env_pwd)
+	{
+		ft_putendl_fd(PWD_ERROR, STDERR_FILENO);
+		return (false);
+	}
+	ft_putendl_fd(env_pwd, STDOUT_FILENO);
+	return (true);
 }
