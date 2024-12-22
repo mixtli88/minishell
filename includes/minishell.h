@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/14 18:37:45 by fwu              ###   ########.fr       */
+/*   Updated: 2024/12/21 21:30:33 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,18 @@
 # include "tokenizing.h"
 # include "parsing.h"
 
+typedef struct s_minishell
+{
+	char	**envp;
+}	t_minishell;
+
+
 /* ****************************   BUILTINS   ****************************** */
 // builtin.c
-void	builtin(void);
+bool	builtin(t_minishell *ms);
+
+// env.c
+bool	env(t_minishell ms);
 
 /* ******************************   EXEC   ******************************** */
 // exex.c
