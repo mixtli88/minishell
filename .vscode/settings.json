@@ -10,6 +10,7 @@
 		"typeinfo": "cpp",
 		"algorithm": "cpp",
 		"complex": "cpp",
-		"new": "cpp"
+		"new": "cpp",
+		"iterator": "c"
 	}
 }
