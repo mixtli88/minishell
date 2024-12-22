@@ -6,13 +6,13 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/20 19:30:19 by mabril           ###   ########.fr       */
+/*   Updated: 2024/12/22 18:23:31 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int get_type(char *token)
+t_type get_type(char *token)
 {
 	if (ft_strncmp(token, "|", 1) == 0)
 		return(TOKEN_PIPE);
@@ -30,7 +30,7 @@ int get_type(char *token)
 		return(TOKEN_INVALID);
 	
 }
-void creat_token(t_token **head,char *value, int type)
+void creat_token(t_token **head, char *value, t_type type)
 {
 	t_token *new;
 	t_token *last;
@@ -38,6 +38,7 @@ void creat_token(t_token **head,char *value, int type)
 	new = malloc(sizeof (t_token));
 	// if(!new)
 	// 	return();
+	last = NULL;
 	new->value = ft_strdup(value);
 	new->type = type;
 	new->next = NULL;
@@ -54,7 +55,8 @@ void creat_token(t_token **head,char *value, int type)
 
 t_token *lexer(char *input)
 {
-	t_token *head;
+	t_token *head= NULL;
+	t_token *act;
 	char **split;
 	int i;
 
@@ -62,34 +64,57 @@ t_token *lexer(char *input)
 	split = ft_split(input, ' ');
 	while(split[i])
 	{
-		creat_token(&head, split[i], get_type(split[i]));
+		printf("s%d %s\n",i, split[i]);
 		i++;
 	}
+	// printf(" head %p\n", head);
+	// printf(" act %p\n", act);
+	i = 0;
+	while(split[i])
+	{
+		printf("1\n");
+		creat_token(&head, split[i], get_type(split[i]));
+		printf("2\n");
+		// printf(" head %p\n", head);
+		// printf(" act %p\n", act);
+		
+		
+		i++;
+	}
+	act = head;
+	// printf("value new token %s\n", new->value);
+	while(act)
+	{
+		printf("token = %s\n", act->value);
+		act = act->next;
+	}	
 	free_table(split);
 	return(head);
 }
 
 void ft_minishell_loop(void)
 {
-    char *input;
-
+	t_data *data;
+	data = ft_calloc(sizeof(t_data),1);
+	
     while (1)
 	{
-        input = readline("minishell$ ");
-        if (!input)
-		{ 
-            printf("exit\n");
+		if(data == NULL)
+			data = ft_calloc(sizeof(t_data),1);
+        data->input = readline("minishell$ ");
+        if (!data->input)
             break;
-        }
-        if (strcmp(input, "exit") == 0) {
+        if (strcmp(data->input, "exit") == 0) 
+		{
             printf("exit\n");
-            free(input); 
+            free(data); 
 			break;
         }
-        if (*input)
-            add_history(input);
-        printf("Entrada recibida: %s\n", input);
-		lexer(input);
-        free(input);
+        if (*data->input)
+            add_history(data->input);
+        printf("Entrada recibida: %s\n", data->input);
+		data->tok_list = lexer(data->input);
+	    free(data);
+		data = NULL;
     }
 }
