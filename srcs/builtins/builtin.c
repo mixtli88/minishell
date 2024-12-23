@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:04:56 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/21 23:05:54 by fwu              ###   ########.fr       */
+/*   Updated: 2024/12/22 22:00:52 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 bool	builtin(t_minishell *ms)
 {
 	(void) ms;
-	env(*ms);
-	pwd();
+	// env(ms->envp);
+	// pwd();
+	
+	char *const argv[] = {"257", NULL};
+	ft_exit(argv);
 	return (true);
 }

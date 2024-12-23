@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 NAME = minishell
 
-BUILTINS = builtin.c env.c pwd.c
+BUILTINS = builtin.c env.c pwd.c exit.c
 EXEC = exec.c 
 PARSING = parsing.c 
 TOKENIZING = tokenizing.c 
