@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/22 20:19:32 by fwu              ###   ########.fr       */
+/*   Updated: 2024/12/23 21:51:46 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ bool	ft_env(char *const envp[]);
 bool	ft_pwd(void);
 // exit.c
 bool	ft_exit(char *const argv[]);
+// echo.c
+bool	ft_echo(char *const argv[]);
 
 /* ******************************   EXEC   ******************************** */
 // exex.c
