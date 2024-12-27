@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/22 18:23:31 by mabril           ###   ########.fr       */
+/*   Updated: 2024/12/26 17:30:17 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,19 @@
 t_type get_type(char *token)
 {
 	if (ft_strncmp(token, "|", 1) == 0)
-		return(TOKEN_PIPE);
-	else if (ft_strncmp(token, ">", 1) == 0 ||  ft_strncmp(token, "<", 1) == 0)
-		return(TOKEN_REDIRECTION);
+		return(PIPE);
+	else if (ft_strncmp(token, ">", 1))
+		return(REDIR_IN);
+	else if (ft_strncmp(token, "<", 1) == 0)
+		return(REDIR_IN);
 	else if (ft_strncmp(token, ";", 1) == 0)
-		return(TOKEN_SEPARATOR);
+		return(SEPARATOR);
 	else if (ft_strncmp(token, "&", 1 ) == 0)
-		return(TOKEN_BACKGROUND);
+		return(BACKGROUND);
 	else if (token[0] == '$')
-		return(TOKEN_VARIABLE);
+		return(VARIABLE);
 	else if (ft_isalpha(token[0]))
-		return(TOKEN_COMMAND);
+		return(WORLD);
 	else 
 		return(TOKEN_INVALID);
 	
@@ -55,8 +57,7 @@ void creat_token(t_token **head, char *value, t_type type)
 
 t_token *lexer(char *input)
 {
-	t_token *head= NULL;
-	t_token *act;
+	t_token *head;
 	char **split;
 	int i;
 
@@ -64,30 +65,9 @@ t_token *lexer(char *input)
 	split = ft_split(input, ' ');
 	while(split[i])
 	{
-		printf("s%d %s\n",i, split[i]);
-		i++;
-	}
-	// printf(" head %p\n", head);
-	// printf(" act %p\n", act);
-	i = 0;
-	while(split[i])
-	{
-		printf("1\n");
 		creat_token(&head, split[i], get_type(split[i]));
-		printf("2\n");
-		// printf(" head %p\n", head);
-		// printf(" act %p\n", act);
-		
-		
 		i++;
 	}
-	act = head;
-	// printf("value new token %s\n", new->value);
-	while(act)
-	{
-		printf("token = %s\n", act->value);
-		act = act->next;
-	}	
 	free_table(split);
 	return(head);
 }
@@ -112,9 +92,19 @@ void ft_minishell_loop(void)
         }
         if (*data->input)
             add_history(data->input);
-        printf("Entrada recibida: %s\n", data->input);
 		data->tok_list = lexer(data->input);
 	    free(data);
 		data = NULL;
     }
 }
+
+// while(split[i])
+// 	{
+// 		printf("s%d %s\n", i, split[i]);
+// 		i++;
+// 	}
+        // printf("Entrada recibida: %s\n", data->input);
+		// printf("1\n");
+		// printf("2\n");
+		// printf(" head %p\n", head);
+		// printf(" act %p\n", act);

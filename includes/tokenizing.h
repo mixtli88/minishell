@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/22 17:45:27 by mabril           ###   ########.fr       */
+/*   Updated: 2024/12/26 17:30:22 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,16 @@
 
 typedef enum e_type
 {
-	TOKEN_COMMAND,
-	TOKEN_ARGUMENT,  
- 	TOKEN_PIPE  ,
- 	TOKEN_REDIRECTION,
-	TOKEN_SEPARATOR,
- 	TOKEN_BACKGROUND,
- 	TOKEN_STRING,
- 	TOKEN_VARIABLE,
- 	TOKEN_INVALID,
-	WORD,
-	PIPE,
+	CMD,
+	ARG,  
+ 	PIPE ,
 	REDIR_IN,
 	REDIR_OUT,
-	HEREDOC,
-	APPEND,
-	DOLLAR,
+	SEPARATOR,
+ 	BACKGROUND,
+ 	WORLD,
+ 	VARIABLE,
+ 	TOKEN_INVALID,
 }	t_type;
 
 /* ***************************   TOKENIZING   ***************************** */
