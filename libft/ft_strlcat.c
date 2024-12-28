@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 21:49:26 by fwu               #+#    #+#             */
-/*   Updated: 2024/02/19 14:41:27 by fwu              ###   ########.fr       */
+/*   Updated: 2024/12/27 20:42:11 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,24 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	}
 	return (idx_dst + (size_t)ft_strlen(src));
 }
-
+char *ft_strcat(char **dest, const char *src)
+{
+    size_t dest_len = 0;
+    size_t src_len = 0;
+	
+    dest_len = ft_strlen(*dest);
+    src_len = ft_strlen(src);
+    char *new_dest = ft_calloc(sizeof(char),(dest_len + src_len + 1));
+    if (!new_dest)
+        return NULL;
+	ft_memcpy(new_dest, *dest, dest_len);
+	ft_memcpy(new_dest + dest_len, src, src_len);
+	new_dest[dest_len + src_len] = '\0'; 
+	free(*dest);
+	free((char*)src);
+	return(new_dest);	
+}
+	
 // int main(int ac, char **av)
 // {
 // 	char dst1[20] = "pqrs";

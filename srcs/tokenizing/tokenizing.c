@@ -6,12 +6,20 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/26 17:30:17 by mabril           ###   ########.fr       */
+/*   Updated: 2024/12/27 22:25:09 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+void *ft_init_data(t_data **data)
+{
+	(*data)->buf_idx = 0;
+	(*data)->i = 0;
+	(*data)->input = NULL;
+	(*data)->quote = NULL;
+	(*data)->tok_list = NULL;
+}
 t_type get_type(char *token)
 {
 	if (ft_strncmp(token, "|", 1) == 0)
@@ -32,7 +40,7 @@ t_type get_type(char *token)
 		return(TOKEN_INVALID);
 	
 }
-void creat_token(t_token **head, char *value, t_type type)
+void creat_token(t_token **head, char *value, int q_s, int q_d )
 {
 	t_token *new;
 	t_token *last;
@@ -42,7 +50,9 @@ void creat_token(t_token **head, char *value, t_type type)
 	// 	return();
 	last = NULL;
 	new->value = ft_strdup(value);
-	new->type = type;
+	new->type = get_type(value);
+	new->quote_single= q_s;
+	new->quote_double = q_d;
 	new->next = NULL;
 	if(*head == NULL)
 		*head = new;
@@ -65,6 +75,12 @@ t_token *lexer(char *input)
 	split = ft_split(input, ' ');
 	while(split[i])
 	{
+		printf("s%d %s\n", i, split[i]);
+		i++;
+	}
+	i = 0;
+	while(split[i])
+	{
 		creat_token(&head, split[i], get_type(split[i]));
 		i++;
 	}
@@ -75,7 +91,9 @@ t_token *lexer(char *input)
 void ft_minishell_loop(void)
 {
 	t_data *data;
+	
 	data = ft_calloc(sizeof(t_data),1);
+	ft_init_data(&data);
 	
     while (1)
 	{
@@ -98,11 +116,6 @@ void ft_minishell_loop(void)
     }
 }
 
-// while(split[i])
-// 	{
-// 		printf("s%d %s\n", i, split[i]);
-// 		i++;
-// 	}
         // printf("Entrada recibida: %s\n", data->input);
 		// printf("1\n");
 		// printf("2\n");
