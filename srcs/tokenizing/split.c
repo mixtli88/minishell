@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:33:19 by mabril            #+#    #+#             */
-/*   Updated: 2024/12/30 00:22:04 by mabril           ###   ########.fr       */
+/*   Updated: 2024/12/30 15:50:36 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char *read_aditional(t_data **data)
 			}
 			return(NULL);
 		}
-		(*data)->tem = ft_strcat((*data)->tem, (*data)->new_line);
+		(*data)->tem = ft_strcat(&(*data)->tem, (*data)->new_line);
 		free((*data)->new_line);
 		((*data)->new_line) = NULL;
 		(*data)->count_quote = ft_count_char((*data)->tem, (*data)->quote);

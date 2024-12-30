@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/29 21:46:10 by mabril           ###   ########.fr       */
+/*   Updated: 2024/12/30 15:51:07 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_data
 	t_token *tok_list;
 	char 	*input;
 	int 	i;
-	int 	buf_idx;
+
 	char 	quote;
 	char 	buff[1024];
 	char 	*add_input;
@@ -68,7 +68,7 @@ void	creat_token(t_data **data);
 void	free_table(char **str);
 
 t_type 	get_type(char *token);
-void 	read_aditional(t_data **data);
+char 	*read_aditional(t_data **data);
 void	check_quote(t_data **data);
 void 	split_input(t_data **data);
 void 	ft_init_data(t_data **data);
