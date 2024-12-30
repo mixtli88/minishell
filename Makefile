@@ -6,7 +6,7 @@ NAME = minishell
 
 BUILTINS = builtin.c 
 EXEC = exec.c 
-TOKENIZING = tokenizing.c error.c utils.c split.c
+TOKENIZING = tokenizing.c error.c utils.c split.c 
 MAIN = main.c 
 
 BUILTINS_DIR = builtins/

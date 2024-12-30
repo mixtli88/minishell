@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:38:19 by mabril            #+#    #+#             */
-/*   Updated: 2024/12/27 20:41:05 by mabril           ###   ########.fr       */
+/*   Updated: 2024/12/30 15:59:59 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool ft_isaspace(char c)
 {
-	if(c = ' ')
+	if(c == ' ')
 		return(true);
 	return(false);
 }
