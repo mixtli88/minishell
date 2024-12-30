@@ -6,23 +6,12 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 10:53:51 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/27 20:04:23 by mabril           ###   ########.fr       */
+/*   Updated: 2024/12/29 17:12:25 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-
-char *read_add_input(quote)
-{
-	char *str;
-
-	while(1)
-	{
-		str = read_line(">");
-		
-	}
-}
 static int	count_words(char const *str, char c)
 {
 	int	count;
@@ -32,13 +21,6 @@ static int	count_words(char const *str, char c)
 	new_word = 1;
 	while (*str != '\0')
 	{
-		if(*str == '"')
-		{
-			str++;
-			while(str && *str != '"' )
-				str++;
-			
-		}
 		if (*str == c)
 		{
 			new_word = 1;
@@ -83,9 +65,7 @@ static char	*get_word(char const *str, int tot_len, int s_idx, int e_idx)
 static void	split_word(char **str2, char const *str, char c, int s_idx)
 {
 	int	cur_idx;
-	char *buff;
-	int buf_idx;
-	char quote;
+		
 	cur_idx = 0;
 	while (str[cur_idx] != '\0')
 	{
@@ -96,26 +76,11 @@ static void	split_word(char **str2, char const *str, char c, int s_idx)
 				*str2++ = get_word(str, ft_strlen(str), s_idx, cur_idx);
 			}
 			s_idx = -1;
-		}
-		else if (str[cur_idx]== '"' || str[cur_idx]== '\'' )
-		{
-			quote = str[cur_idx++];
-			buff[buf_idx++] = quote;
-			while(str[cur_idx] && str[cur_idx] != quote)
-				buff[buf_idx++] = str[cur_idx++];
-			if(!str[cur_idx])
-			{
-				printf("unclouse quote detecte");
-				buff == ft_strcat(&buff, read_add_input(quote));
-			
-			}
-		}
-		
+		}		
 		if (s_idx == -1 && (str[cur_idx] != c))
 		{
 			s_idx = cur_idx;
 		}
-		
 		cur_idx++;
 	}
 	if (s_idx != -1)

@@ -6,19 +6,19 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/27 22:25:09 by mabril           ###   ########.fr       */
+/*   Updated: 2024/12/29 18:57:21 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void *ft_init_data(t_data **data)
+void ft_init_data(t_data **data)
 {
 	(*data)->buf_idx = 0;
 	(*data)->i = 0;
-	(*data)->input = NULL;
-	(*data)->quote = NULL;
+	(*data)->quote = 0;
 	(*data)->tok_list = NULL;
+	(*data)->tem = ft_strdup("");
 }
 t_type get_type(char *token)
 {
@@ -40,7 +40,7 @@ t_type get_type(char *token)
 		return(TOKEN_INVALID);
 	
 }
-void creat_token(t_token **head, char *value, int q_s, int q_d )
+void creat_token(t_data **data)
 {
 	t_token *new;
 	t_token *last;
@@ -49,43 +49,43 @@ void creat_token(t_token **head, char *value, int q_s, int q_d )
 	// if(!new)
 	// 	return();
 	last = NULL;
-	new->value = ft_strdup(value);
-	new->type = get_type(value);
-	new->quote_single= q_s;
-	new->quote_double = q_d;
+	new->value = ft_strdup((*data)->buff);
+	new->type = get_type((*data)->buff);
+	if((*data)->quote == '"')
+		new->quote = 2;
+	else if((*data)->quote == '\'')
+		new->quote = 1;	
+	else
+		new->quote = 0;
 	new->next = NULL;
-	if(*head == NULL)
-		*head = new;
+	if((*data)->tok_list == NULL)
+		(*data)->tok_list = new;
 	else
 	{
-		last = *head;
+		last = (*data)->tok_list;
 		while(last->next != NULL)
 			last = last->next;
 		last->next = new;
 	}	
 }
 
-t_token *lexer(char *input)
+void lexer(t_data **data)
 {
-	t_token *head;
-	char **split;
 	int i;
 
 	i = 0;
-	split = ft_split(input, ' ');
-	while(split[i])
-	{
-		printf("s%d %s\n", i, split[i]);
-		i++;
-	}
-	i = 0;
-	while(split[i])
-	{
-		creat_token(&head, split[i], get_type(split[i]));
-		i++;
-	}
-	free_table(split);
-	return(head);
+	split_input(data);
+	// while(split[i])
+	// {
+	// 	printf("s%d %s\n", i, split[i]);
+	// 	i++;
+	// }
+	// i = 0;
+	// while(split[i])
+	// {
+	// 	creat_token(&head, split[i], get_type(split[i]));
+	// 	i++;
+	// }
 }
 
 void ft_minishell_loop(void)
@@ -93,7 +93,6 @@ void ft_minishell_loop(void)
 	t_data *data;
 	
 	data = ft_calloc(sizeof(t_data),1);
-	ft_init_data(&data);
 	
     while (1)
 	{
@@ -110,7 +109,8 @@ void ft_minishell_loop(void)
         }
         if (*data->input)
             add_history(data->input);
-		data->tok_list = lexer(data->input);
+		ft_init_data(&data);
+		lexer(&data);
 	    free(data);
 		data = NULL;
     }

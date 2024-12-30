@@ -11,6 +11,12 @@
 		"algorithm": "cpp",
 		"complex": "cpp",
 		"new": "cpp",
-		"iterator": "c"
+		"iterator": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"vector": "c",
+		"chrono": "c",
+		"unordered_map": "c"
 	}
 }
