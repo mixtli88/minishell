@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:33:19 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/04 19:44:15 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/05 00:44:31 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ int ft_count_char(char *str, char c)
     return count;
 }
 
-void ft_isquote(t_data **data)
-{
+// void ft_isquote(t_data **data)
+// {
 	
-}
+// }
 
 char *read_aditional(t_data **data)
 {
-	int i;
+	// int i;
 
-	i = 0;
+	// i = 0;
 	while(1)
 	{
 		(*data)->new_line = readline(">");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/04 18:58:30 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/05 00:43:59 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ void creat_token(t_data **data)
 
 void lexer(t_data **data)
 {
-	int i;
+	// int i;
 	t_token *cur;
 
-	i = 0;
+	// i = 0;
 	split_input(data);
 	cur = (*data)->tok_list;
 	while (cur)
