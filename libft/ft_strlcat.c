@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 21:49:26 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/29 15:07:26 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/04 11:53:37 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,29 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	}
 	return (idx_dst + (size_t)ft_strlen(src));
 }
-char *ft_strcat(char **dest, const char *src)
+char *ft_strcat(char **dest, char **src)
 {
     size_t dest_len = 0;
     size_t src_len = 0;
 	
     dest_len = ft_strlen(*dest);
-    src_len = ft_strlen(src);
+    src_len = ft_strlen(*src);
     char *new_dest = ft_calloc(sizeof(char),(dest_len + src_len + 1));
     if (!new_dest)
         return NULL;
 	ft_memcpy(new_dest, *dest, dest_len);
-	ft_memcpy(new_dest + dest_len, src, src_len);
+	ft_memcpy(new_dest + dest_len, *src, src_len);
 	new_dest[dest_len + src_len] = '\0'; 
-	free(*dest);
-	free((char*)src);
+	if(*dest)
+	{
+		free(*dest);
+		*dest = NULL;
+	}
+	if(*src)
+	{
+		free(*src);
+		*src = NULL;
+	}
 	return(new_dest);	
 }
 	

@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/30 15:51:07 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/04 17:54:21 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,10 @@ void	error_free(t_token **head, char **av, bool flag_split);
 void	creat_token(t_data **data);
 void	free_table(char **str);
 
-t_type 	get_type(char *token);
+t_type 	type_token(char *token);
 char 	*read_aditional(t_data **data);
 void	check_quote(t_data **data);
 void 	split_input(t_data **data);
 void 	ft_init_data(t_data **data);
+
 #endif //TOKENIZING_H

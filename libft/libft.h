@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 00:10:25 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/30 15:54:27 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/04 11:24:54 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ void	ft_ilstiter(t_ilist *lst, void (*f)(int));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 // funcion mike para minishell
-char *ft_strcat(char **dest, const char *src);
+char *ft_strcat(char **dest, char **src);
 bool ft_isaspace(char c);
 #endif // LIBFT_H
