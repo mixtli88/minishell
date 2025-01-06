@@ -2,13 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Minishell",
+			"name": "Debug Minishell",
             "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/minishell",
-            "args": [],
+            "args": ["input.txt"],
             "cwd": "${workspaceFolder}",
-            
+            "stopAtEntry": true,
+            "console": "integratedTerminal"
         }
     ]
 }

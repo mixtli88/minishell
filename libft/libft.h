@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 00:10:25 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/04 11:24:54 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/05 19:22:58 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int		ft_isalpha(int c);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);
 int		ft_isprint(int c);
-bool 	ft_isaspace(char c);
 bool	ft_isint(char *str);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -92,5 +91,5 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 // funcion mike para minishell
 char *ft_strcat(char **dest, char **src);
-bool ft_isaspace(char c);
+
 #endif // LIBFT_H
