@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/05 00:43:59 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/06 21:34:37 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,93 +14,80 @@
 
 void ft_init_data(t_data **data)
 {
-	(*data)->buf_idx = 0;
-	(*data)->i = 0;
-	(*data)->quote = 0;
-	(*data)->tok_list = NULL;
-	(*data)->tem = ft_strdup("");
-	(*data)->add_input = ft_strdup("");
-	(*data)->new_line = ft_strdup("");
+	t_data *d;
+	
+	d = *data;
+	d->buf_idx = 0;
+	d->i = 0;
+	d->quote = 0;
+	d->tok_list = NULL;
+	d->tem = ft_strdup("");
+	d->add_input = ft_strdup("");
+	d->new_line = ft_strdup("");
 }
 t_type type_token(char *token)
 {
 	if (ft_strncmp(token, "|", 1) == 0)
 		return(PIPE);
 	else if (ft_strncmp(token, ">", 1) == 0)
-		return(REDIR_IN);
+		return(REDIR);
 	else if (ft_strncmp(token, "<", 1) == 0)
-		return(REDIR_OUT);
+		return(REDIR);
 	else if (ft_strncmp(token, ">>", 1) == 0)
-		return(REDIR_OUT);
+		return(REDIR);
 	else if (ft_strncmp(token, "<<", 1) == 0)
-		return(REDIR_OUT);
-	else if (ft_strncmp(token, ";", 1) == 0)
-		return(SEPARATOR);
-	else if (ft_strncmp(token, "&", 1 ) == 0)
-		return(BACKGROUND);
+		return(REDIR);
 	else if (token[0] == '$')
 		return(VARIABLE);
-	else if (ft_isalpha(token[0]))
-		return(WORLD);
 	else 
-		return(TOKEN_INVALID);
+		return(CMD);
 	
 }
 void creat_token(t_data **data)
 {
 	t_token *new;
 	t_token *last;
-		
+	t_data *d;
+	
+	d = *data;	
 	new = malloc(sizeof (t_token));
 	last = NULL;
-	new->value = ft_strdup((*data)->buff);
-	new->type = type_token((*data)->buff);
-	if((*data)->quote == '"')
+	new->value = ft_strdup(d->buff);
+	new->type = type_token(d->buff);
+	if(d->quote == '"')
 		new->quote = 2;
-	else if((*data)->quote == '\'')
+	else if(d->quote == '\'')
 		new->quote = 1;	
 	else
 		new->quote = 0;
 	new->next = NULL;
-	if((*data)->tok_list == NULL)
-		(*data)->tok_list = new;
+	if(d->tok_list == NULL)
+		d->tok_list = new;
 	else
 	{
-		last = (*data)->tok_list;
+		last = d->tok_list;
 		while(last->next != NULL)
 			last = last->next;
 		last->next = new;
 	}	
-	(*data)->buf_idx = 0;
-	(*data)->quote = 0;
 }
 
 void lexer(t_data **data)
 {
-	// int i;
 	t_token *cur;
-
-	// i = 0;
+	
+	int i = 0 ;
+	
 	split_input(data);
 	cur = (*data)->tok_list;
+	printf("list.token ->");
 	while (cur)
 	{
-		printf("\nvalue : %s\n", cur->value);
-		printf("type: %u\n", cur->type);
+		printf(" *%u* %s [%d] ->", cur->type, cur->value, i);
 		cur = cur->next;
+		i++;
 	}
-	
-	// while(split[i])
-	// {
-	// 	printf("s%d %s\n", i, split[i]);
-	// 	i++;
-	// }
-	// i = 0;
-	// while(split[i])
-	// {
-	// 	creat_token(&head, split[i], get_type(split[i]));
-	// 	i++;
-	// }
+	printf("NULL\n");
 }
 
 void ft_minishell_loop(void)

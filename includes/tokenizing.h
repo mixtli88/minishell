@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/05 20:02:50 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/06 21:46:50 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,11 @@
 
 typedef enum e_type
 {
-	CMD,
-	ARG,  
+	CMD,  
  	PIPE ,
-	REDIR_IN,
-	REDIR_OUT,
-	SEPARATOR,
- 	BACKGROUND,
- 	WORLD,
+	REDIR,
  	VARIABLE,
- 	TOKEN_INVALID,
+	TOKEN_INVALID,
 }	t_type;
 
 /* ***************************   TOKENIZING   ***************************** */
