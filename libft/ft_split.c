@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 10:53:51 by fwu               #+#    #+#             */
-/*   Updated: 2024/03/24 17:40:00 by fwu              ###   ########.fr       */
+/*   Updated: 2024/12/29 17:12:25 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*get_word(char const *str, int tot_len, int s_idx, int e_idx)
 static void	split_word(char **str2, char const *str, char c, int s_idx)
 {
 	int	cur_idx;
-
+		
 	cur_idx = 0;
 	while (str[cur_idx] != '\0')
 	{
@@ -76,7 +76,7 @@ static void	split_word(char **str2, char const *str, char c, int s_idx)
 				*str2++ = get_word(str, ft_strlen(str), s_idx, cur_idx);
 			}
 			s_idx = -1;
-		}
+		}		
 		if (s_idx == -1 && (str[cur_idx] != c))
 		{
 			s_idx = cur_idx;
@@ -94,14 +94,10 @@ char	**ft_split(char const *str, char c)
 	int		s_idx;
 
 	if (str == NULL)
-	{
 		return (0);
-	}
 	str2 = (char **) malloc(sizeof(char *) * (count_words(str, c) + 1));
 	if (!str2)
-	{
 		return (0);
-	}
 	s_idx = -1;
 	split_word(str2, str, c, s_idx);
 	return (str2);

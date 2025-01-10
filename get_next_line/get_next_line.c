@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 13:53:21 by fwu               #+#    #+#             */
-/*   Updated: 2024/03/02 21:51:13 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/05 00:43:41 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static void	read_file_to_buf(int fd, t_line *line, t_buf *buf, char *stash[])
 
 char	*get_next_line(int fd)
 {
-	static char	*stash[OPEN_MAX];
+	static char	*stash[FOPEN_MAX];
 	t_line		*line;
 	t_buf		*buf;
 	char		*str;
