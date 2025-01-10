@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/14 18:04:56 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/23 21:46:48 by fwu              ###   ########.fr       */
+/*   Created: 2024/12/21 21:24:23 by fwu               #+#    #+#             */
+/*   Updated: 2024/12/22 22:08:42 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	builtin(t_minishell *ms)
+bool	ft_env(char *const envp[])
 {
-	(void) ms;
-	// ft_env(ms->envp);
-	// ft_pwd();
-	
-	char *const argv[] = {"-n", "a", "b", "c", NULL};
-	ft_echo(argv);
+	int	i;
+
+	i = 0;
+	while (envp && envp[i])
+	{
+		ft_putendl_fd(envp[i], STDOUT_FILENO);
+		i++;
+	}
+	if (i == 0)
+	{
+		ft_putendl_fd(ERR_ENV, STDERR_FILENO);
+		return (false);
+	}
 	return (true);
 }

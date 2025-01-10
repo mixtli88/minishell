@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/14 18:04:56 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/23 21:46:48 by fwu              ###   ########.fr       */
+/*   Created: 2024/12/21 22:31:21 by fwu               #+#    #+#             */
+/*   Updated: 2024/12/22 22:06:36 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#ifndef ERROR_H
+# define ERROR_H
 
-bool	builtin(t_minishell *ms)
-{
-	(void) ms;
-	// ft_env(ms->envp);
-	// ft_pwd();
-	
-	char *const argv[] = {"-n", "a", "b", "c", NULL};
-	ft_echo(argv);
-	return (true);
-}
+/* **************************   ERROR MESSAGE   *************************** */
+# define ERR_ENV "ENV ERROR"
+# define ERR_PWD "PWD ERROR"
+# define ERR_EXIT_NOT_NUMER ": numeric argument required"
+# define ERR_EXIT_TOO_MANY_ARGS "exit: too many arguments"
+
+#endif //ERROR_H

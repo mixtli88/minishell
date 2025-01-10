@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/06 21:09:02 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/09 20:11:20 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@
 # include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
 # include "tokenizing.h"
+# include "error.h"
 
+typedef struct s_minishell
+{
+	char	**envp;
+}	t_minishell;
 
 typedef struct s_command
 {
@@ -31,7 +36,15 @@ typedef struct s_command
 
 /* ****************************   BUILTINS   ****************************** */
 // builtin.c
-void	builtin(void);
+bool	builtin(t_minishell *ms);
+// env.c
+bool	ft_env(char *const envp[]);
+// pwd.c
+bool	ft_pwd(void);
+// exit.c
+bool	ft_exit(char *const argv[]);
+// echo.c
+bool	ft_echo(char *const argv[]);
 
 /* ******************************   EXEC   ******************************** */
 // exex.c

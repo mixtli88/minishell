@@ -6,12 +6,29 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:36:57 by fwu               #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2024/12/23 21:23:38 by fwu              ###   ########.fr       */
+=======
 /*   Updated: 2025/01/06 21:44:00 by mabril           ###   ########.fr       */
+>>>>>>> 51711d4e88fb38d5244072e310da912991e24978
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+<<<<<<< HEAD
+int	main(int argc, char *argv[], char *envp[])
+{
+	static t_minishell	ms;
+	
+	(void) argc;
+	(void) argv;
+	(void) envp;
+	ms.envp = envp;
+	builtin(&ms);
+	return (0);
+}
+=======
 
 
 // int	main(int argc, char **argv, char **envp)
@@ -39,3 +56,4 @@
 
 // 	return (0);
 // }
+>>>>>>> 51711d4e88fb38d5244072e310da912991e24978
