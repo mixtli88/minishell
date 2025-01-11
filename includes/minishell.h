@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/10 19:08:20 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/10 21:46:21 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,15 @@
 # include "../get_next_line/get_next_line.h"
 # include "tokenizing.h"
 # include "error.h"
+typedef enum e_redirection
+{
+
+ 	SINGLE_IN,
+ 	SINGLE_OUT,
+	DOUBLE_IN,
+	DOUBLE_OUT,
+ 	
+}	t_redirection;
 
 typedef struct s_minishell
 {
@@ -28,9 +37,11 @@ typedef struct s_cmd
 	char **argv;
 	char *cmd_path;
 	char **evr;
-	char *input_fd;
-	char  *output_fd;
-	struct s_comand *next;
+	t_redirection redi;
+	char *valiu_redir; "t.txt"
+	char *limiter;
+	
+	struct s_cmd *next;
 	
 }	t_cmd;
 

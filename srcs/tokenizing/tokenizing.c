@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/06 21:34:37 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/10 19:28:46 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ void ft_init_data(t_data **data)
 	d->buf_idx = 0;
 	d->i = 0;
 	d->quote = 0;
-	d->tok_list = NULL;
+	if(!d->tok_list)
+		d->tok_list = NULL;
 	d->tem = ft_strdup("");
 	d->add_input = ft_strdup("");
 	d->new_line = ft_strdup("");
+
+	
 }
 t_type type_token(char *token)
 {
