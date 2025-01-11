@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/09 20:11:20 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/10 19:08:20 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ typedef struct s_minishell
 	char	**envp;
 }	t_minishell;
 
-typedef struct s_command
+typedef struct s_cmd
 {
 	char **argv;
 	char *cmd_path;
 	char **evr;
-	int input_fd;
-	int output_fd;
+	char *input_fd;
+	char  *output_fd;
 	struct s_comand *next;
 	
-}	t_command;
+}	t_cmd;
 
 /* ****************************   BUILTINS   ****************************** */
 // builtin.c
