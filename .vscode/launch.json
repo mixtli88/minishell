@@ -2,14 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-			"name": "Debug Minishell",
-            "type": "lldb",
+			"type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/minishell",
-            "args": ["input.txt"],
+            "name": "Debug",
+            "program": "${workspaceFolder}/ok",
+            "args": [],
             "cwd": "${workspaceFolder}",
-            "stopAtEntry": true,
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",  // Esto fuerza el uso de la terminal integrada
+            "preLaunchTask": "build"
         }
     ]
 }

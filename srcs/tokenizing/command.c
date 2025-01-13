@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 18:06:02 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/10 21:22:29 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/11 23:43:00 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,23 +73,24 @@ t_cmd *buil_cmd_list(t_data **data)
 			current_cmd = cmd_list;
 			if(!current_cmd)
 				error_syntax();
-			while(current_cmd->next != NULL)
-				current_cmd = current_cmd->next;
-			creat_cmd(&cmd_list, data);
-			current_cmd->output_fd = current_cmd->next->input_fd;
-		}
-		else if ( tokens->type ==  REDIR)
+			else
+				current_cmd = NULL;
+		}		
+		else if (tokens->type ==  REDIR)
 		{
 			if((tokens->value == '>' || tokens->value == '<' || tokens->value == '>>' || tokens->value == '<<' )&& tokens->next->type != CMD) 
-				cmd_list->output_fd == ft_strdup(tokens->next->value)
-			if(tokens->value == '<') 
-			
+				error_syntax,();
+			cmd_list->valiu_redir == ft_strdup(tokens->next->value);
+			if(tokens->value == '<')
+				current_cmd->redi = SINGLE_IN; 
+			if(tokens->value == '>')
+				current_cmd->redi = SINGLE_OUT; 
+			if(tokens->value == '<<')
+				current_cmd->redi = DOUBLE_IN; 
+			if(tokens->value == '>>')
+				current_cmd->redi = DOUBLE_OUT; 
+			i ++;	
 		}
-
-
-
-
-	
 		i++;
 		tokens = tokens->next;	
 	}

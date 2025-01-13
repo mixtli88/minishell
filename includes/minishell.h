@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/10 21:46:21 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/11 22:10:24 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_cmd
 	char *cmd_path;
 	char **evr;
 	t_redirection redi;
-	char *valiu_redir; "t.txt"
+	char *valiu_redir;
 	char *limiter;
 	
 	struct s_cmd *next;

@@ -34,7 +34,7 @@ INCLUDES = -I $(INC_DIR)
 LIBRL_DIR	=	$(INC_DIR)readline/
 LIBRL_H		=	chardefs.h history.h keymaps.h readline.h rlconf.h rlstdc.h rltypedefs.h tilde.h
 
-LIBFT_DIR = Libft/
+LIBFT_DIR = libft/
 LIBFT_OBJ = $(addprefix $(LIBFT_DIR), libft.a)
 
 # Minishell targets

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2024/12/20 18:39:16 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/13 12:06:22 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,6 @@ int	error_syntax(char *str)
 	return (0);
 }
 
-void	error_free(t_token **head, char **av, bool flag_split)
-{
-	if (*head)
-		free_list(*head);
-	if (flag_split)
-		free_table(av);
-	write(2, "Error\n", 6);
-	exit(1);
-}
-
 void	free_table(char **str)
 {
 	int	i;
@@ -49,10 +39,27 @@ void	free_table(char **str)
 	free(str);
 }
 
-void	free_list(t_token *head)
+void	free_cmd_list(t_cmd **cmd_list)
+{
+	t_cmd	*current;
+	t_cmd *head;
+
+	head = *cmd_list;
+	current = head->next;
+	while (head)
+	{
+		free_table(head->argv);
+		current = head->next;
+		free(head);
+		head = current;
+	}
+}
+void	free_token_list(t_data **data)
 {
 	t_token	*current;
+	t_token *head;
 
+	head = (*data)->tok_list;
 	current = head->next;
 	while (head)
 	{
@@ -60,4 +67,25 @@ void	free_list(t_token *head)
 		free(head);
 		head = current;
 	}
+}
+void	free_data(t_data **data)
+{
+	if(*data)
+	{
+		if((*data)->tok_list)
+			free_token_list((*data)->tok_list);
+		free(*data);
+	}
+}
+void	error_free(t_data **data, t_cmd **cmd_list)
+{
+	int i;
+	t_cmd *tem;
+
+	if (*cmd_list)
+		free_list(*cmd_list);
+	if (*data)
+		free_data(data);		
+	write(2, "Error\n", 6);
+	exit(1);
 }
