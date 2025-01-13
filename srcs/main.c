@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:36:57 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 11:31:00 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/19 12:31:39 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void)argc;
 	(void)argv;
-	ms.envp = envp;
+	ms.envp = copy_envp(envp, NULL);
 	ft_minishell_loop(&ms);
 	builtin(&ms);
 	return (0);
 }
+
+// 0 < "infile"
+// 1 > "output"
+// 2 << "limiter" 
+// 3 >> "output"

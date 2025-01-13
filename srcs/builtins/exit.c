@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:57:47 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/22 22:12:54 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/10 21:54:21 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // exit 1 b c => exit: too many arguments
 // exit       => echo $? = 0
 // exit 257   => echo $? = 1
-bool	ft_exit(char *const argv[])
+bool	ft_exit(char *argv[])
 {
 	int	status; //use global variable?
 
