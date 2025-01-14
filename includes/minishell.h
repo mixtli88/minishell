@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/13 17:27:04 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/14 11:50:32 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ bool	ft_echo(char *const argv[]);
 /* ******************************   EXEC   ******************************** */
 // exex.c
 void	exec(void);
-void ft_minishell_loop(void);
+void ft_minishell_loop(char **envp);
 // void ft_minishell_loop(int input_fd);
 #endif //MINISHELL_H

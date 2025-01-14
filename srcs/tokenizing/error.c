@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/13 21:33:30 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/14 11:58:44 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,34 +70,35 @@ void	free_token_list(t_token *token_list)
 }
 void	free_data(t_data **data)
 {
-	if(*data)
-	{
-		if(input)
-			free(input);
-		if(input)
-			free(input);
-		if(input)
-			free(input);
-		if(input)
-			free(input);
+// 	if(*data)
+// 	{
+// 		if(input)
+// 			free(input);
+// 		if(input)
+// 			free(input);
+// 		if(input)
+// 			free(input);
+// 		if(input)
+// 			free(input);
 
-	int 	i;
-	char 	buff[1024];
-	char 	*add_input;
+	// int 	i;
+	// char 	buff[1024];
+	// char 	*add_input;
 	
-	int buf_idx;
-	char *tem;
-	char *new_line;
-	int count_quote;
+	// int buf_idx;
+	// char *tem;
+	// char *new_line;
+	// int count_quote;
 		if((*data)->tok_list)
 			free_token_list((*data)->tok_list);
 		free(*data);
-	}
+	// }
 }
-void	error_free(t_data **data, t_cmd **cmd_list)
+void	error_free(t_data **data)
 {
-	if (*cmd_list)
-		free_cmd_list(cmd_list);
+	
+	if ((*data)->cmd_list)
+		free_cmd_list(&(*data)->cmd_list);
 	if (*data)
 		free_data(data);		
 	write(2, "Error\n", 6);

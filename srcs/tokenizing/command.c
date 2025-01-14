@@ -6,31 +6,27 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 18:06:02 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/13 21:01:38 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/14 13:33:16 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 
-t_cmd *creat_cmd(t_cmd **cmd_lis, t_data **data)
+t_cmd *creat_cmd(t_data **data)
 {
 	t_cmd *new;
 	t_cmd *last;
-	t_token *tokens;
 	
-	tokens = (*data)->tok_list;
 	new = malloc(sizeof (t_cmd));
 	last = NULL;
-	// new->value = ft_strdup(d->buff);
-	// new->type = type_token(d->buff);
-
+	init_new_cmd(&new);
 	new->next = NULL;
-	if(*cmd_lis == NULL)
-		*cmd_lis = new;
+	if((*data)->cmd_list == NULL)
+		(*data)->cmd_list = new;
 	else
 	{
-		last = *cmd_lis;
+		last = (*data)->cmd_list;
 		while(last->next != NULL)
 			last = last->next;
 		last->next = new;
@@ -40,64 +36,31 @@ t_cmd *creat_cmd(t_cmd **cmd_lis, t_data **data)
 
 
 
-t_cmd *buil_cmd_list(t_data **data)
+void buil_cmd_list(t_data **data)
 {
-	t_token *tokens;
-	t_cmd *cmd_list;
-	t_cmd *current_cmd;
-	int arg_c;
-	int value_c;
-	int i;
+	t_token *tok_curr;
 	
-	
-	value_c = 0;
-	tokens = (*data)->tok_list;
-	cmd_list = NULL;
-	current_cmd = NULL;
-	// ft_init_data(data);
-	while(tokens)
+	(*data)->token_curr = (*data)->tok_list;
+	tok_curr = (*data)->token_curr;
+	while(tok_curr)
 	{
-		if(tokens && tokens->type == CMD)
+		if(tok_curr && tok_curr->type == CMD)
 		{
-			if(!current_cmd)
-			{
-				arg_c = 1;
-				i = 0;
-				current_cmd = creat_cmd(&cmd_list, data);
-				while(tokens->next->type ==  CMD)
-					arg_c++;
-			}
-			if(!current_cmd->argv)
-				current_cmd->argv =(char **) malloc(sizeof(char*) * arg_c +1);
-			current_cmd->argv[i] = ft_strdup(tokens->value);
-			if((i + 1) == arg_c)
-				current_cmd->argv[arg_c] = NULL;
-				 
+			tok_is_cmd(data);
 		}
-		else if( tokens->type == PIPE )
+		else if( tok_curr->type == PIPE )
 		{
-			if(!current_cmd)
-				error_free(data, &cmd_list);
+			if(!(*data)->curr_cmd)
+				error_free(data);
 			else
-				current_cmd = NULL;
+				(*data)->curr_cmd = NULL;
 		}		
-		else if (tokens->type ==  REDIR)
+		else if (tok_curr->type ==  REDIR)
 		{
-			if(tokens->next->type != CMD) 
-				error_free(data, &cmd_list);
-			if(ft_strncmp(tokens->value, "<", 1) == 0)
-				current_cmd->redi = SINGLE_IN; 
-			else if(ft_strncmp(tokens->value, ">", 1) == 0)
-				current_cmd->redi = SINGLE_OUT; 
-			else if(ft_strncmp(tokens->value, "<<", 2) == 0)
-				current_cmd->redi = DOUBLE_IN; 
-			else if(ft_strncmp(tokens->value, ">>", 2) == 0)
-				current_cmd->redi = DOUBLE_OUT; 
-			current_cmd->valiu_redir = ft_strdup(tokens->next->value);
-			tokens = tokens->next;	
+			tok_is_redi(data);
+			tok_curr = tok_curr->next;	
 		}
-		i++;
-		tokens = tokens->next;	
+		(*data)->i++;
+		tok_curr = tok_curr->next;	
 	}
-	return(cmd_list);
 }

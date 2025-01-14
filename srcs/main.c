@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:36:57 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/10 19:27:01 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/14 11:49:33 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char *argv[], char *envp[])
 	(void) argc;
 	(void) argv;
 	(void) envp;
-	ft_minishell_loop();
+	ft_minishell_loop(envp);
 	ms.envp = envp;
 	builtin(&ms);
 	

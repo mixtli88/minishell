@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:33:19 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/06 20:26:54 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/14 13:20:34 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void split_input(t_data **data)
 	t_data *d;
 	
 	d = *data;
+	d->i =0;
 	while(d->input[d->i] || d->buf_idx > 0)
 	{
 		if(ft_isaspace(data))

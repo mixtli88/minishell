@@ -6,28 +6,12 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/13 21:22:13 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/14 11:57:40 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_init_data(t_data **data)
-{
-	t_data *d;
-	
-	d = *data;
-	d->buf_idx = 0;
-	d->i = 0;
-	d->quote = 0;
-	if(!d->tok_list)
-		d->tok_list = NULL;
-	d->tem = ft_strdup("");
-	d->add_input = ft_strdup("");
-	d->new_line = ft_strdup("");
-
-	
-}
 t_type type_token(char *token)
 {
 	if (ft_strncmp(token, "|", 1) == 0)
@@ -48,21 +32,14 @@ t_type type_token(char *token)
 }
 void creat_token(t_data **data)
 {
+	t_data *d;
 	t_token *new;
 	t_token *last;
-	t_data *d;
 	
 	d = *data;	
-	new = malloc(sizeof (t_token));
 	last = NULL;
-	new->value = ft_strdup(d->buff);
-	new->type = type_token(d->buff);
-	if(d->quote == '"')
-		new->quote = 2;
-	else if(d->quote == '\'')
-		new->quote = 1;	
-	else
-		new->quote = 0;
+	new = malloc(sizeof (t_token));
+	init_new_token(data, &new);
 	new->next = NULL;
 	if(d->tok_list == NULL)
 		d->tok_list = new;
@@ -77,22 +54,21 @@ void creat_token(t_data **data)
 
 void lexer(t_data **data)
 {
-	t_token *cur;
-	t_cmd *cmd_list;
+	t_token *tok_curr;
 	t_cmd *cmd_curr;
-	int i = 0 ;
 	
+	int i = 0 ;
 	split_input(data);
-	cmd_list = buil_cmd_list(data);
-	cmd_curr = cmd_list;
-	cur = (*data)->tok_list;
-	while (cur)
+	buil_cmd_list(data);
+	cmd_curr = (*data)->cmd_list;
+	tok_curr = (*data)->tok_list;
+	while (tok_curr)
 	{
-		printf(" *%u* %s [%d] ->", cur->type, cur->value, i);
-		cur = cur->next;
+		printf(" *%u* %s [%d] ->", tok_curr->type, tok_curr->value, i);
+		tok_curr = tok_curr->next;
 		i++;
 	} 
-	printf("\n***** list.token **** \n");
+	printf("\n\n***** list.token **** \n");
 	
 	int j = 0;
 	while (cmd_curr)
@@ -102,7 +78,7 @@ void lexer(t_data **data)
 		while (cmd_curr->argv[i])
 		{
 			printf(" \"%s\"", cmd_curr->argv[i]);
-			if(cmd_list->argv[i + 1])
+			if(cmd_curr->argv[i + 1])
 				printf(",");
 			else
 				printf(" }\n");
@@ -116,10 +92,10 @@ void lexer(t_data **data)
 	printf("\n");
 
 	if(data)
-		error_free(data, &cmd_list);
+		error_free(data);
 }
 
-void ft_minishell_loop(void)
+void ft_minishell_loop(char **envp)
 {
 	t_data *data;
 	
@@ -128,6 +104,7 @@ void ft_minishell_loop(void)
 	{
 		if(data == NULL)
 			data = ft_calloc(sizeof(t_data),1);
+		data->envp = envp;	
         data->input = readline("minishell$ ");
         if (!data->input)
             break;
@@ -139,7 +116,7 @@ void ft_minishell_loop(void)
         }
         if (*data->input)
             add_history(data->input);
-		ft_init_data(&data);
+		init_data(&data);
 		lexer(&data);
 		// tokenizing();
 	    if(data)
