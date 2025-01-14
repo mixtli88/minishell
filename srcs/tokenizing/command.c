@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 18:06:02 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/11 23:43:00 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/13 21:01:38 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 
-void creat_cmd(t_cmd **cmd_lis, t_data **data)
+t_cmd *creat_cmd(t_cmd **cmd_lis, t_data **data)
 {
 	t_cmd *new;
 	t_cmd *last;
@@ -26,15 +26,16 @@ void creat_cmd(t_cmd **cmd_lis, t_data **data)
 	// new->type = type_token(d->buff);
 
 	new->next = NULL;
-	if(cmd_lis == NULL)
-		cmd_lis = new;
+	if(*cmd_lis == NULL)
+		*cmd_lis = new;
 	else
 	{
-		last = cmd_lis;
+		last = *cmd_lis;
 		while(last->next != NULL)
 			last = last->next;
 		last->next = new;
-	}	
+	}
+	return(new);
 }
 
 
@@ -48,50 +49,55 @@ t_cmd *buil_cmd_list(t_data **data)
 	int value_c;
 	int i;
 	
+	
+	value_c = 0;
 	tokens = (*data)->tok_list;
 	cmd_list = NULL;
 	current_cmd = NULL;
-	i = 0;
 	// ft_init_data(data);
 	while(tokens)
 	{
 		if(tokens && tokens->type == CMD)
 		{
-			if(!cmd_list)
+			if(!current_cmd)
 			{
-				creat_cmd(&cmd_list, data);
-				if(tokens->type == CMD)
-					while(tokens->next->type ==  CMD)
-						arg_c++;
+				arg_c = 1;
+				i = 0;
+				current_cmd = creat_cmd(&cmd_list, data);
+				while(tokens->next->type ==  CMD)
+					arg_c++;
 			}
-			if(!cmd_list->argv)
-				cmd_list->argv = malloc(sizeof(char*) * arg_c +1);
-			cmd_list->argv[i] = ft_strdup(tokens->value);
+			if(!current_cmd->argv)
+				current_cmd->argv =(char **) malloc(sizeof(char*) * arg_c +1);
+			current_cmd->argv[i] = ft_strdup(tokens->value);
+			if((i + 1) == arg_c)
+				current_cmd->argv[arg_c] = NULL;
+				 
 		}
 		else if( tokens->type == PIPE )
 		{
-			current_cmd = cmd_list;
 			if(!current_cmd)
-				error_syntax();
+				error_free(data, &cmd_list);
 			else
 				current_cmd = NULL;
 		}		
 		else if (tokens->type ==  REDIR)
 		{
-			if((tokens->value == '>' || tokens->value == '<' || tokens->value == '>>' || tokens->value == '<<' )&& tokens->next->type != CMD) 
-				error_syntax,();
-			cmd_list->valiu_redir == ft_strdup(tokens->next->value);
-			if(tokens->value == '<')
+			if(tokens->next->type != CMD) 
+				error_free(data, &cmd_list);
+			if(ft_strncmp(tokens->value, "<", 1) == 0)
 				current_cmd->redi = SINGLE_IN; 
-			if(tokens->value == '>')
+			else if(ft_strncmp(tokens->value, ">", 1) == 0)
 				current_cmd->redi = SINGLE_OUT; 
-			if(tokens->value == '<<')
+			else if(ft_strncmp(tokens->value, "<<", 2) == 0)
 				current_cmd->redi = DOUBLE_IN; 
-			if(tokens->value == '>>')
+			else if(ft_strncmp(tokens->value, ">>", 2) == 0)
 				current_cmd->redi = DOUBLE_OUT; 
-			i ++;	
+			current_cmd->valiu_redir = ft_strdup(tokens->next->value);
+			tokens = tokens->next;	
 		}
 		i++;
 		tokens = tokens->next;	
 	}
+	return(cmd_list);
 }

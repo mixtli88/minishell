@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/10 19:28:46 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/13 21:22:13 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,45 @@ void creat_token(t_data **data)
 void lexer(t_data **data)
 {
 	t_token *cur;
-	
+	t_cmd *cmd_list;
+	t_cmd *cmd_curr;
 	int i = 0 ;
 	
 	split_input(data);
+	cmd_list = buil_cmd_list(data);
+	cmd_curr = cmd_list;
 	cur = (*data)->tok_list;
-	printf("list.token ->");
 	while (cur)
 	{
 		printf(" *%u* %s [%d] ->", cur->type, cur->value, i);
 		cur = cur->next;
 		i++;
+	} 
+	printf("\n***** list.token **** \n");
+	
+	int j = 0;
+	while (cmd_curr)
+	{	
+		i = 0;
+		printf("\ncmd [%d] \narg -> = {", j);
+		while (cmd_curr->argv[i])
+		{
+			printf(" \"%s\"", cmd_curr->argv[i]);
+			if(cmd_list->argv[i + 1])
+				printf(",");
+			else
+				printf(" }\n");
+			i++;
+		}
+		printf("fd = { \"%s\" }\n", cmd_curr->valiu_redir);
+		printf("redi = {%d}\n", cmd_curr->redi);
+		cmd_curr = cmd_curr->next;
+		j++;
 	}
-	printf("NULL\n");
+	printf("\n");
+
+	if(data)
+		error_free(data, &cmd_list);
 }
 
 void ft_minishell_loop(void)
@@ -116,7 +142,8 @@ void ft_minishell_loop(void)
 		ft_init_data(&data);
 		lexer(&data);
 		// tokenizing();
-	    free(data);
+	    if(data)
+			free(data);
 		data = NULL;
     }
 	
