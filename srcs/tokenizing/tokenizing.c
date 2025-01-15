@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/14 11:57:40 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/15 00:52:11 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,13 @@ void lexer(t_data **data)
 		j++;
 	}
 	printf("\n");
-
-	if(data)
-		error_free(data);
 }
 
 void ft_minishell_loop(char **envp)
 {
 	t_data *data;
 	
-	data = ft_calloc(sizeof(t_data),1);
+	data = NULL;
     while (1)
 	{
 		if(data == NULL)
@@ -111,7 +108,7 @@ void ft_minishell_loop(char **envp)
         if (strcmp(data->input, "exit") == 0) 
 		{
             printf("exit\n");
-            free(data); 
+            error_free(&data);
 			break;
         }
         if (*data->input)
@@ -120,8 +117,9 @@ void ft_minishell_loop(char **envp)
 		lexer(&data);
 		// tokenizing();
 	    if(data)
-			free(data);
+			free_data(&data);
 		data = NULL;
+
     }
 	
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/14 19:45:06 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/15 00:45:22 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ void	free_cmd_list(t_cmd **cmd_list)
 		current = head->next;
 		if(head->argv)
 			free_table(head->argv);
-		if(head->cmd_path);
+		if(head->cmd_path)
 			free(head->cmd_path);
-		if(head->valiu_redir);
+		if(head->valiu_redir)
 			free(head->valiu_redir);
-		if(head->limiter);
+		if(head->limiter)
 			free(head->limiter);	
 		free(head);
 		head = current;
@@ -79,29 +79,21 @@ void	free_token_list(t_token *token_list)
 }
 void	free_data(t_data **data)
 {
-// 	if(*data)
-// 	{
-// 		if(input)
-// 			free(input);
-// 		if(input)
-// 			free(input);
-// 		if(input)
-// 			free(input);
-// 		if(input)
-// 			free(input);
-
-	// int 	i;
-	// char 	buff[1024];
-	// char 	*add_input;
-	
-	// int buf_idx;
-	// char *tem;
-	// char *new_line;
-	// int count_quote;
+	if(*data)
+	{
+		if((*data)->input)
+			free((*data)->input);
+		if((*data)->add_input)
+			free((*data)->add_input);
+		if((*data)->tem)
+			free((*data)->tem);
+		if((*data)->new_line)
+			free((*data)->new_line);
 		if((*data)->tok_list)
 			free_token_list((*data)->tok_list);
 		free(*data);
-	// }
+		
+	}
 }
 void	error_free(t_data **data)
 {

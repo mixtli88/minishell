@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_cmd_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:50:37 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/14 19:05:16 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/15 03:18:10 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,16 @@ void tok_is_cmd(t_data **data)
 	}
 	if(!d->cur_cmd->argv)
 		d->cur_cmd->argv =(char **) malloc(sizeof(char*) * (d->arg_c + 1));
+	d->cur_cmd->argv[d->arg_c] = NULL;
 	d->cur_cmd->argv[d->i] = ft_strdup(d->token_cur->value);
-	if((d->i + 1) == d->arg_c)
-		d->cur_cmd->argv[d->arg_c] = NULL;
+	if(d->i == 0)
+		find_path(data);
+	if(!(*data)->cur_cmd->cmd_path)
+	{
+		printf("minishell: command not found: %s\n", d->cur_cmd->argv[0]);
+        error_free(data);
+        return NULL;
+	}
 }
 
 void tok_is_pipe(t_data **data)
