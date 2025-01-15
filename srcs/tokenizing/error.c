@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/14 11:58:44 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/14 19:45:06 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,15 @@ void	free_cmd_list(t_cmd **cmd_list)
 	current = head->next;
 	while (head)
 	{
-		free_table(head->argv);
 		current = head->next;
+		if(head->argv)
+			free_table(head->argv);
+		if(head->cmd_path);
+			free(head->cmd_path);
+		if(head->valiu_redir);
+			free(head->valiu_redir);
+		if(head->limiter);
+			free(head->limiter);	
 		free(head);
 		head = current;
 	}
@@ -64,6 +71,8 @@ void	free_token_list(t_token *token_list)
 	while (head)
 	{
 		current = head->next;
+		if(head->value)
+			free(head->value);
 		free(head);
 		head = current;
 	}

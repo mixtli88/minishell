@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 18:06:02 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/14 13:33:16 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/14 19:15:49 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,33 +34,21 @@ t_cmd *creat_cmd(t_data **data)
 	return(new);
 }
 
-
-
 void buil_cmd_list(t_data **data)
 {
-	t_token *tok_curr;
+	t_data *d;
 	
-	(*data)->token_curr = (*data)->tok_list;
-	tok_curr = (*data)->token_curr;
-	while(tok_curr)
+	d = *data;
+	d->token_cur = d->tok_list;
+	while(d->token_cur)
 	{
-		if(tok_curr && tok_curr->type == CMD)
-		{
+		if(d->token_cur && d->token_cur->type == CMD)
 			tok_is_cmd(data);
-		}
-		else if( tok_curr->type == PIPE )
-		{
-			if(!(*data)->curr_cmd)
-				error_free(data);
-			else
-				(*data)->curr_cmd = NULL;
-		}		
-		else if (tok_curr->type ==  REDIR)
-		{
-			tok_is_redi(data);
-			tok_curr = tok_curr->next;	
-		}
+		else if( d->token_cur->type == PIPE )
+			tok_is_pipe(data);
+		else if (d->token_cur->type ==  REDIR)
+			tok_is_redi(data);	
 		(*data)->i++;
-		tok_curr = tok_curr->next;	
+		d->token_cur = d->token_cur->next;	
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/14 13:15:12 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/14 17:56:20 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	t_token *tok_list;
-	t_token	*token_curr;
+	t_token	*token_cur;
 	
 	char 	quote;
 	char 	*input;
@@ -81,7 +81,7 @@ typedef struct s_data
 	char **envp;
 	
 	t_cmd *cmd_list;
-	t_cmd *curr_cmd;
+	t_cmd *cur_cmd;
 	int arg_c;
 
 	
@@ -111,6 +111,7 @@ t_cmd *creat_cmd(t_data **data);
 
 void tok_is_cmd(t_data **data);
 void tok_is_redi(t_data **data);
+void tok_is_pipe(t_data **data);
 
 void init_data(t_data **data);
 void init_new_token(t_data **data, t_token **new);
