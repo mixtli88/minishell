@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/14 17:56:20 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/16 14:43:33 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ typedef enum e_redirection
 typedef struct s_cmd
 {
 	char **argv;
-	char *cmd_path;
+	char *path;
 	char **evr;
-	t_redirection redi;
-	char *valiu_redir;
+	t_redirection rdir;
+	char *fd_rdir;
 	char *limiter;
 	
 	struct s_cmd *next;
@@ -63,28 +63,31 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
+	char 	*input;
+	int 	i;
+	int		count_quote;
+	
+	char 	buff[1024];
+	int 	buf_idx;
+	
+	char 	*new_readline;
+	char 	*new_inp;
+	
 	t_token *tok_list;
 	t_token	*token_cur;
-	
 	char 	quote;
-	char 	*input;
-
-	int 	i;
-	char 	buff[1024];
-	char 	*add_input;
 	
-	int buf_idx;
-	char *tem;
-	char *new_line;
-	int count_quote;
+	char	var_buf[1024];
+	char	*var;
+	char 	**envp;
 	
-	char **envp;
-	
-	t_cmd *cmd_list;
-	t_cmd *cur_cmd;
-	int arg_c;
-
-	
+	int 	arg_c;
+	t_cmd 	*cmd_list;
+	t_cmd 	*cur_cmd;
+		
+	char *path_w_slash;
+    char *full_path;
+		
 }	t_data;
 // void	tokenizing(void);
 void	tokenizing(t_token **list_token, int ac, char **av);
@@ -116,5 +119,8 @@ void tok_is_pipe(t_data **data);
 void init_data(t_data **data);
 void init_new_token(t_data **data, t_token **new);
 void init_new_cmd(t_cmd **cmd);
+void find_path(t_data **data);
 
+int ft_char_is_dolar(char i);
+void ft_is_var(t_data **data);
 #endif //TOKENIZING_H

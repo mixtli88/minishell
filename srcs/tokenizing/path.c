@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 02:10:39 by mike              #+#    #+#             */
-/*   Updated: 2025/01/15 03:08:07 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/15 22:40:47 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,28 @@
 void find_path(t_data **data)
 {
     char **paths;
-    char *full_path;
     int i;
     
-    i = 0;
+    i = -1;
     paths = ft_split(getenv("PATH"), ':');
-    while(paths[i])
+    while(paths[++i])
     {
-        full_path = ft_strjoin(paths[i], "/");
-        full_path = ft_strjoin(full_path, (*data)->cmd_list->argv[i]);
-        if(access(full_path, X_OK))
+        (*data)->path_w_slash = ft_strjoin(paths[i], "/");
+        (*data)->full_path = ft_strjoin((*data)->path_w_slash, ((*data)->cur_cmd->argv[0]));
+		free((*data)->path_w_slash);
+		(*data)->path_w_slash = NULL;
+	    if(access((*data)->full_path, X_OK) == 0)
         {
+            (*data)->cur_cmd->path = ft_strdup((*data)->full_path);
             free_table(paths);
-            retun(full_path);
+			paths = NULL;
+			free((*data)->full_path);
+			(*data)->full_path = NULL;
+            return;
         }
-        free(full_path);
-        i++;
+        free((*data)->full_path);
     }
     free_table(paths);
-    // mensaje de error;
+    printf("minishell: %s: command not found\n", (*data)->cur_cmd->argv[0]);
     error_free(data);
 }   

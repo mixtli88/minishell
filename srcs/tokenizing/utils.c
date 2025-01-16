@@ -6,11 +6,22 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:00:16 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/14 18:15:10 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/16 14:48:01 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int ft_char_is_dolar(char i)
+{
+	char c;
+
+	c = '$';
+	if(i == c)
+		return(1);
+	return(0);
+}
+
 
 int ft_count_char(char *str, char c)
 {
@@ -74,5 +85,33 @@ int ft_isquote(t_data **data)
 		d->i++;
 	}
 	return(d->count_quote);
+}
+
+void ft_is_var(t_data **data)
+{
+	int j;
+	t_data *d;
+
+	j = 0;
+	d = *data;
+	if(d->count_quote != 0 && d->quote == '\'')
+	{
+			d->buff[d->buf_idx++] = d->input[d->i++];
+			return;
+	}
+	if ( ft_isalnum(d->input[d->i + 1]) || d->input[d->i + 1] == '_')
+	{
+		d->i++;
+		while (ft_isalnum(d->input[d->i]) || d->input[d->i] == '_')
+			d->var_buf[j++] = d->input[d->i++];
+		d->var_buf[j] = '\0';
+		d->var = getenv(d->var_buf);
+		d->var_buf[0] = '\0';
+		if (!d->var)
+			return;
+		j = 0;
+		while(d->var)
+			d->buff[d->buf_idx++] = d->var[j++];
+	}
 }
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:33:19 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/14 13:20:34 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/16 14:58:15 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,24 @@ char *read_aditional(t_data **data)
 	d = *data;
 	while(1)
 	{
-		d->new_line = readline(">");
-		if(!d->new_line)
+		d->new_readline = readline(">");
+		if(!d->new_readline)
 		{
 			printf("Error, for closing quote\n");
-			if(d->tem)
+			if(d->new_inp)
 			{
-				free(d->tem);
-				d->tem = NULL;
+				free(d->new_inp);
+				d->new_inp = NULL;
 			}
 			return(NULL);
 		}
-		d->tem = ft_strcat(&d->tem, &d->new_line);
-		(d->new_line) = NULL;
-		d->count_quote = ft_count_char(d->tem, d->quote);
+		d->new_inp = ft_strcat(&d->new_inp, &d->new_readline);
+		(d->new_readline) = NULL;
+		d->count_quote = ft_count_char(d->new_inp, d->quote);
 		if( d->count_quote % 2 != 0)
 			break;
 	}
-	return(d->tem);
+	return(d->new_inp);
 }
 
 void	check_quote(t_data **data)
@@ -46,12 +46,16 @@ void	check_quote(t_data **data)
 	d = *data;
 	while(d->input[d->i] != d->quote)
 	{
-		if(d->input[d->i])
+		if (ft_char_is_dolar(d->input[d->i]))
+			ft_is_var(data);
+		else if(d->input[d->i])
 			d->buff[d->buf_idx++] = d->input[d->i++];
 		if(!d->input[d->i] && d->count_quote != 0)
 		{
-			d->add_input = read_aditional(data);
-			d->input = ft_strcat(&d->input, &d->add_input);
+			d->new_inp = read_aditional(data);
+			d->input = ft_strcat(&d->input, &d->new_inp);
+			free(d->new_inp);
+			d->new_inp = NULL;
 		}
 		ft_isquote(data);
 		if(d->count_quote == 0 && (d->input[d->i] == ' ' || !d->input[d->i]))
@@ -73,7 +77,9 @@ void split_input(t_data **data)
 			d->quote = 0;
 		}
 		else if (ft_isquote(data))
-				check_quote(data);
+			check_quote(data);
+		else if (ft_char_is_dolar(d->input[d->i]))
+			ft_is_var(data);
 		else
 			d->buff[d->buf_idx++] = d->input[d->i++];
 	}

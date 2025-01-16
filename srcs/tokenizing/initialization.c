@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:15:33 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/14 13:10:21 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/15 22:12:28 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ void init_data(t_data **data)
 	d->buf_idx = 0;
 	d->i = 0;
 	d->quote = 0;
+	d->new_inp = NULL;
+	d->new_readline = NULL;
+	d->path_w_slash = NULL;
+    d->full_path = NULL;
 	if(!d->tok_list)
 		d->tok_list = NULL;
-	d->tem = NULL;
-	d->add_input = NULL;
-	d->new_line = NULL;
 	if(!d->cmd_list)
 		d->cmd_list = NULL;
 }
@@ -51,9 +52,9 @@ void init_new_cmd(t_cmd **cmd)
 	
 	new = *cmd;
 	new->argv = NULL;
-	new->cmd_path = NULL;
+	new->path = NULL;
 	new->evr = NULL;
-	new->redi = 0;
-	new->valiu_redir = NULL;
+	new->rdir = 0;
+	new->fd_rdir = NULL;
 	new->limiter = NULL;	
 }

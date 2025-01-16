@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/15 00:52:11 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/15 22:26:34 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void lexer(t_data **data)
 				printf(" }\n");
 			i++;
 		}
-		printf("fd = { \"%s\" }\n", cmd_curr->valiu_redir);
-		printf("redi = {%d}\n", cmd_curr->redi);
+		printf("fd = { \"%s\" }\n", cmd_curr->fd_rdir);
+		printf("redi = {%d}\n", cmd_curr->rdir);
 		cmd_curr = cmd_curr->next;
 		j++;
 	}
@@ -111,17 +111,14 @@ void ft_minishell_loop(char **envp)
             error_free(&data);
 			break;
         }
-        if (*data->input)
+        if (data->input)
             add_history(data->input);
 		init_data(&data);
 		lexer(&data);
 		// tokenizing();
 	    if(data)
-			free_data(&data);
-		data = NULL;
-
+			error_free(&data);
     }
-	
 }
 
 

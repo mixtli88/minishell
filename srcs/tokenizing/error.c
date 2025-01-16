@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/15 00:45:22 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/15 22:32:00 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,19 @@ void	free_cmd_list(t_cmd **cmd_list)
 	t_cmd *head;
 
 	head = *cmd_list;
-	current = head->next;
 	while (head)
 	{
 		current = head->next;
 		if(head->argv)
 			free_table(head->argv);
-		if(head->cmd_path)
-			free(head->cmd_path);
-		if(head->valiu_redir)
-			free(head->valiu_redir);
+		if(head->path)
+			free(head->path);
+		if(head->fd_rdir)
+			free(head->fd_rdir);
 		if(head->limiter)
 			free(head->limiter);	
 		free(head);
+		head = NULL;
 		head = current;
 	}
 }
@@ -83,16 +83,18 @@ void	free_data(t_data **data)
 	{
 		if((*data)->input)
 			free((*data)->input);
-		if((*data)->add_input)
-			free((*data)->add_input);
-		if((*data)->tem)
-			free((*data)->tem);
-		if((*data)->new_line)
-			free((*data)->new_line);
+		if((*data)->new_readline)
+			free((*data)->new_readline);
+		if((*data)->new_inp)
+			free((*data)->new_inp);
+		if((*data)->path_w_slash)
+			free((*data)->path_w_slash);
+		if((*data)->full_path)
+			free((*data)->full_path);
 		if((*data)->tok_list)
 			free_token_list((*data)->tok_list);
 		free(*data);
-		
+		(*data) = NULL;
 	}
 }
 void	error_free(t_data **data)
@@ -102,6 +104,6 @@ void	error_free(t_data **data)
 		free_cmd_list(&(*data)->cmd_list);
 	if (*data)
 		free_data(data);		
-	write(2, "Error\n", 6);
-	exit(1);
+	// write(2, "Error\n", 6);
+	// exit(1);
 }
