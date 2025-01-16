@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 21:49:26 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/05 00:43:15 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/15 18:21:18 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char *ft_strcat(char **dest, char **src)
     char *new_dest = ft_calloc(sizeof(char),(dest_len + src_len + 1));
     if (!new_dest)
 	{
-		
         return NULL;
 	}
 	ft_memcpy(new_dest, *dest, dest_len);
