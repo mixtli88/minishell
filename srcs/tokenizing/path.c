@@ -6,13 +6,13 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 02:10:39 by mike              #+#    #+#             */
-/*   Updated: 2025/01/15 22:40:47 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/17 23:13:48 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void find_path(t_data **data)
+void find_path(t_minishell	*ms, t_data **data)
 {
     char **paths;
     int i;
@@ -20,7 +20,7 @@ void find_path(t_data **data)
     i = -1;
     paths = ft_split(getenv("PATH"), ':');
     while(paths[++i])
-    {
+    {	
         (*data)->path_w_slash = ft_strjoin(paths[i], "/");
         (*data)->full_path = ft_strjoin((*data)->path_w_slash, ((*data)->cur_cmd->argv[0]));
 		free((*data)->path_w_slash);
@@ -37,6 +37,5 @@ void find_path(t_data **data)
         free((*data)->full_path);
     }
     free_table(paths);
-    printf("minishell: %s: command not found\n", (*data)->cur_cmd->argv[0]);
-    error_free(data);
+    error_path_cmd(ms, data);
 }   

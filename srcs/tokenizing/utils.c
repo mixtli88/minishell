@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:00:16 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/16 14:48:01 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/17 19:32:03 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ int ft_char_is_dolar(char i)
 		return(1);
 	return(0);
 }
-
+// int ft_char_is_rdir(char i)
+// {
+// 	if(i == '>' || i == '<')
+// 		return(1);
+// 	return(0);
+// }
 
 int ft_count_char(char *str, char c)
 {
@@ -51,12 +56,10 @@ int ft_isaspace(t_data **data )
 		{
 			d->buff[d->buf_idx]='\0';
 			creat_token(data);
-			d->buf_idx = 0;
 		}
-		if(d->input[d->i])
-			d->i++;
-		else
+		if(!d->input[d->i])
 			break;
+		d->i++;
 	}
 	return(found);
 }
@@ -94,12 +97,10 @@ void ft_is_var(t_data **data)
 
 	j = 0;
 	d = *data;
+	
 	if(d->count_quote != 0 && d->quote == '\'')
-	{
-			d->buff[d->buf_idx++] = d->input[d->i++];
-			return;
-	}
-	if ( ft_isalnum(d->input[d->i + 1]) || d->input[d->i + 1] == '_')
+		d->buff[d->buf_idx++] = d->input[d->i++];
+	else if ( ft_isalnum(d->input[d->i + 1]) || d->input[d->i + 1] == '_')
 	{
 		d->i++;
 		while (ft_isalnum(d->input[d->i]) || d->input[d->i] == '_')
@@ -110,8 +111,31 @@ void ft_is_var(t_data **data)
 		if (!d->var)
 			return;
 		j = 0;
-		while(d->var)
+		while(d->var[j])
 			d->buff[d->buf_idx++] = d->var[j++];
 	}
+	else if(d->count_quote == 0)
+		d->i++;
 }
 
+int ft_is_rdir(t_data **data )
+{
+	int found;
+	t_data *d;
+	
+	d = *data;
+	found = 0;
+	if(d->input[d->i] == '>' || d->input[d->i] == '<')
+	{
+		found = 1;
+		if(d->buf_idx == 0)
+		{
+			d->buff[d->buf_idx++] = d->input[d->i++];
+			if (d->input[d->i] == d->input[d->i - 1])
+				d->buff[d->buf_idx++] = d->input[d->i++];	
+		}
+		d->buff[d->buf_idx]='\0';
+		creat_token(data);		
+	}
+	return(found);
+}

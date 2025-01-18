@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:33:19 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/16 14:58:15 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/17 23:28:27 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char *read_aditional(t_data **data)
 	{
 		d->new_readline = readline(">");
 		if(!d->new_readline)
-		{
+		{	error_quote()
 			printf("Error, for closing quote\n");
 			if(d->new_inp)
 			{
@@ -48,7 +48,7 @@ void	check_quote(t_data **data)
 	{
 		if (ft_char_is_dolar(d->input[d->i]))
 			ft_is_var(data);
-		else if(d->input[d->i])
+		if(d->input[d->i])
 			d->buff[d->buf_idx++] = d->input[d->i++];
 		if(!d->input[d->i] && d->count_quote != 0)
 		{
@@ -58,12 +58,12 @@ void	check_quote(t_data **data)
 			d->new_inp = NULL;
 		}
 		ft_isquote(data);
-		if(d->count_quote == 0 && (d->input[d->i] == ' ' || !d->input[d->i]))
+		if(d->count_quote == 0 && (d->input[d->i] == '<' || d->input[d->i] == '>' || d->input[d->i] == ' ' || !d->input[d->i]))
 			break;
 	}	
 }
 
-void split_input(t_data **data)
+void split_input(t_minishell *ms, t_data **data)
 {	
 	t_data *d;
 	
@@ -71,7 +71,7 @@ void split_input(t_data **data)
 	d->i =0;
 	while(d->input[d->i] || d->buf_idx > 0)
 	{
-		if(ft_isaspace(data))
+		if(ft_isaspace(data) || ft_is_rdir(data))
 		{
 			d->buf_idx = 0;
 			d->quote = 0;

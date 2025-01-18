@@ -6,13 +6,13 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/15 22:32:00 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/17 23:24:57 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	error_syntax(char *str)
+int	error_sy(char *str)
 {
 	if ((*str == '+' || *str == '-') && ft_strlen(str) == 1)
 		return (1);
@@ -97,13 +97,48 @@ void	free_data(t_data **data)
 		(*data) = NULL;
 	}
 }
-void	error_free(t_data **data)
+void	error_free(t_minishell *ms, t_data **data)
 {
-	
+		
 	if ((*data)->cmd_list)
 		free_cmd_list(&(*data)->cmd_list);
 	if (*data)
-		free_data(data);		
-	// write(2, "Error\n", 6);
-	// exit(1);
+		free_data(data);
+		printf("\n");
+		ft_minishell_loop(ms);
 }
+
+void error_syntax(t_minishell *ms, t_data **data)
+{
+	t_data *d;
+	char *strerror;
+
+	d = *data;
+	strerror = NULL;
+	if(!d->token_cur->next )
+	{
+		strerror = "newline";
+	}
+	else
+	{
+		if(d->token_cur->next->type != CMD)
+			strerror = d->token_cur->next->value;
+	}
+	printf("minishell: syntax error near unexpected token `%s'", strerror);
+	error_free(ms, data);	
+}
+void error_path_cmd(t_minishell *ms, t_data **data)
+{
+	printf("minishell: %s: command not found\n", (*data)->cur_cmd->argv[0]);
+	error_free(ms, data);	
+}
+void error_quote(t_minishell *ms, t_data **data)
+{
+	printf("Error, for closing quote\n");
+	if((*data)->new_inp)
+	{
+		free((*data)->new_inp);
+		(*data)->new_inp = NULL;
+	}	
+}
+

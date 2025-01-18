@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 18:06:02 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/14 19:15:49 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/17 23:18:16 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_cmd *creat_cmd(t_data **data)
 	return(new);
 }
 
-void buil_cmd_list(t_data **data)
+void buil_cmd_list(t_minishell	*ms, t_data **data)
 {
 	t_data *d;
 	
@@ -43,11 +43,11 @@ void buil_cmd_list(t_data **data)
 	while(d->token_cur)
 	{
 		if(d->token_cur && d->token_cur->type == CMD)
-			tok_is_cmd(data);
+			tok_is_cmd(ms, data);
 		else if( d->token_cur->type == PIPE )
-			tok_is_pipe(data);
+			tok_is_pipe(ms, data);
 		else if (d->token_cur->type ==  REDIR)
-			tok_is_redi(data);	
+			tok_is_redi(ms, data);	
 		(*data)->i++;
 		d->token_cur = d->token_cur->next;	
 	}

@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/16 14:43:33 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/17 23:18:48 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ typedef enum e_redirection
 }	t_redirection;
 
 /* ***************************   TOKENIZING   ***************************** */
+
+
+typedef struct s_minishell
+{
+	
+	char	**envp;
+}	t_minishell;
 // tokenizing.c
  
  typedef struct s_token
@@ -79,8 +86,8 @@ typedef struct s_data
 	
 	char	var_buf[1024];
 	char	*var;
-	char 	**envp;
 	
+	char	**env;
 	int 	arg_c;
 	t_cmd 	*cmd_list;
 	t_cmd 	*cur_cmd;
@@ -88,15 +95,19 @@ typedef struct s_data
 	char *path_w_slash;
     char *full_path;
 		
+	int flag;
+
 }	t_data;
 // void	tokenizing(void);
 void	tokenizing(t_token **list_token, int ac, char **av);
-int		error_syntax(char *str);
+int		error_sy(char *str);
 void	free_table(char **str);
 void	free_cmd_list(t_cmd **cmd_list);
 void	free_token_list(t_token *token_list);
 void	free_data(t_data **data);
-void	error_free(t_data **data);
+void	error_free(t_minishell *ms, t_data **data);
+void 	error_syntax(t_minishell *ms, t_data **data);
+void    error_path_cmd(t_minishell *ms, t_data **data);
 
 void	creat_token(t_data **data);
 
@@ -109,18 +120,22 @@ int 	ft_isaspace(t_data **data);
 int 	ft_count_char(char *str, char c);
 int 	ft_isquote(t_data **data);
 
-void buil_cmd_list(t_data **data);
+void buil_cmd_list(t_minishell	*ms, t_data **data);
 t_cmd *creat_cmd(t_data **data);
 
-void tok_is_cmd(t_data **data);
-void tok_is_redi(t_data **data);
-void tok_is_pipe(t_data **data);
+void tok_is_cmd(t_minishell	*ms, t_data **data);
+void tok_is_redi(t_minishell	*ms, t_data **data);
+void tok_is_pipe(t_minishell	*ms, t_data **data);
 
 void init_data(t_data **data);
 void init_new_token(t_data **data, t_token **new);
 void init_new_cmd(t_cmd **cmd);
-void find_path(t_data **data);
+void find_path(t_minishell	*ms, t_data **data);
 
 int ft_char_is_dolar(char i);
 void ft_is_var(t_data **data);
+int ft_is_rdir(t_data **data );
+void error_synt(t_data **data);
+
+
 #endif //TOKENIZING_H

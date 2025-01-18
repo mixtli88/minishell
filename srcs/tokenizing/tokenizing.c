@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/15 22:26:34 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/17 23:27:59 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,47 +52,48 @@ void creat_token(t_data **data)
 	}	
 }
 
-void lexer(t_data **data)
+void lexer(t_minishell	*ms, t_data **data)
 {
 	t_token *tok_curr;
 	t_cmd *cmd_curr;
 	
-	int i = 0 ;
-	split_input(data);
-	buil_cmd_list(data);
+	// int i = 0 ;
+	init_data(data);
+	split_input(ms, data);
+	buil_cmd_list(ms, data);
 	cmd_curr = (*data)->cmd_list;
-	tok_curr = (*data)->tok_list;
+	tok_curr = (*data)->tok_list->next;
+	
 	while (tok_curr)
 	{
-		printf(" *%u* %s [%d] ->", tok_curr->type, tok_curr->value, i);
+		printf("%s ", tok_curr->value);
 		tok_curr = tok_curr->next;
-		i++;
 	} 
-	printf("\n\n***** list.token **** \n");
+	// printf("\n\n***** list.token **** \n");
 	
-	int j = 0;
-	while (cmd_curr)
-	{	
-		i = 0;
-		printf("\ncmd [%d] \narg -> = {", j);
-		while (cmd_curr->argv[i])
-		{
-			printf(" \"%s\"", cmd_curr->argv[i]);
-			if(cmd_curr->argv[i + 1])
-				printf(",");
-			else
-				printf(" }\n");
-			i++;
-		}
-		printf("fd = { \"%s\" }\n", cmd_curr->fd_rdir);
-		printf("redi = {%d}\n", cmd_curr->rdir);
-		cmd_curr = cmd_curr->next;
-		j++;
-	}
+	// int j = 0;
+	// while (cmd_curr)
+	// {	
+	// 	i = 0;
+	// 	printf("\ncmd [%d] \narg -> = {", j);
+	// 	while (cmd_curr->argv[i])
+	// 	{
+	// 		printf(" \"%s\"", cmd_curr->argv[i]);
+	// 		if(cmd_curr->argv[i + 1])
+	// 			printf(",");
+	// 		else
+	// 			printf(" }\n");
+	// 		i++;
+	// 	}
+	// 	printf("fd = { \"%s\" }\n", cmd_curr->fd_rdir);
+	// 	printf("redi = {%d}\n", cmd_curr->rdir);
+	// 	cmd_curr = cmd_curr->next;
+	// 	j++;
+	// }
 	printf("\n");
 }
 
-void ft_minishell_loop(char **envp)
+void ft_minishell_loop(t_minishell	*ms)
 {
 	t_data *data;
 	
@@ -101,79 +102,23 @@ void ft_minishell_loop(char **envp)
 	{
 		if(data == NULL)
 			data = ft_calloc(sizeof(t_data),1);
-		data->envp = envp;	
+		data->env = ms->envp;
         data->input = readline("minishell$ ");
         if (!data->input)
             break;
         if (strcmp(data->input, "exit") == 0) 
 		{
             printf("exit\n");
-            error_free(&data);
+            error_free(ms, &data);
 			break;
         }
         if (data->input)
             add_history(data->input);
-		init_data(&data);
-		lexer(&data);
-		// tokenizing();
+		// init_data(&data);
+		lexer(ms, &data);
+		// ex(&ms, data->cmd_list);
 	    if(data)
-			error_free(&data);
+			error_free(ms, &data);
     }
 }
 
-
-// void ft_minishell_loop(int input_fd)
-// {
-//     t_data *data;
-//     char buffer[1024];
-//     ssize_t bytes_read;
-
-//     data = ft_calloc(1, sizeof(t_data));
-
-//     while (1)
-//     {
-//         if (data == NULL)
-//             data = ft_calloc(1, sizeof(t_data));
-
-//         if (input_fd == STDIN_FILENO)
-//         {
-//             // Entrada interactiva
-//             data->input = readline("minishell$ ");
-//             if (!data->input) // EOF o Ctrl+D
-//                 break;
-//             if (*data->input)
-//                 add_history(data->input);
-//         }
-//         else
-//         {
-//             // Leer del archivo
-//             bytes_read = read(input_fd, buffer, sizeof(buffer) - 1);
-//             if (bytes_read <= 0)
-//                 break; // EOF o error
-//             buffer[bytes_read] = '\0'; // Asegurar que sea un string
-//             data->input = strdup(buffer); // Copiar buffer a input
-//         }
-
-//         if (strcmp(data->input, "exit\n") == 0 || strcmp(data->input, "exit") == 0)
-//         {
-//             printf("exit\n");
-//             free(data->input);
-//             free(data);
-//             break;
-//         }
-
-//         ft_init_data(&data);
-//         lexer(&data);
-
-//         free(data->input);
-//         free(data);
-//         data = NULL;
-//     }
-// }
-
-
-        // printf("Entrada recibida: %s\n", data->input);
-		// printf("1\n");
-		// printf("2\n");
-		// printf(" head %p\n", head);
-		// printf(" act %p\n", act);

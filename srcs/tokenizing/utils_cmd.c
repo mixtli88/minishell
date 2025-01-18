@@ -6,13 +6,13 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:50:37 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/15 17:25:27 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/17 23:17:10 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void tok_is_cmd(t_data **data)
+void tok_is_cmd(t_minishell *ms, t_data **data)
 {
 	t_data *d;
 	t_token *tok_tem;
@@ -37,25 +37,35 @@ void tok_is_cmd(t_data **data)
 	}
 	d->cur_cmd->argv[d->i] = ft_strdup(d->token_cur->value);
 	if(d->i == 0)
-		find_path(data);
+		find_path(ms, data);
 }
 
-void tok_is_pipe(t_data **data)
-{
-
-	if(!(*data)->cur_cmd)
-		error_free(data);
-	else
-		(*data)->cur_cmd = NULL;
-}
-
-void tok_is_redi(t_data **data)
+void tok_is_pipe(t_minishell	*ms, t_data **data)
 {
 	t_data *d;
 	
 	d = *data;
-	if(d->token_cur->next->type != CMD) 
-		error_free(data);
+	if(!d->token_cur->next)
+		error_syntax(ms, data);
+	else
+		if(d->token_cur->next->type != CMD)
+			error_syntax(ms, data);
+	if(!(*data)->cur_cmd)
+		error_free(ms, data);
+	else
+		(*data)->cur_cmd = NULL;
+}
+
+void tok_is_redi(t_minishell	*ms, t_data **data)
+{
+	t_data *d;
+	
+	d = *data;
+	if(!d->token_cur->next)
+		error_syntax(ms,data);
+	else
+		if(d->token_cur->next->type != CMD)
+			error_syntax(ms, data);
 	if(ft_strncmp(d->token_cur->value, "<", 1) == 0)
 		d->cur_cmd->rdir = SINGLE_IN; 
 	else if(ft_strncmp(d->token_cur->value, ">", 1) == 0)
