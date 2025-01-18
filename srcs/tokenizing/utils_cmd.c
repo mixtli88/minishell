@@ -6,24 +6,24 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:50:37 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/17 23:17:10 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/18 18:05:59 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void tok_is_cmd(t_minishell *ms, t_data **data)
+void tok_is_cmd(t_minishell *ms)
 {
 	t_data *d;
 	t_token *tok_tem;
-	
-	d = *data;
+
+	d = &ms->data;
 	tok_tem = d->token_cur;
 	if(!d->cur_cmd)
 	{
 		d->arg_c = 1;
 		d->i = 0;
-		d->cur_cmd = creat_cmd(data);
+		d->cur_cmd = creat_cmd(ms);
 		while(tok_tem->next && tok_tem->next->type ==  CMD)
 		{
 			d->arg_c++;
@@ -37,35 +37,32 @@ void tok_is_cmd(t_minishell *ms, t_data **data)
 	}
 	d->cur_cmd->argv[d->i] = ft_strdup(d->token_cur->value);
 	if(d->i == 0)
-		find_path(ms, data);
+		find_path(ms);
 }
 
-void tok_is_pipe(t_minishell	*ms, t_data **data)
+void tok_is_pipe(t_minishell	*ms)
 {
 	t_data *d;
 	
-	d = *data;
+	d = &ms->data;
 	if(!d->token_cur->next)
-		error_syntax(ms, data);
+		error_syntax(ms);
 	else
 		if(d->token_cur->next->type != CMD)
-			error_syntax(ms, data);
-	if(!(*data)->cur_cmd)
-		error_free(ms, data);
+			error_syntax(ms);
+	if(!d->cur_cmd)
+		free_data(ms);
 	else
-		(*data)->cur_cmd = NULL;
+		d->cur_cmd = NULL;
 }
 
-void tok_is_redi(t_minishell	*ms, t_data **data)
+void tok_is_redi(t_minishell	*ms)
 {
 	t_data *d;
 	
-	d = *data;
-	if(!d->token_cur->next)
-		error_syntax(ms,data);
-	else
-		if(d->token_cur->next->type != CMD)
-			error_syntax(ms, data);
+	d = &ms->data;
+	if(!d->token_cur->next || d->token_cur->next->type != CMD)
+		error_syntax(ms);
 	if(ft_strncmp(d->token_cur->value, "<", 1) == 0)
 		d->cur_cmd->rdir = SINGLE_IN; 
 	else if(ft_strncmp(d->token_cur->value, ">", 1) == 0)

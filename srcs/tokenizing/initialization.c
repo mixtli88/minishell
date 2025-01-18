@@ -6,45 +6,42 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:15:33 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/15 22:12:28 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/18 18:48:54 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 
-void init_data(t_data **data)
+void init_data(t_minishell	*ms)
 {
 	t_data *d;
 	
-	d = *data;
+	d = &ms->data;
+	d->input = NULL;
 	d->buf_idx = 0;
 	d->i = 0;
 	d->quote = 0;
-	d->new_inp = NULL;
 	d->new_readline = NULL;
+	d->new_inp = NULL;
 	d->path_w_slash = NULL;
     d->full_path = NULL;
-	if(!d->tok_list)
-		d->tok_list = NULL;
-	if(!d->cmd_list)
-		d->cmd_list = NULL;
+    d->var = NULL;
+    d->envp = NULL;
+    d->buff[0] = '\0';
+    d->var_buf[0] = '\0';
+	d->tok_list = NULL;
+	d->token_cur = NULL;
+	d->cmd_list = NULL;
+	d->cur_cmd = NULL;
 }
-void init_new_token(t_data **data, t_token **new)
+void init_new_token(t_token **new)
 {
-	t_data *d;
 	t_token *n;
 	
-	d = *data;
 	n = *new;
-	n->value = ft_strdup(d->buff);
-	n->type = type_token(d->buff);
-	if(d->quote == '"')
-		n->quote = 2;
-	else if(d->quote == '\'')
-		n->quote = 1;	
-	else
-		n->quote = 0;
+	n->value = NULL;
+	n->type = 0;
 }
 void init_new_cmd(t_cmd **cmd)
 {
@@ -53,8 +50,9 @@ void init_new_cmd(t_cmd **cmd)
 	new = *cmd;
 	new->argv = NULL;
 	new->path = NULL;
-	new->evr = NULL;
+	new->evrp = NULL;
 	new->rdir = 0;
 	new->fd_rdir = NULL;
-	new->limiter = NULL;	
+	new->limiter = NULL;
+	new->next = NULL;
 }

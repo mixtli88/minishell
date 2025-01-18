@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/17 23:27:59 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/18 18:42:02 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,22 @@ t_type type_token(char *token)
 		return(REDIR);
 	else if (ft_strncmp(token, "<", 1) == 0)
 		return(REDIR);
-	else if (ft_strncmp(token, ">>", 1) == 0)
-		return(REDIR);
-	else if (ft_strncmp(token, "<<", 1) == 0)
-		return(REDIR);
-	else if (token[0] == '$')
-		return(VARIABLE);
 	else 
 		return(CMD);
 	
 }
-void creat_token(t_data **data)
+void creat_token(t_minishell *ms)
 {
 	t_data *d;
 	t_token *new;
 	t_token *last;
 	
-	d = *data;	
+	d = &ms->data;
 	last = NULL;
 	new = malloc(sizeof (t_token));
-	init_new_token(data, &new);
+	init_new_token(&new);
+	new->value = ft_strdup(d->buff);
+	new->type = type_token(d->buff);
 	new->next = NULL;
 	if(d->tok_list == NULL)
 		d->tok_list = new;
@@ -52,17 +48,19 @@ void creat_token(t_data **data)
 	}	
 }
 
-void lexer(t_minishell	*ms, t_data **data)
+void lexer(t_minishell	*ms)
 {
 	t_token *tok_curr;
 	t_cmd *cmd_curr;
+	t_data *d;
 	
+	d = &ms->data;
 	// int i = 0 ;
-	init_data(data);
-	split_input(ms, data);
-	buil_cmd_list(ms, data);
-	cmd_curr = (*data)->cmd_list;
-	tok_curr = (*data)->tok_list->next;
+	
+	split_input(ms);
+	buil_cmd_list(ms);
+	cmd_curr = d->cmd_list;
+	tok_curr = d->tok_list;
 	
 	while (tok_curr)
 	{
@@ -95,30 +93,28 @@ void lexer(t_minishell	*ms, t_data **data)
 
 void ft_minishell_loop(t_minishell	*ms)
 {
-	t_data *data;
+	t_data *d;
 	
-	data = NULL;
+	d = &ms->data;
     while (1)
 	{
-		if(data == NULL)
-			data = ft_calloc(sizeof(t_data),1);
-		data->env = ms->envp;
-        data->input = readline("minishell$ ");
-        if (!data->input)
+		init_data(ms);
+		d->envp = ms->envp;
+        d->input = readline("minishell$ ");
+        if (!d->input)
             break;
-        if (strcmp(data->input, "exit") == 0) 
+        if (strcmp(d->input, "exit") == 0) 
 		{
             printf("exit\n");
-            error_free(ms, &data);
+            free_data(ms);
 			break;
         }
-        if (data->input)
-            add_history(data->input);
-		// init_data(&data);
-		lexer(ms, &data);
-		// ex(&ms, data->cmd_list);
-	    if(data)
-			error_free(ms, &data);
+        if (d->input)
+            add_history(d->input);
+		lexer(ms);
+		// ex(&ms, d->cmd_list);
+	    if(d)
+			free_data(ms);
     }
 }
 
