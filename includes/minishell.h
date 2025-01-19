@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 12:34:30 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/19 14:10:27 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,9 @@
 
 # include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
-# include "builtin.h"
 # include "tokenizing.h"
+# include "builtin.h"
 # include "error.h"
-
-typedef struct s_minishell
-{
-	char	**envp;
-}	t_minishell;
 
 typedef struct s_command
 {

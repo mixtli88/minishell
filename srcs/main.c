@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:36:57 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 12:31:39 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/19 14:09:56 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	ms.envp = copy_envp(envp, NULL);
 	ft_minishell_loop(&ms);
-	builtin(&ms);
+	// builtin(&ms);	
 	return (0);
 }
 

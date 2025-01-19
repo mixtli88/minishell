@@ -6,12 +6,14 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 12:34:04 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/19 13:50:20 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
+
+# include "tokenizing.h"
 
 # define	EQUAL 		"="
 # define	PLAS_EQUAL	"+="
