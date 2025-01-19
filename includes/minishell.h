@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/09 20:11:20 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/17 23:27:27 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,7 @@
 # include "tokenizing.h"
 # include "error.h"
 
-typedef struct s_minishell
-{
-	char	**envp;
-}	t_minishell;
 
-typedef struct s_command
-{
-	char **argv;
-	char *cmd_path;
-	char **evr;
-	int input_fd;
-	int output_fd;
-	struct s_comand *next;
-	
-}	t_command;
 
 /* ****************************   BUILTINS   ****************************** */
 // builtin.c
@@ -49,6 +35,6 @@ bool	ft_echo(char *const argv[]);
 /* ******************************   EXEC   ******************************** */
 // exex.c
 void	exec(void);
-void ft_minishell_loop(void);
+void ft_minishell_loop(t_minishell	*ms);
 // void ft_minishell_loop(int input_fd);
 #endif //MINISHELL_H
