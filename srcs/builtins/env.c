@@ -6,13 +6,13 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 21:24:23 by fwu               #+#    #+#             */
-/*   Updated: 2024/12/22 22:08:42 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/12 22:41:59 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_env(char *const envp[])
+bool	ft_env(char **envp)
 {
 	int	i;
 

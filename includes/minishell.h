@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/17 23:27:27 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/19 16:15:08 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,9 @@
 # include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
 # include "tokenizing.h"
+# include "builtin.h"
 # include "error.h"
 
-
-
-/* ****************************   BUILTINS   ****************************** */
-// builtin.c
-bool	builtin(t_minishell *ms);
-// env.c
-bool	ft_env(char *const envp[]);
-// pwd.c
-bool	ft_pwd(void);
-// exit.c
-bool	ft_exit(char *const argv[]);
-// echo.c
-bool	ft_echo(char *const argv[]);
 
 /* ******************************   EXEC   ******************************** */
 // exex.c
