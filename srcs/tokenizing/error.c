@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/18 18:27:10 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/18 22:44:43 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ void	free_data(t_minishell *ms)
 		d = NULL;
 	}
 		printf("\n");
-		ft_minishell_loop(ms);
 }
 
 void error_syntax(t_minishell *ms)
@@ -135,6 +134,8 @@ void error_syntax(t_minishell *ms)
 	}
 	printf("minishell: syntax error near unexpected token `%s'", strerror);
 	free_data(ms);	
+	strerror = NULL;
+	ft_minishell_loop(ms);
 }
 
 void error_path_cmd(t_minishell *ms)
@@ -143,11 +144,13 @@ void error_path_cmd(t_minishell *ms)
 	
 	d = &ms->data;
 	printf("minishell: %s: command not found\n", d->cur_cmd->argv[0]);
-	free_data(ms);	
+	free_data(ms);
+	ft_minishell_loop(ms);
 }
 void error_quote(t_minishell *ms)
 {
 	printf("Error, for closing quote\n");
 	free_data(ms);
+	ft_minishell_loop(ms);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/18 18:42:02 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/18 22:49:37 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void creat_token(t_minishell *ms)
 void lexer(t_minishell	*ms)
 {
 	t_token *tok_curr;
-	t_cmd *cmd_curr;
+	// t_cmd *cmd_curr;
 	t_data *d;
 	
 	d = &ms->data;
@@ -59,7 +59,7 @@ void lexer(t_minishell	*ms)
 	
 	split_input(ms);
 	buil_cmd_list(ms);
-	cmd_curr = d->cmd_list;
+	// cmd_curr = d->cmd_list;
 	tok_curr = d->tok_list;
 	
 	while (tok_curr)
@@ -107,7 +107,7 @@ void ft_minishell_loop(t_minishell	*ms)
 		{
             printf("exit\n");
             free_data(ms);
-			break;
+			exit(1);
         }
         if (d->input)
             add_history(d->input);

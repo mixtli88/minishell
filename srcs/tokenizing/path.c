@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 02:10:39 by mike              #+#    #+#             */
-/*   Updated: 2025/01/18 14:28:42 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/18 23:16:00 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void find_path(t_minishell	*ms)
             return;
         }
         free(d->full_path);
+		d->full_path = NULL;
     }
     free_table(paths);
     error_path_cmd(ms);
