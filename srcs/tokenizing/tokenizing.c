@@ -3,175 +3,128 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/06 21:34:37 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/19 14:09:47 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_init_data(t_data **data)
-{
-	t_data *d;
-	
-	d = *data;
-	d->buf_idx = 0;
-	d->i = 0;
-	d->quote = 0;
-	d->tok_list = NULL;
-	d->tem = ft_strdup("");
-	d->add_input = ft_strdup("");
-	d->new_line = ft_strdup("");
-}
-t_type type_token(char *token)
+t_type	type_token(char *token)
 {
 	if (ft_strncmp(token, "|", 1) == 0)
-		return(PIPE);
+		return (PIPE);
 	else if (ft_strncmp(token, ">", 1) == 0)
-		return(REDIR);
+		return (REDIR);
 	else if (ft_strncmp(token, "<", 1) == 0)
-		return(REDIR);
-	else if (ft_strncmp(token, ">>", 1) == 0)
-		return(REDIR);
-	else if (ft_strncmp(token, "<<", 1) == 0)
-		return(REDIR);
-	else if (token[0] == '$')
-		return(VARIABLE);
-	else 
-		return(CMD);
-	
+		return (REDIR);
+	else
+		return (CMD);
 }
-void creat_token(t_data **data)
+
+void	creat_token(t_minishell *ms)
 {
-	t_token *new;
-	t_token *last;
-	t_data *d;
-	
-	d = *data;	
-	new = malloc(sizeof (t_token));
+	t_data	*d;
+	t_token	*new;
+	t_token	*last;
+
+	d = &ms->data;
 	last = NULL;
+	new = malloc(sizeof(t_token));
+	init_new_token(&new);
 	new->value = ft_strdup(d->buff);
 	new->type = type_token(d->buff);
-	if(d->quote == '"')
-		new->quote = 2;
-	else if(d->quote == '\'')
-		new->quote = 1;	
-	else
-		new->quote = 0;
 	new->next = NULL;
-	if(d->tok_list == NULL)
+	if (d->tok_list == NULL)
 		d->tok_list = new;
 	else
 	{
 		last = d->tok_list;
-		while(last->next != NULL)
+		while (last->next != NULL)
 			last = last->next;
 		last->next = new;
-	}	
-}
-
-void lexer(t_data **data)
-{
-	t_token *cur;
-	
-	int i = 0 ;
-	
-	split_input(data);
-	cur = (*data)->tok_list;
-	printf("list.token ->");
-	while (cur)
-	{
-		printf(" *%u* %s [%d] ->", cur->type, cur->value, i);
-		cur = cur->next;
-		i++;
 	}
-	printf("NULL\n");
 }
 
-void ft_minishell_loop(void)
-{
-	t_data *data;
-	
-	data = ft_calloc(sizeof(t_data),1);
-    while (1)
-	{
-		if(data == NULL)
-			data = ft_calloc(sizeof(t_data),1);
-        data->input = readline("minishell$ ");
-        if (!data->input)
-            break;
-        if (strcmp(data->input, "exit") == 0) 
-		{
-            printf("exit\n");
-            free(data); 
-			break;
-        }
-        if (*data->input)
-            add_history(data->input);
-		ft_init_data(&data);
-		lexer(&data);
-		// tokenizing();
-	    free(data);
-		data = NULL;
-    }
-	
-}
-
-
-// void ft_minishell_loop(int input_fd)
+// void	lexer(t_minishell *ms)
 // {
-//     t_data *data;
-//     char buffer[1024];
-//     ssize_t bytes_read;
+// 	t_token	*tok_curr;
+// 	t_data	*d;
 
-//     data = ft_calloc(1, sizeof(t_data));
-
-//     while (1)
-//     {
-//         if (data == NULL)
-//             data = ft_calloc(1, sizeof(t_data));
-
-//         if (input_fd == STDIN_FILENO)
-//         {
-//             // Entrada interactiva
-//             data->input = readline("minishell$ ");
-//             if (!data->input) // EOF o Ctrl+D
-//                 break;
-//             if (*data->input)
-//                 add_history(data->input);
-//         }
-//         else
-//         {
-//             // Leer del archivo
-//             bytes_read = read(input_fd, buffer, sizeof(buffer) - 1);
-//             if (bytes_read <= 0)
-//                 break; // EOF o error
-//             buffer[bytes_read] = '\0'; // Asegurar que sea un string
-//             data->input = strdup(buffer); // Copiar buffer a input
-//         }
-
-//         if (strcmp(data->input, "exit\n") == 0 || strcmp(data->input, "exit") == 0)
-//         {
-//             printf("exit\n");
-//             free(data->input);
-//             free(data);
-//             break;
-//         }
-
-//         ft_init_data(&data);
-//         lexer(&data);
-
-//         free(data->input);
-//         free(data);
-//         data = NULL;
-//     }
+// 	d = &ms->data;
+// 	split_input(ms);
+// 	buil_cmd_list(ms);
+// 	printf("\n");
 // }
 
+void	ft_minishell_loop(t_minishell *ms)
+{
+	t_data	*d;
 
-        // printf("Entrada recibida: %s\n", data->input);
-		// printf("1\n");
-		// printf("2\n");
-		// printf(" head %p\n", head);
-		// printf(" act %p\n", act);
+	d = &ms->data;
+	while (1)
+	{
+		init_data(ms);
+		d->envp = ms->envp;
+		d->input = readline("minishell$ ");
+		if (!d->input)
+			break ;
+		if (strcmp(d->input, "exit") == 0)
+		{
+			printf("exit\n");
+			free_data(ms);
+			exit(1);
+		}
+		if (d->input)
+			add_history(d->input);
+		lexer(ms);
+		if (d)
+			free_data(ms);
+	}
+}
+
+void	lexer(t_minishell *ms)
+{
+	t_token	*tok_curr;
+	t_data	*d;
+	t_cmd	*cmd_curr;
+	int		i;
+	int		j;
+
+	d = &ms->data;
+	i = 0;
+	split_input(ms);
+	buil_cmd_list(ms);
+	cmd_curr = d->cmd_list;
+	tok_curr = d->tok_list;
+	printf("\n");
+	printf("\n");
+	while (tok_curr)
+	{
+		printf("%s ", tok_curr->value);
+		tok_curr = tok_curr->next;
+	}
+	printf("\n\n***** list.token **** \n");
+	j = 0;
+	while (cmd_curr)
+	{
+		i = 0;
+		printf("\ncmd [%d] \narg -> = {", j);
+		while (cmd_curr->argv[i])
+		{
+			printf(" \"%s\"", cmd_curr->argv[i]);
+			if (cmd_curr->argv[i + 1])
+				printf(",");
+			else
+				printf(" }\n");
+			i++;
+		}
+		printf("fd = { \"%s\" }\n", cmd_curr->fd_rdir);
+		printf("redi = {%d}\n", cmd_curr->rdir);
+		cmd_curr = cmd_curr->next;
+		j++;
+	}
+	// printf("\n");
+}

@@ -1,43 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/10 21:54:40 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/10 21:55:27 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// echo          => '\n'
-// echo abc      => abc'\n'
-// echo a b c    => a b c'\n'
-// echo -n       => ''
-// echo -n abc   => abc
-// echo -n a b c => a b c
-bool	ft_echo(char *argv[])
+bool	ft_cd(char *argv[], char *envp[])
 {
-	bool	flag_new_line;
-	int		i;
+	(void) argv;
 
-	flag_new_line = true;
+	// char *const oldpwd = "/Users/fwu/Documents/minishell";
+	// char *const pwd = "/Users/fwu/Documents";
+	int	i;
+
 	i = 0;
-	while (argv && argv[i])
+	while (envp && envp[i])
 	{
-		if (i == 0 && ft_strncmp(argv[i], "-n", 2) == 0)
-			flag_new_line = false;
-		else
+		// ft_putendl_fd(envp[i], STDOUT_FILENO);
+		if (ft_strncmp(envp[i], "OLDPWD=", 7) == 0)
 		{
-			ft_putstr_fd(argv[i], STDOUT_FILENO);
-			if (argv[i + 1])
-				ft_putstr_fd(" ", STDOUT_FILENO);
+			envp[i] = "OLDPWD=/Users/fwu/Documents/minishell";
+			// ft_putendl_fd(envp[i], STDOUT_FILENO);
+		}
+		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
+		{
+			envp[i] = "PWD=/Users/fwu/Documents";
+			// ft_putendl_fd(envp[i], STDOUT_FILENO);
 		}
 		i++;
 	}
-	if (flag_new_line)
-		ft_putstr_fd("\n", STDOUT_FILENO);
+	// ft_putendl_fd("correct", STDOUT_FILENO);	
 	return (true);
 }

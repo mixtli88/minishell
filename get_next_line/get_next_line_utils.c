@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 13:53:02 by fwu               #+#    #+#             */
-/*   Updated: 2024/03/02 10:12:42 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/15 18:01:04 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 int	ft_strlen(const char *str)
 {
 	int	count;
-
+	
 	count = 0;
+	if(!str)
+		return(0);
 	while (*str != '\0')
 	{
 		str++;

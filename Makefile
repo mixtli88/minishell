@@ -1,12 +1,22 @@
+
+GREEN = \033[32m
+RED = \033[31m
+YELLOW = \033[33m
+BLUE = \033[34m
+MAGENTA = \033[35m
+CYAN = \033[36m
+WHITE = \033[37m
+RESET = \033[0m
+
 # Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
 NAME = minishell
 
-BUILTINS = builtin.c env.c pwd.c exit.c echo.c
+BUILTINS = envp.c builtin.c env.c pwd.c exit.c echo.c cd.c export.c var.c error.c
 EXEC = exec.c 
-TOKENIZING = tokenizing.c error.c utils.c split.c 
+TOKENIZING = 	tokenizing.c error.c utils.c split_tokens.c command.c initialization.c utils_cmd.c path.c free.c 
 MAIN = main.c 
 
 BUILTINS_DIR = builtins/
@@ -34,24 +44,28 @@ INCLUDES = -I $(INC_DIR)
 LIBRL_DIR	=	$(INC_DIR)readline/
 LIBRL_H		=	chardefs.h history.h keymaps.h readline.h rlconf.h rlstdc.h rltypedefs.h tilde.h
 
-LIBFT_DIR = Libft/
+LIBFT_DIR = libft/
 LIBFT_OBJ = $(addprefix $(LIBFT_DIR), libft.a)
 
 # Minishell targets
 all: $(NAME)
 $(NAME): $(LIBFT_OBJ) $(GET_OBJ) $(SRC_OBJ)
-	$(CC) $(CFLAGS) $(SRC_OBJ) $(LIBFT_OBJ) $(GET_OBJ) -lreadline $(LIBRL_DIR)libhistory.a  -o $@
+	@echo "🔨$(CYAN) Compiled $@ $(DEFAULT)"
+	@$(CC) $(CFLAGS) $(SRC_OBJ) $(LIBFT_OBJ) $(GET_OBJ) -lreadline $(LIBRL_DIR)libhistory.a  -o $@
+	@echo "✅${GREEN} ${NAME} successfully created. 🌐${RESET}"
 # create "Libft/libft.a"
 $(LIBFT_OBJ):
-	make bonus -C $(LIBFT_DIR)
+	@make bonus -C $(LIBFT_DIR)
 # using SRC.c to create the SRC.o like "main.o", "check_input.o"...
 %.o: %.c
-	$(CC) $(CFLAGS) -o $@ -c $< -I.
+	@$(CC) $(CFLAGS) -o $@ -c $< -I.
 clean:
-	rm -f $(GET_OBJ) $(LIBFT_OBJ) $(SRC_OBJ)
-	make clean -C $(LIBFT_DIR)
+	@rm -f $(GET_OBJ) $(LIBFT_OBJ) $(SRC_OBJ)
+	@make clean -C $(LIBFT_DIR)
+	@echo "🧹 ${YELLOW} Binary files successfully removed 🗑${RESET}"
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "🧹 ${RED} Executables successfully removed 🗑${RESET}"
 re: fclean all
 
 # Declare targets as "phony"
@@ -68,9 +82,9 @@ re: fclean all
 
 # NAME = minishell
 
-# BUILTINS = builtin.c 
+# BUILTINS = builtin.c env.c pwd.c exit.c echo.c
 # EXEC = exec.c 
-# TOKENIZING = tokenizing.c error.c utils.c split.c
+# TOKENIZING = tokenizing.c error.c utils.c split_tokens.c command.c initialization.c utils_cmd.c path.c 
 # MAIN = main.c 
 
 # BUILTINS_DIR = builtins/
