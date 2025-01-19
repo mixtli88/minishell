@@ -3,139 +3,133 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/18 23:28:30 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/19 11:30:36 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZING_H
 # define TOKENIZING_H
 
-#include "../libft/libft.h"
-# include "readline/readline.h"
+# include "../libft/libft.h"
 # include "readline/history.h"
+# include "readline/readline.h"
 
 typedef enum e_type
 {
 	N_T,
-	CMD,  
- 	PIPE ,
+	CMD,
+	PIPE,
 	REDIR,
-}	t_type;
+}					t_type;
 
 typedef enum e_redirection
 {
- 	NOT,
+	NOT,
 	SINGLE_IN,
- 	SINGLE_OUT,
+	SINGLE_OUT,
 	DOUBLE_IN,
 	DOUBLE_OUT,
- 	
-}	t_redirection;
+}					t_redirection;
 
 /* ***************************   TOKENIZING   ***************************** */
 
-
-
 // tokenizing.c
- 
- typedef struct s_token
- {
-	t_type type; 			//  token type
-	char *value; 		// token value.
-	struct s_token *next;
- }		t_token;
 
+typedef struct s_token
+{
+	t_type			type;
+	char			*value;
+	struct s_token	*next;
+}					t_token;
 
 typedef struct s_cmd
 {
-	char **argv;
-	char *path;
-	char **evrp;
-	t_redirection rdir;
-	char *fd_rdir;
-	char *limiter;
-	
-	struct s_cmd *next;
-	
-}	t_cmd;
+	char			**argv;
+	char			*path;
+	char			**evrp;
+	t_redirection	rdir;
+	char			*fd_rdir;
+	char			*limiter;
+
+	struct s_cmd	*next;
+
+}					t_cmd;
 
 typedef struct s_data
 {
-	char 	*input;
-	int 	i;
-	int		count_quote;
-	
-	char 	buff[1024];
-	int 	buf_idx;
-	
-	char 	*new_readline;
-	char 	*new_inp;
-	
-	t_token *tok_list;
-	t_token	*token_cur;
-	char 	quote;
-	
-	char	var_buf[1024];
-	char	*var;
-	
-	char	**envp;
-	int 	arg_c;
-	t_cmd 	*cmd_list;
-	t_cmd 	*cur_cmd;
-		
-	char *path_w_slash;
-    char *full_path;
+	char			*input;
+	int				i;
+	int				count_quote;
 
-}	t_data;
+	char			buff[1024];
+	int				buf_idx;
+
+	char			*new_readline;
+	char			*new_inp;
+
+	t_token			*tok_list;
+	t_token			*token_cur;
+	char			quote;
+
+	char			var_buf[1024];
+	char			*var;
+
+	char			**envp;
+	int				arg_c;
+	t_cmd			*cmd_list;
+	t_cmd			*cur_cmd;
+
+	char			*path_w_slash;
+	char			*full_path;
+
+}					t_data;
 
 typedef struct s_minishell
 {
-	t_data data;
-	char	**envp;
-}	t_minishell;
-
+	t_data			data;
+	char			**envp;
+}					t_minishell;
 
 // void	tokenizing(void);
-void	tokenizing(t_token **list_token, int ac, char **av);
-int		error_sy(char *str);
-void	free_table(char **str);
-void	free_cmd_list(t_cmd **cmd_list);
-void	free_token_list(t_token *token_list);
+void				lexer(t_minishell *ms);
+int					error_sy(char *str);
+void				free_table(char **str);
+void				free_cmd_list(t_cmd **cmd_list);
+void				free_token_list(t_token *token_list);
 
-void	free_data(t_minishell *ms );
-void 	error_syntax(t_minishell *ms );
-void    error_path_cmd(t_minishell *ms );
-void 	error_quote(t_minishell *ms);
+void				free_data(t_minishell *ms);
+void				error_syntax(t_minishell *ms);
+void				error_path_cmd(t_minishell *ms);
+void				error_quote(t_minishell *ms);
 
-void	creat_token(t_minishell	*ms);
+void				creat_token(t_minishell *ms);
 
-t_type 	type_token(char *token);
-char 	*read_aditional(t_minishell	*ms);
-void	check_quote(t_minishell	*ms);
-void 	split_input(t_minishell *ms);
+t_type				type_token(char *token);
+char				*read_aditional(t_minishell *ms);
+void				check_quote(t_minishell *ms);
+void				split_input(t_minishell *ms);
 
-int 	ft_isaspace(t_minishell *ms );
-int 	ft_count_char(char *str, char c);
-int 	ft_isquote(t_minishell	*ms);
+int					ft_isaspace(t_minishell *ms);
+int					ft_count_char(char *str, char c);
+int					ft_isquote(t_minishell *ms);
 
-void 	buil_cmd_list(t_minishell	*ms);
-t_cmd	 *creat_cmd(t_minishell	*ms);
+void				buil_cmd_list(t_minishell *ms);
+t_cmd				*creat_cmd(t_minishell *ms);
 
-void	 tok_is_cmd(t_minishell	*ms );
-void 	tok_is_redi(t_minishell	*ms );
-void	 tok_is_pipe(t_minishell *ms );
+void				tok_is_cmd(t_minishell *ms);
+void				tok_is_redi(t_minishell *ms);
+void				tok_is_pipe(t_minishell *ms);
 
-void 	init_data(t_minishell	*ms);
-void 	init_new_token(t_token **new);
-void 	init_new_cmd(t_cmd **cmd);
-void 	find_path(t_minishell	*ms );
+void				init_data(t_minishell *ms);
+void				init_new_token(t_token **new);
+void				init_new_cmd(t_cmd **cmd);
+void				find_path(t_minishell *ms);
 
-int ft_char_is_dolar(char i);
-void ft_is_var(t_minishell	*ms);
-int ft_is_rdir(t_minishell	*ms );
+int					ft_char_is_dolar(char i);
+void				ft_is_var(t_minishell *ms);
+int					ft_is_rdir(t_minishell *ms);
 
-
-#endif //TOKENIZING_H
+#endif // TOKENIZING_H
