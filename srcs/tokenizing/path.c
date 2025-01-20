@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 02:10:39 by mike              #+#    #+#             */
-/*   Updated: 2025/01/19 11:25:06 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/19 20:17:12 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	find_path(t_minishell *ms)
 	d = &ms->data;
 	i = -1;
 	paths = ft_split(getenv("PATH"), ':');
+	// if(not_path(ms))
+	// 	return;
 	while (paths[++i])
 	{
 		d->path_w_slash = ft_strjoin(paths[i], "/");
@@ -40,3 +42,27 @@ void	find_path(t_minishell *ms)
 	free_table(paths);
 	error_path_cmd(ms);
 }
+// int not_path(t_minishell *ms)
+// {
+// 	int phind;
+// 	char *str;
+
+// 	phind = 0;
+// 	str = ms->data.token_cur->value;
+// 	if(str == "cd" || str == "echo"|| str == "env" || str == "envp" || str == "error" || str == "exit" || str == "export" || str == "pwd" || str == "var")
+// 	{
+// 		ms->data.cur_cmd->path = NULL;
+// 		phind = 1;
+// 	}
+// 	return (phind);
+// }
+
+// cd 
+// echo
+// env 
+// envp 
+// error 
+// exit 
+// export 
+// pwd 
+// var 

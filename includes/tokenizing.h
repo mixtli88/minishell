@@ -6,13 +6,14 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 16:15:16 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/19 20:14:05 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZING_H
 # define TOKENIZING_H
 
+# include <unistd.h>
 # include "../libft/libft.h"
 # include "readline/history.h"
 # include "readline/readline.h"
@@ -52,8 +53,7 @@ typedef struct s_cmd
 	char			**evrp;
 	t_redirection	rdir;
 	char			*fd_rdir;
-	char			*limiter;
-
+	
 	struct s_cmd	*next;
 
 }					t_cmd;
@@ -131,5 +131,8 @@ void				find_path(t_minishell *ms);
 int					ft_char_is_dolar(char i);
 void				ft_is_var(t_minishell *ms);
 int					ft_is_rdir(t_minishell *ms);
+
+void	print_cmd(t_minishell *ms);
+int not_path(t_minishell *ms);
 
 #endif // TOKENIZING_H

@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:15:33 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/19 11:38:58 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/19 17:09:15 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,5 @@ void	init_new_cmd(t_cmd **cmd)
 	new->evrp = NULL;
 	new->rdir = 0;
 	new->fd_rdir = NULL;
-	new->limiter = NULL;
 	new->next = NULL;
 }

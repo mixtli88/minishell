@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 11:52:32 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/19 11:53:28 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/19 17:09:30 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ void	free_cmd_list(t_cmd **cmd_list)
 			free(head->evrp);
 		if (head->fd_rdir)
 			free(head->fd_rdir);
-		if (head->limiter)
-			free(head->limiter);
 		init_new_cmd(&head);
 		free(head);
 		head = NULL;
