@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/10 21:54:40 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/20 19:34:41 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 // echo -n       => ''
 // echo -n abc   => abc
 // echo -n a b c => a b c
-bool	ft_echo(char *argv[])
+bool	ft_echo(char **argv)
 {
 	bool	flag_new_line;
 	int		i;
 
 	flag_new_line = true;
-	i = 0;
+	i = 1;
 	while (argv && argv[i])
 	{
-		if (i == 0 && ft_strncmp(argv[i], "-n", 2) == 0)
+		if (i == 1 && ft_strncmp(argv[i], "-n", 2) == 0)
 			flag_new_line = false;
 		else
 		{
