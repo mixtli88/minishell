@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:50:37 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/20 20:51:09 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/21 15:04:23 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,14 @@ void	tok_is_pipe(t_minishell *ms)
 	t_data	*d;
 
 	d = &ms->data;
-	if (!d->token_cur->next)
+	if (!d->token_cur->next || !d->cur_cmd)
 		error_syntax(ms);
 	else if (d->token_cur->next->type != CMD)
 		error_syntax(ms);
-	if (!d->cur_cmd)
-		free_data(ms);
 	else
 		d->cur_cmd = NULL;
 }
+
 void	tok_is_logic(t_minishell *ms)
 {
 	t_data	*d;

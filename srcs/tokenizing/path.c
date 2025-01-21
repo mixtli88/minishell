@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 02:10:39 by mike              #+#    #+#             */
-/*   Updated: 2025/01/20 19:20:53 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/21 14:53:21 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,23 @@ int	not_path(t_minishell *ms)
 
 	phind = 0;
 	str = ms->data.token_cur->value;
-	if (ft_strncmp(str, "cd", 2) == 0 || ft_strncmp(str, "echo", 4) == 0
-		|| ft_strncmp(str, "env", 3) == 0 || ft_strncmp(str, "envp", 4) == 0
-		|| ft_strncmp(str, "error", 5) == 0 || ft_strncmp(str, "exit", 4) == 0
-		|| ft_strncmp(str, "export", 6) == 0 || ft_strncmp(str, "pwd", 3) == 0
-		)
+	if (ft_strcmp(str, "cd") == 0 || ft_strcmp(str, "echo") == 0
+		|| ft_strcmp(str, "env") == 0 || ft_strcmp(str, "envp") == 0
+		|| ft_strcmp(str, "error") == 0 || ft_strcmp(str, "exit") == 0
+		|| ft_strcmp(str, "export") == 0 || ft_strcmp(str, "pwd") == 0)
 	{
 		ms->data.cur_cmd->path = NULL;
 		phind = 1;
 	}
-	if(ft_strncmp(ms->data.token_cur->value, "/", 1) == 0)
+	if (ft_strncmp(ms->data.token_cur->value, "", 1) == 0)
+		error_path_cmd(ms);
+	if (ft_strncmp(ms->data.token_cur->value, "/", 1) == 0)
 		error_directory(ms);
-	if(ft_strncmp(ms->data.token_cur->value, "!", 1) == 0)
+	if (ft_strncmp(ms->data.token_cur->value, "!", 1) == 0)
 		error_syntax(ms);
-	if(ft_strncmp(ms->data.token_cur->value, ":", 1) == 0)
+	if (ft_strncmp(ms->data.token_cur->value, ":", 1) == 0)
 		ft_minishell_loop(ms);
-	if(ft_strncmp(ms->data.token_cur->value, "|", 1) == 0)
+	if (ft_strncmp(ms->data.token_cur->value, "|", 1) == 0)
 		ft_minishell_loop(ms);
 	return (phind);
 }

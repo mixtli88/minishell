@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/20 23:45:00 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/21 14:52:11 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef enum e_type
 	CMD,
 	PIPE,
 	REDIR,
-	LOGIC,
+	// LOGIC,
 }					t_type;
 
 typedef enum e_redirection
@@ -90,7 +90,6 @@ typedef struct s_data
 
 	char			*full_path;
 	int				flag;
-	
 }					t_data;
 
 typedef struct s_minishell
@@ -118,7 +117,7 @@ char				*read_aditional(t_minishell *ms);
 void				check_quote(t_minishell *ms);
 void				split_input(t_minishell *ms);
 
-int					ft_isaspace(t_minishell *ms);
+int					ft_isaspace_inp(t_minishell *ms);
 int					ft_count_char(char *str, char c);
 int					ft_isquote(t_minishell *ms);
 
@@ -141,7 +140,7 @@ int					ft_is_rdir(t_minishell *ms);
 void				print_cmd(t_minishell *ms);
 int					not_path(t_minishell *ms);
 void				error_directory(t_minishell *ms);
-int 				ft_is_pipe_o_logic(t_minishell *ms);
-
+int					ft_is_pipe(t_minishell *ms);
+void				handle_pipe_input(t_minishell *ms);
 
 #endif // TOKENIZING_H

@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:15:33 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/20 18:51:27 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/21 14:53:15 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	init_data(t_minishell *ms)
 	d->cmd_list = NULL;
 	d->cur_cmd = NULL;
 }
+
 void	init_new_token(t_token **new)
 {
 	t_token	*n;
@@ -41,6 +42,7 @@ void	init_new_token(t_token **new)
 	n->value = NULL;
 	n->type = 0;
 }
+
 void	init_new_cmd(t_cmd **cmd)
 {
 	t_cmd	*new;

@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:35:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/13 19:35:20 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/21 14:52:21 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strlen(s1) == ft_strlen(s2))
+	{
+		while (s1[i] && s1[i] == s2[i])
+			i++;
+		return (s1[i] - s2[i]);
+	}
+	return (1);
+}
+
 // int main(void)
 // {
 //     char str1[10] = "apple";
@@ -45,7 +59,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 // 	printf("\n");
 //     char str3[10] = "apple";
 //     char str4[10] = "app";
-// 	int n2 = 3;	
+// 	int n2 = 3;
 //     int result2 = ft_strncmp(str3, str4, n2);
 // 	printf("%s %s %d", str3, str4, result2);
 
