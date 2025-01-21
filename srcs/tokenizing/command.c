@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 18:06:02 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/19 11:29:35 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/20 20:50:31 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	buil_cmd_list(t_minishell *ms)
 	{
 		if (d->token_cur && d->token_cur->type == CMD)
 			tok_is_cmd(ms);
+		else if (d->token_cur->type == LOGIC)
+			tok_is_pipe(ms);
 		else if (d->token_cur->type == PIPE)
 			tok_is_pipe(ms);
 		else if (d->token_cur->type == REDIR)

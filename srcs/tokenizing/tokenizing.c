@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 19:50:23 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/20 21:53:05 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_type	type_token(char *token)
 		return (REDIR);
 	else if (ft_strncmp(token, "<", 1) == 0)
 		return (REDIR);
+	else if (ft_strncmp(token, "||", 2) == 0)
+		return (LOGIC);
 	else
 		return (CMD);
 }
@@ -66,6 +68,7 @@ void	ft_minishell_loop(t_minishell *ms)
 	d = &ms->data;
 	while (1)
 	{
+		free_data(ms);
 		init_data(ms);
 		d->envp = ms->envp;
 		d->input = readline("minishell$ ");
@@ -75,8 +78,6 @@ void	ft_minishell_loop(t_minishell *ms)
 			add_history(d->input);
 		lexer(ms);
 		// execve()
-		if (d)
-			free_data(ms);
 	}
 }
 
@@ -121,7 +122,6 @@ void	print_cmd(t_minishell *ms)
         else
             printf("    .argv = { NULL },\n");
         printf("    .path = \"%s\",\n", cmd_curr->path ? cmd_curr->path : "NULL");
-        printf("    .evrp = %s,\n", cmd_curr->evrp ? "Non-null" : "NULL");
         const char *redir_str[] = {"NOT", "SINGLE_IN", "SINGLE_OUT", "DOUBLE_IN", "DOUBLE_OUT"};
         printf("    .rdir = %s,\n", redir_str[cmd_curr->rdir]);
         printf("    .fd_rdir = \"%s\",\n", cmd_curr->fd_rdir ? cmd_curr->fd_rdir : "(null)");

@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 20:14:05 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/20 23:45:00 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef enum e_type
 	CMD,
 	PIPE,
 	REDIR,
+	LOGIC,
 }					t_type;
 
 typedef enum e_redirection
@@ -34,6 +35,12 @@ typedef enum e_redirection
 	DOUBLE_IN,
 	DOUBLE_OUT,
 }					t_redirection;
+typedef enum e_logic
+{
+	NO,
+	OR,
+	AND,
+}			t_logic;
 
 /* ***************************   TOKENIZING   ***************************** */
 
@@ -50,10 +57,9 @@ typedef struct s_cmd
 {
 	char			**argv;
 	char			*path;
-	char			**evrp;
 	t_redirection	rdir;
 	char			*fd_rdir;
-	
+	t_logic			op_logic;
 	struct s_cmd	*next;
 
 }					t_cmd;
@@ -82,9 +88,9 @@ typedef struct s_data
 	t_cmd			*cmd_list;
 	t_cmd			*cur_cmd;
 
-	char			*path_w_slash;
 	char			*full_path;
-
+	int				flag;
+	
 }					t_data;
 
 typedef struct s_minishell
@@ -132,7 +138,10 @@ int					ft_char_is_dolar(char i);
 void				ft_is_var(t_minishell *ms);
 int					ft_is_rdir(t_minishell *ms);
 
-void	print_cmd(t_minishell *ms);
-int not_path(t_minishell *ms);
+void				print_cmd(t_minishell *ms);
+int					not_path(t_minishell *ms);
+void				error_directory(t_minishell *ms);
+int 				ft_is_pipe_o_logic(t_minishell *ms);
+
 
 #endif // TOKENIZING_H

@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:15:33 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/19 17:09:15 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/20 18:51:27 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	init_data(t_minishell *ms)
 	d->quote = 0;
 	d->new_readline = NULL;
 	d->new_inp = NULL;
-	d->path_w_slash = NULL;
 	d->full_path = NULL;
 	d->var = NULL;
 	d->envp = NULL;
@@ -49,7 +48,6 @@ void	init_new_cmd(t_cmd **cmd)
 	new = *cmd;
 	new->argv = NULL;
 	new->path = NULL;
-	new->evrp = NULL;
 	new->rdir = 0;
 	new->fd_rdir = NULL;
 	new->next = NULL;

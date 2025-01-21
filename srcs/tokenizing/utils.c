@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:00:16 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/18 14:33:30 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/20 23:47:49 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int ft_count_char(char *str, char c)
 	int count;
 
 	count = 0;
+	if(!str)
+		return(count);
 	while (*str != '\0')
 	{
         if (*str == c) 
@@ -56,6 +58,7 @@ int ft_isaspace(t_minishell *ms )
 		{
 			d->buff[d->buf_idx]='\0';
 			creat_token(ms);
+			d->buf_idx = 0;
 		}
 		if(!d->input[d->i])
 			break;
@@ -64,6 +67,46 @@ int ft_isaspace(t_minishell *ms )
 	return(found);
 }
 
+int ft_is_pipe_o_logic(t_minishell *ms)
+{
+	t_data *d;
+	int found;
+	char *tem;
+	int j;
+
+	j = -1;
+	d = &ms->data;
+	found = 0;	
+	while(d->input[d->i] == '|')
+	{
+		found = 1;
+		if(d->buf_idx == 0)
+		{
+			d->buff[d->buf_idx++] = d->input[d->i++];
+			if (d->input[d->i] == d->input[d->i - 1])
+				d->buff[d->buf_idx++] = d->input[d->i++];
+		}
+		tem = d->input + d->i;	
+		while(tem[++j] == ' ' || !tem[++j] )
+		{
+			if (tem[j] == '\0')
+			{
+				d->flag = 1;
+				d->new_inp = read_aditional(ms);
+				d->input = ft_strcat(&d->input, &d->new_inp);
+				free(d->new_inp);
+				d->new_inp = NULL;
+				
+			}
+			if (!tem[j])
+				break;
+		}
+		d->buff[d->buf_idx]='\0';
+		creat_token(ms);
+		break;		
+	}
+	return(found);
+}
 int ft_isquote(t_minishell *ms)
 {
 	t_data *d;
@@ -133,6 +176,8 @@ int ft_is_rdir(t_minishell *ms)
 		if(d->buf_idx == 0)
 		{
 			d->buff[d->buf_idx++] = d->input[d->i++];
+			if (d->input[d->i] == d->input[d->i - 1])
+				d->buff[d->buf_idx++] = d->input[d->i++];	
 			if (d->input[d->i] == d->input[d->i - 1])
 				d->buff[d->buf_idx++] = d->input[d->i++];	
 		}
