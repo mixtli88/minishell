@@ -6,13 +6,14 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 13:49:14 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/21 17:10:01 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZING_H
 # define TOKENIZING_H
 
+# include <unistd.h>
 # include "../libft/libft.h"
 # include "readline/history.h"
 # include "readline/readline.h"
@@ -23,6 +24,7 @@ typedef enum e_type
 	CMD,
 	PIPE,
 	REDIR,
+	// LOGIC,
 }					t_type;
 
 typedef enum e_redirection
@@ -33,6 +35,12 @@ typedef enum e_redirection
 	DOUBLE_IN,
 	DOUBLE_OUT,
 }					t_redirection;
+typedef enum e_logic
+{
+	NO,
+	OR,
+	AND,
+}			t_logic;
 
 /* ***************************   TOKENIZING   ***************************** */
 
@@ -49,13 +57,10 @@ typedef struct s_cmd
 {
 	char			**argv;
 	char			*path;
-	char			**evrp;
 	t_redirection	rdir;
 	char			*fd_rdir;
-	char			*limiter;
-
+	t_logic			op_logic;
 	struct s_cmd	*next;
-
 }					t_cmd;
 
 typedef struct s_data
@@ -82,9 +87,8 @@ typedef struct s_data
 	t_cmd			*cmd_list;
 	t_cmd			*cur_cmd;
 
-	char			*path_w_slash;
 	char			*full_path;
-
+	int				flag;
 }					t_data;
 
 typedef struct s_minishell
@@ -112,7 +116,7 @@ char				*read_aditional(t_minishell *ms);
 void				check_quote(t_minishell *ms);
 void				split_input(t_minishell *ms);
 
-int					ft_isaspace(t_minishell *ms);
+int					ft_isaspace_inp(t_minishell *ms);
 int					ft_count_char(char *str, char c);
 int					ft_isquote(t_minishell *ms);
 
@@ -131,5 +135,11 @@ void				find_path(t_minishell *ms);
 int					ft_char_is_dolar(char i);
 void				ft_is_var(t_minishell *ms);
 int					ft_is_rdir(t_minishell *ms);
+
+void				print_cmd(t_minishell *ms);
+int					not_path(t_minishell *ms);
+void				error_directory(t_minishell *ms);
+int					ft_is_pipe(t_minishell *ms);
+void				handle_pipe_input(t_minishell *ms);
 
 #endif // TOKENIZING_H

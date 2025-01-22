@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:50:37 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/19 11:24:17 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/21 18:59:13 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	tok_is_cmd(t_minishell *ms)
 		d->cur_cmd = creat_cmd(ms);
 		free(d->full_path);
 		d->full_path = NULL;
-		find_path(ms);
+		// find_path(ms);
 		while (tok_tem->next && tok_tem->next->type == CMD)
 		{
 			d->arg_c++;
@@ -38,10 +38,23 @@ void	tok_is_cmd(t_minishell *ms)
 		d->cur_cmd->argv = (char **)malloc(sizeof(char *) * (d->arg_c + 1));
 		d->cur_cmd->argv[d->arg_c] = NULL;
 	}
-	d->cur_cmd->argv[d->i] = ft_strdup(d->token_cur->value);
+	d->cur_cmd->argv[d->i++] = ft_strdup(d->token_cur->value);
 }
 
 void	tok_is_pipe(t_minishell *ms)
+{
+	t_data	*d;
+
+	d = &ms->data;
+	if (!d->token_cur->next || !d->cur_cmd)
+		error_syntax(ms);
+	else if (d->token_cur->next->type != CMD)
+		error_syntax(ms);
+	else
+		d->cur_cmd = NULL;
+}
+
+void	tok_is_logic(t_minishell *ms)
 {
 	t_data	*d;
 
@@ -63,6 +76,10 @@ void	tok_is_redi(t_minishell *ms)
 	d = &ms->data;
 	if (!d->token_cur->next || d->token_cur->next->type != CMD)
 		error_syntax(ms);
+	if (!d->cur_cmd)
+	{
+		d->cur_cmd = creat_cmd(ms);
+	}
 	if (ft_strncmp(d->token_cur->value, "<", 1) == 0)
 		d->cur_cmd->rdir = SINGLE_IN;
 	else if (ft_strncmp(d->token_cur->value, ">", 1) == 0)

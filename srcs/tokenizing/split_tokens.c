@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:33:19 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/19 11:29:47 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/21 14:53:37 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,20 @@
 char	*read_aditional(t_minishell *ms)
 {
 	t_data	*d;
+	int		i;
+	char	*n_l;
 
+	i = 0;
+	n_l = ft_strdup("\n");
 	d = &ms->data;
 	while (1)
 	{
+		(d->new_readline) = NULL;
 		d->new_readline = readline(">");
 		if (!d->new_readline)
 			error_quote(ms);
+		d->new_readline = ft_strcat(&n_l, &d->new_readline);
 		d->new_inp = ft_strcat(&d->new_inp, &d->new_readline);
-		(d->new_readline) = NULL;
 		d->count_quote = ft_count_char(d->new_inp, d->quote);
 		if (d->count_quote % 2 != 0)
 			break ;
@@ -40,7 +45,7 @@ void	check_quote(t_minishell *ms)
 	{
 		if (ft_char_is_dolar(d->input[d->i]))
 			ft_is_var(ms);
-		if (d->input[d->i])
+		else if (d->input[d->i])
 			d->buff[d->buf_idx++] = d->input[d->i++];
 		if (!d->input[d->i] && d->count_quote != 0)
 		{
@@ -65,7 +70,7 @@ void	split_input(t_minishell *ms)
 	d->i = 0;
 	while (d->input[d->i] || d->buf_idx > 0)
 	{
-		if (ft_isaspace(ms) || ft_is_rdir(ms))
+		if (ft_isaspace_inp(ms) || ft_is_rdir(ms) || ft_is_pipe(ms))
 			d->buf_idx = 0;
 		else if (ft_isquote(ms))
 			check_quote(ms);

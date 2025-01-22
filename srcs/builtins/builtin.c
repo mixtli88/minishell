@@ -6,28 +6,25 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:04:56 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 13:53:10 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/21 20:01:59 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	builtin(t_minishell *ms)
+bool	builtin(t_exe *exe)
 {
-	(void) ms;
-	// ft_pwd();
-	
-	char *argv[] = {"c=", "ss1=2", NULL};
-	ft_export(argv, &(ms->envp));
-	// char *argv2[] = {"s=5", NULL};
-	// ft_export(argv2, &(ms->envp));
-	ft_env(ms->envp);
-
-	// ft_echo(argv);
-	// ft_cd(argv, ms->envp);
-
-	// char *argv2[] = {"/bin/ls", NULL};
-	// char *path = "/bin/ls";
-	// execve(path, argv2, ms->envp);
+	if (ft_strncmp(exe->name, ENV, 3) == 0)
+		ft_env(exe->argv, exe->envp);
+	else if (ft_strncmp(exe->name, PWD, 3) == 0)
+		ft_pwd(exe->argv, exe->envp);
+	else if (ft_strncmp(exe->name, EXIT, 4) == 0)
+		ft_exit(exe->argv);
+	else if (ft_strncmp(exe->name, ECHO, 4) == 0)
+		ft_echo(exe->argv);
+	// else if (ft_strncmp(exe->name, EXPORT, 6) == 0)
+	// 	ft_export(exe->argv, &(exe->envp));
+	// else if (ft_strncmp(exe->name, CD, 2) == 0)
+	// 	ft_cd(exe->argv, &(exe->envp));
 	return (true);
 }

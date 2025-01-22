@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 14:09:47 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/21 19:31:18 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ void	creat_token(t_minishell *ms)
 	}
 }
 
-// void	lexer(t_minishell *ms)
-// {
-// 	t_token	*tok_curr;
-// 	t_data	*d;
+void	lexer(t_minishell *ms)
+{
+	t_data	*d;
 
-// 	d = &ms->data;
-// 	split_input(ms);
-// 	buil_cmd_list(ms);
-// 	printf("\n");
-// }
+	d = &ms->data;
+	split_input(ms);
+	buil_cmd_list(ms);
+	// print_cmd(ms);
+	// printf("\n");
+}
 
 void	ft_minishell_loop(t_minishell *ms)
 {
@@ -66,65 +66,67 @@ void	ft_minishell_loop(t_minishell *ms)
 	d = &ms->data;
 	while (1)
 	{
+		free_data(ms);
 		init_data(ms);
 		d->envp = ms->envp;
 		d->input = readline("minishell$ ");
 		if (!d->input)
 			break ;
-		if (strcmp(d->input, "exit") == 0)
-		{
-			printf("exit\n");
-			free_data(ms);
-			exit(1);
-		}
 		if (d->input)
 			add_history(d->input);
 		lexer(ms);
-		if (d)
-			free_data(ms);
+		exec(ms);
 	}
 }
 
-void	lexer(t_minishell *ms)
+void	print_cmd(t_minishell *ms)
 {
-	t_token	*tok_curr;
-	t_data	*d;
-	t_cmd	*cmd_curr;
-	int		i;
-	int		j;
+	t_token		*tok_curr;
+	t_cmd		*cmd_curr;
+	t_data		*d;
+	
+	int			i;
+	int			j;
 
 	d = &ms->data;
-	i = 0;
-	split_input(ms);
-	buil_cmd_list(ms);
 	cmd_curr = d->cmd_list;
 	tok_curr = d->tok_list;
-	printf("\n");
 	printf("\n");
 	while (tok_curr)
 	{
 		printf("%s ", tok_curr->value);
 		tok_curr = tok_curr->next;
 	}
-	printf("\n\n***** list.token **** \n");
+	printf("\n");
+	printf("\n\n***** list.token **** \n\n");
 	j = 0;
 	while (cmd_curr)
 	{
 		i = 0;
-		printf("\ncmd [%d] \narg -> = {", j);
-		while (cmd_curr->argv[i])
+		printf("t_cmd *node [%d] = {\n", j);
+		if (cmd_curr->argv)
 		{
-			printf(" \"%s\"", cmd_curr->argv[i]);
-			if (cmd_curr->argv[i + 1])
-				printf(",");
-			else
-				printf(" }\n");
-			i++;
+			printf("    .argv = {");
+			while (cmd_curr->argv[i])
+			{
+				printf(" \"%s\"", cmd_curr->argv[i]);
+				if (cmd_curr->argv[i + 1])
+					printf(", ");
+				else
+					printf(" },\n");
+				i++;
+			}
 		}
-		printf("fd = { \"%s\" }\n", cmd_curr->fd_rdir);
-		printf("redi = {%d}\n", cmd_curr->rdir);
+		else
+			printf("    .argv = { NULL },\n");
+		printf("    .path = \"%s\",\n", cmd_curr->path);
+		const char	*redir_str[] = {"NOT", "SINGLE_IN", "SINGLE_OUT", "DOUBLE_IN",
+		"DOUBLE_OUT"};
+		printf("    .rdir = %s,\n", redir_str[cmd_curr->rdir]);
+		printf("    .fd_rdir = \"%s\",\n", cmd_curr->fd_rdir);
+		printf("    .next = %s\n", cmd_curr->next ? "Non-null" : "NULL");
+		printf("\n");
 		cmd_curr = cmd_curr->next;
 		j++;
 	}
-	// printf("\n");
 }

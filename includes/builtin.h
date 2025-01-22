@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/19 13:50:20 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/21 19:55:58 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,17 @@
 # define BUILTIN_H
 
 # include "tokenizing.h"
+# include "exec.h"
 
 # define	EQUAL 		"="
 # define	PLAS_EQUAL	"+="
+
+# define	ENV			"env"
+# define	PWD			"pwd"
+# define	EXIT		"exit"
+# define	ECHO		"echo"
+# define	EXPORT		"export"
+# define	CD			"cd"
 
 typedef struct s_var
 {
@@ -25,29 +33,33 @@ typedef struct s_var
 	char	*operator;
 }	t_var;
 
-/* ****************************   BUILTINS   ****************************** */
+/* ******************************   UTILS   ******************************* */
+// error.c
+void	builtin_error(char *builtin, char *err_arg, char *err_msg);
 // envp.c
 char	**copy_envp(char **envp, char *env);
 void	free_envp(char ***envp);
-// builtin.c
-bool	builtin(t_minishell *ms);
-// env.c
-bool	ft_env(char **envp);
-// pwd.c
-bool	ft_pwd(void);
-// exit.c
-bool	ft_exit(char *argv[]);
-// echo.c
-bool	ft_echo(char *argv[]);
-// cd.c
-bool	ft_cd(char *argv[], char *envp[]);
-// export.c
-void	ft_export(char **argv, char ***envp);
 // var.c
 void	free_var(t_var *var);
 bool	set_var(char *format, char *operator, t_var *var);
 bool	find_var(char *format, t_var *var);
-// error.c
-void	builtin_error(char *builtin, char *err_arg, char *err_msg);
+
+/* *****************************   BUILTINS   ***************************** */
+// builtin.c
+bool	builtin(t_exe *exe);
+// env.c
+bool	ft_env(char **argv, char **envp);
+// pwd.c
+char	*ft_getenv(char *str, char **envp);
+bool	ft_pwd(char **argv, char **envp);
+// exit.c
+bool	ft_exit(char **argv);
+// echo.c
+bool	ft_echo(char **argv);
+// export.c
+void	export_var(t_var new_var, char ***envp);
+void	ft_export(char **argv, char ***envp);
+// cd.c
+bool	ft_cd(char **argv, char ***envp);
 
 #endif //BUILTIN_H
