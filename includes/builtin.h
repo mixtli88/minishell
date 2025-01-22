@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/20 19:59:11 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/21 19:55:58 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,17 @@
 # define BUILTIN_H
 
 # include "tokenizing.h"
+# include "exec.h"
 
 # define	EQUAL 		"="
 # define	PLAS_EQUAL	"+="
+
+# define	ENV			"env"
+# define	PWD			"pwd"
+# define	EXIT		"exit"
+# define	ECHO		"echo"
+# define	EXPORT		"export"
+# define	CD			"cd"
 
 typedef struct s_var
 {
@@ -38,7 +46,7 @@ bool	find_var(char *format, t_var *var);
 
 /* *****************************   BUILTINS   ***************************** */
 // builtin.c
-bool	builtin(t_minishell *ms);
+bool	builtin(t_exe *exe);
 // env.c
 bool	ft_env(char **argv, char **envp);
 // pwd.c

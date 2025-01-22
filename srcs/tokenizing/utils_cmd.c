@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:50:37 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/21 17:16:15 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/21 18:59:13 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	tok_is_cmd(t_minishell *ms)
 		d->cur_cmd = creat_cmd(ms);
 		free(d->full_path);
 		d->full_path = NULL;
-		find_path(ms);
+		// find_path(ms);
 		while (tok_tem->next && tok_tem->next->type == CMD)
 		{
 			d->arg_c++;

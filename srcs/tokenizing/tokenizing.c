@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/21 17:15:43 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/21 19:31:18 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,78 +55,78 @@ void	lexer(t_minishell *ms)
 	d = &ms->data;
 	split_input(ms);
 	buil_cmd_list(ms);
-	print_cmd(ms);
-	printf("\n");
+	// print_cmd(ms);
+	// printf("\n");
 }
 
-// void	ft_minishell_loop(t_minishell *ms)
-// {
-// 	t_data	*d;
+void	ft_minishell_loop(t_minishell *ms)
+{
+	t_data	*d;
 
-// 	d = &ms->data;
-// 	while (1)
-// 	{
-// 		free_data(ms);
-// 		init_data(ms);
-// 		d->envp = ms->envp;
-// 		d->input = readline("minishell$ ");
-// 		if (!d->input)
-// 			break ;
-// 		if (d->input)
-// 			add_history(d->input);
-// 		lexer(ms);
-// 		// execve()
-// 	}
-// }
+	d = &ms->data;
+	while (1)
+	{
+		free_data(ms);
+		init_data(ms);
+		d->envp = ms->envp;
+		d->input = readline("minishell$ ");
+		if (!d->input)
+			break ;
+		if (d->input)
+			add_history(d->input);
+		lexer(ms);
+		exec(ms);
+	}
+}
 
-// void	print_cmd(t_minishell *ms)
-// {
-// 	t_token		*tok_curr;
-// 	t_cmd		*cmd_curr;
-// 	t_data		*d;
-// 	const char	**redir_str;
-// 	int			i;
-// 	int			j;
+void	print_cmd(t_minishell *ms)
+{
+	t_token		*tok_curr;
+	t_cmd		*cmd_curr;
+	t_data		*d;
+	
+	int			i;
+	int			j;
 
-// 	d = &ms->data;
-// 	cmd_curr = d->cmd_list;
-// 	tok_curr = d->tok_list;
-// 	printf("\n");
-// 	while (tok_curr)
-// 	{
-// 		printf("%s ", tok_curr->value);
-// 		tok_curr = tok_curr->next;
-// 	}
-// 	printf("\n");
-// 	printf("\n\n***** list.token **** \n\n");
-// 	j = 0;
-// 	while (cmd_curr)
-// 	{
-// 		i = 0;
-// 		printf("t_cmd *node [%d] = {\n", j);
-// 		if (cmd_curr->argv)
-// 		{
-// 			printf("    .argv = {");
-// 			while (cmd_curr->argv[i])
-// 			{
-// 				printf(" \"%s\"", cmd_curr->argv[i]);
-// 				if (cmd_curr->argv[i + 1])
-// 					printf(", ");
-// 				else
-// 					printf(" },\n");
-// 				i++;
-// 			}
-// 		}
-// 		else
-// 			printf("    .argv = { NULL },\n");
-// 		printf("    .path = \"%s\",\n", cmd_curr->path);
-// 		redir_str = {"NOT", "SINGLE_IN", "SINGLE_OUT", "DOUBLE_IN",
-		// "DOUBLE_OUT"};
-// 		printf("    .rdir = %s,\n", redir_str[cmd_curr->rdir]);
-// 		printf("    .fd_rdir = \"%s\",\n", cmd_curr->fd_rdir);
-// 		printf("    .next = %s\n", cmd_curr->next);
-// 		printf("\n");
-// 		cmd_curr = cmd_curr->next;
-// 		j++;
-// 	}
-// }
+	d = &ms->data;
+	cmd_curr = d->cmd_list;
+	tok_curr = d->tok_list;
+	printf("\n");
+	while (tok_curr)
+	{
+		printf("%s ", tok_curr->value);
+		tok_curr = tok_curr->next;
+	}
+	printf("\n");
+	printf("\n\n***** list.token **** \n\n");
+	j = 0;
+	while (cmd_curr)
+	{
+		i = 0;
+		printf("t_cmd *node [%d] = {\n", j);
+		if (cmd_curr->argv)
+		{
+			printf("    .argv = {");
+			while (cmd_curr->argv[i])
+			{
+				printf(" \"%s\"", cmd_curr->argv[i]);
+				if (cmd_curr->argv[i + 1])
+					printf(", ");
+				else
+					printf(" },\n");
+				i++;
+			}
+		}
+		else
+			printf("    .argv = { NULL },\n");
+		printf("    .path = \"%s\",\n", cmd_curr->path);
+		const char	*redir_str[] = {"NOT", "SINGLE_IN", "SINGLE_OUT", "DOUBLE_IN",
+		"DOUBLE_OUT"};
+		printf("    .rdir = %s,\n", redir_str[cmd_curr->rdir]);
+		printf("    .fd_rdir = \"%s\",\n", cmd_curr->fd_rdir);
+		printf("    .next = %s\n", cmd_curr->next ? "Non-null" : "NULL");
+		printf("\n");
+		cmd_curr = cmd_curr->next;
+		j++;
+	}
+}
