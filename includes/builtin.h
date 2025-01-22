@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/21 19:55:58 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/22 10:32:56 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "tokenizing.h"
 # include "exec.h"
+
 
 # define	EQUAL 		"="
 # define	PLAS_EQUAL	"+="
@@ -46,7 +47,8 @@ bool	find_var(char *format, t_var *var);
 
 /* *****************************   BUILTINS   ***************************** */
 // builtin.c
-bool	builtin(t_exe *exe);
+// bool	builtin(t_exe *exe);						//fan
+bool	builtin(t_minishell *ms);		//mike
 // env.c
 bool	ft_env(char **argv, char **envp);
 // pwd.c
@@ -61,5 +63,7 @@ void	export_var(t_var new_var, char ***envp);
 void	ft_export(char **argv, char ***envp);
 // cd.c
 bool	ft_cd(char **argv, char ***envp);
+
+char	*ft_strtolower(char *str);
 
 #endif //BUILTIN_H

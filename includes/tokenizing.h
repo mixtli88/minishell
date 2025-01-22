@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/21 17:10:01 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/22 13:38:24 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,19 @@ typedef struct s_cmd
 	char			*path;
 	t_redirection	rdir;
 	char			*fd_rdir;
-	t_logic			op_logic;
 	struct s_cmd	*next;
 }					t_cmd;
+
+
+typedef struct s_exe
+{
+	int		infd;
+	int		outfd;
+	char	*name;	
+	char	*path;
+	char	**argv;
+	char	**envp;	
+}		t_exe;
 
 typedef struct s_data
 {
@@ -91,9 +101,11 @@ typedef struct s_data
 	int				flag;
 }					t_data;
 
+
 typedef struct s_minishell
 {
 	t_data			data;
+	t_exe			exe;
 	char			**envp;
 }					t_minishell;
 
@@ -106,7 +118,6 @@ void				free_token_list(t_token *token_list);
 
 void				free_data(t_minishell *ms);
 void				error_syntax(t_minishell *ms);
-void				error_path_cmd(t_minishell *ms);
 void				error_quote(t_minishell *ms);
 
 void				creat_token(t_minishell *ms);
@@ -130,7 +141,7 @@ void				tok_is_pipe(t_minishell *ms);
 void				init_data(t_minishell *ms);
 void				init_new_token(t_token **new);
 void				init_new_cmd(t_cmd **cmd);
-void				find_path(t_minishell *ms);
+// void				find_path(t_minishell *ms);
 
 int					ft_char_is_dolar(char i);
 void				ft_is_var(t_minishell *ms);
@@ -141,5 +152,10 @@ int					not_path(t_minishell *ms);
 void				error_directory(t_minishell *ms);
 int					ft_is_pipe(t_minishell *ms);
 void				handle_pipe_input(t_minishell *ms);
+
+void				error_path_cmd(t_cmd *cmd);
+
+
+
 
 #endif // TOKENIZING_H

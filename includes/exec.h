@@ -4,18 +4,18 @@
 
 # include "tokenizing.h"
 
-typedef struct s_exe
-{
-	int		infd;
-	int		outfd;
-	char	*name;	
-	char	*path;
-	char	**argv;
-	char	**envp;	
-}	t_exe;
 
 /* ******************************   EXEC   ******************************** */
 // exex.c
 bool	exec(t_minishell	*ms);
+
+
+void 	ini_exe(t_minishell *ms);
+int 	do_execve(t_minishell *ms, t_cmd *cmd);
+void 	free_exe(t_minishell *ms);
+int	find_path_exe(t_minishell *ms);
+void fork_execve(t_minishell *ms, t_cmd *cmd);
+// void fork_execve(t_minishell *ms, t_cmd *cmd, int pipesfd);
+
 
 #endif //EXEC_H

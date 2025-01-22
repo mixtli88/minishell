@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 00:10:25 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/21 14:51:41 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/21 21:39:56 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_ilist
 # define INT_MIN_STR "-2147483648"
 
 int					ft_atoi(const char *str);
-void				ft_bzero(void *s, size_t n);
+// void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t count, size_t size);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);

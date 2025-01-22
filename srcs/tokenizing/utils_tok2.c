@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:00:58 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/21 15:05:39 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/22 08:54:50 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ void	handle_pipe_input(t_minishell *ms)
 			free(d->new_inp);
 			d->new_inp = NULL;
 			tem = d->input + d->i;
+			j = -1;
 		}
-		j = -1;
-		while (!ft_isspace(tem[++j]) || tem[j])
-			return ;
 	}
 }
 

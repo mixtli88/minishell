@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/21 14:53:01 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/22 15:50:57 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,10 @@ void	error_syntax(t_minishell *ms)
 	ft_minishell_loop(ms);
 }
 
-void	error_path_cmd(t_minishell *ms)
+void	error_path_cmd(t_cmd *cmd)
 {
-	t_data	*d;
-
-	d = &ms->data;
-	printf("minishell: %s: command not found\n", d->token_cur->value);
-	ft_minishell_loop(ms);
+	printf("minishell: %s: command not found\n", cmd->argv[0]);
+	exit(EXIT_FAILURE);
 }
 
 void	error_quote(t_minishell *ms)
@@ -48,6 +45,6 @@ void	error_quote(t_minishell *ms)
 
 void	error_directory(t_minishell *ms)
 {
-	printf("minishell: %s: Is a directory\n", ms->data.token_cur->value);
+	printf("minishell: %s: Is a directory\n", ms->exe.name);
 	ft_minishell_loop(ms);
 }

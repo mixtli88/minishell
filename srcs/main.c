@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:36:57 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/21 19:33:22 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/21 23:48:14 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void)argc;
 	(void)argv;
-	ms.envp = envp;
+	ms.envp =envp;
 	ft_minishell_loop(&ms);
 	return (0);
 }
