@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 18:45:51 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 00:49:19 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 15:19:46 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 static int	execute_exe(t_exe *exe, t_fd *fd)
 {
-	(void) fd;
-	// if (dup2(exe->infd, STDIN_FILENO) == -1)
-	// 	return (false);
-	// if (dup2(exe->outfd, STDOUT_FILENO) == -1)
-	// 	return (false);
-	// close_fd(fd);
+	if (dup2(exe->infd, STDIN_FILENO) == -1)
+		return (false);
+	if (dup2(exe->outfd, STDOUT_FILENO) == -1)
+		return (false);
+	close_fd(fd);
 	if (execve(exe->path, exe->argv, *(exe->envp)) == -1)
 	{
 		ft_putstr_fd("pipex: ", STDERR_FILENO);
@@ -32,9 +31,6 @@ static int	execute_exe(t_exe *exe, t_fd *fd)
 
 static int	execute_cmd(t_fd *fd, t_cmd	*cmd, char ***envp)
 {
-	(void) fd;
-	(void) cmd;
-	(void) envp;
 	t_exe	*exe;
 
 	if (!prepare_t_exe(fd, cmd, envp, &exe))
@@ -53,7 +49,6 @@ static int	execute_cmd(t_fd *fd, t_cmd	*cmd, char ***envp)
 
 bool	fork_and_execute(t_fd *fd, t_minishell	*ms)
 {
-	(void) fd;
 	int	id;
 	int	status;
 	t_cmd	*cmd;
@@ -74,7 +69,7 @@ bool	fork_and_execute(t_fd *fd, t_minishell	*ms)
 		waitpid(id, &status, WNOHANG);
 		cmd = cmd->next;
 	}
-	// close_fd(fd);
+	close_fd(fd);
 	return (true);
 }
 

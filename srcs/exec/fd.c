@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:21:53 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 23:00:19 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 15:18:33 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,29 @@
 
 #define PERMISSIONS 0664
 
+static void	set_cmd_num(t_fd **fd, t_minishell	ms)
+{
+	t_cmd	*cmd;
+
+	(*fd)->cmd_num = 0;
+	cmd = ms.data.cmd_list;
+	while (cmd)
+	{
+		(*fd)->cmd_num++;
+		cmd = cmd->next;
+	}
+}
+
 // int pipe[arg->pipe_num][2];
 // (*fd)->pipe = pipe;
 static bool	create_t_fd(t_fd **fd, t_minishell	ms)
 {
 	*fd = (t_fd *)ft_calloc(1, sizeof(t_fd));
 	if (!*fd)
-		return (false);
-	if (ms.cmd_num > 1)
-		(*fd)->pipe_num = ms.cmd_num - 1;
+		return (false);	
+	set_cmd_num(fd, ms);
+	if ((*fd)->cmd_num > 1)
+		(*fd)->pipe_num = (*fd)->cmd_num - 1;
 	else
 		(*fd)->pipe_num = 0;
 	(*fd)->pipe = (int (*)[2])ft_calloc((*fd)->pipe_num, sizeof(int [2]));
@@ -47,8 +61,8 @@ void	close_fd(t_fd *fd)
 	int	i;
 
 	// if (fd->infile != INFILE_NOT_EXIST && fd->infile != FILE_OPEN_ERROR)
-	close(fd->infile);
-	close(fd->outfile);
+	// close(fd->infile);
+	// close(fd->outfile);
 	i = 0;
 	while (i < fd->pipe_num)
 	{

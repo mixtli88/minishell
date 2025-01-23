@@ -14,6 +14,7 @@ typedef struct s_fd
 	// int	infile_status;
 	// int	outfile_status;
 	int	pipe_num;
+	int	cmd_num;
 	int	(*pipe)[2];
 }	t_fd;
 

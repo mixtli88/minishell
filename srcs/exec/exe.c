@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:06:19 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 00:48:43 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 15:30:29 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,37 @@ static char *find_path_exe(char *name, char ***envp)
 	return (NULL);
 }
 
+// execute first cmd
+// execute last cmd
+// execute mid cmd
+static void	get_fd_exe(t_fd *fd, t_cmd	*cmd,  t_exe **exe)
+{
+	if (cmd->id == 1)
+	{
+		(*exe)->infd = fd->infile;
+		(*exe)->outfd = fd->pipe[0][WRITE_PIPE_IDX];
+	}
+	else if (cmd->id == fd->cmd_num)
+	{
+		(*exe)->infd = fd->pipe[fd->pipe_num - 1][READ_PIPE_IDX];
+		(*exe)->outfd = fd->outfile;
+	}
+	else
+	{
+		(*exe)->infd = fd->pipe[cmd->id - 1][READ_PIPE_IDX];
+		(*exe)->outfd = fd->pipe[cmd->id][WRITE_PIPE_IDX];
+	}
+}
+
 bool	prepare_t_exe(t_fd *fd, t_cmd	*cmd,  char ***envp, t_exe **exe)
 {
-	(void) fd;
 	if (!create_t_exe(exe))
 		return (false);
 	(*exe)->name = cmd->argv[0];
 	(*exe)->path = find_path_exe((*exe)->name, envp);
 	(*exe)->argv = cmd->argv;
 	(*exe)->envp = envp;
+	get_fd_exe(fd, cmd, exe);
 	return (true);
 }
 
@@ -61,28 +83,6 @@ void	free_t_exe(t_exe **exe)
 	free (*exe);
 	*exe = NULL;
 }
-
-// execute first cmd
-// execute last cmd
-// execute mid cmd
-// static void	get_exe_fd(int cur_cmd_idx, t_exe *exe, t_fd *fd, t_arg *arg)
-// {
-// 	if (cur_cmd_idx == 0)
-// 	{
-// 		exe->infd = fd->infile;
-// 		exe->outfd = fd->pipe[INI_PIPE_IDX + arg->here_doc][WRITE_PIPE_IDX];
-// 	}
-// 	else if (cur_cmd_idx == arg->cmd_num - 1)
-// 	{
-// 		exe->infd = fd->pipe[cur_cmd_idx + arg->here_doc - 1][READ_PIPE_IDX];
-// 		exe->outfd = fd->outfile;
-// 	}
-// 	else
-// 	{
-// 		exe->infd = fd->pipe[cur_cmd_idx + arg->here_doc - 1][READ_PIPE_IDX];
-// 		exe->outfd = fd->pipe[cur_cmd_idx + arg->here_doc][WRITE_PIPE_IDX];
-// 	}
-// }
 
 // static char	**get_exe_argv(char *arg)
 // {

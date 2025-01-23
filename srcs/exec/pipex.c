@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:53:25 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 00:32:17 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 15:15:30 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,10 @@ static bool	pipe_fd(t_fd *fd)
 	return (true);
 }
 
-static void	set_cmd_num(t_minishell	*ms)
-{
-	t_cmd	*cmd;
-
-	ms->cmd_num = 0;
-	cmd = ms->data.cmd_list;
-	while (cmd)
-	{
-		ms->cmd_num++;
-		cmd = cmd->next;
-	}
-}
-
 bool	pipex(t_minishell	*ms)
 {
 	t_fd	*fd;
 
-	set_cmd_num(ms);
 	if (!prepare_t_fd(&fd, *ms))
 	{
 		free_t_fd(&fd);

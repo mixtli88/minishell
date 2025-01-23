@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 23:41:01 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/23 16:12:58 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 16:19:14 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 // 	t_exe	*exe;
 
 // 	exe = &ms->exe;
-// 	// pid = fork();
-// 	// if(pid == 0)
-// 	// {
-// 		if(do_execve(ms, cmd))
+// 	pid = fork();
+// 	if(pid == 0)
+// 	{
+		// if(do_execve(ms, cmd))
 // 		{
 // 			builtin(ms);
 // 			if (exe->name)

@@ -6,18 +6,18 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:04:56 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 16:14:17 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 16:18:23 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 
-bool	builtin(t_minishell *ms)
+bool	builtin(t_exe	*exe)
 {
-	t_exe	*exe;
+	// t_exe	*exe;
 	
-	exe = &ms->exe;
+	// exe = &ms->exe;
 	if (ft_strncmp(exe->name, ENV, 3) == 0)
 		ft_env(exe->argv, *(exe->envp));
 	else if (ft_strncmp(exe->name, PWD, 3) == 0)
