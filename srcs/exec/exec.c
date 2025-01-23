@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:14:36 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 15:18:24 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/22 21:37:24 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 char	*ft_strtolower(char *str)
 {
@@ -29,24 +28,25 @@ char	*ft_strtolower(char *str)
 }
 
 
-bool	exec(t_minishell	*ms)
-{
-	t_exe	*exe;
-	t_cmd	*cmd;
+// bool	exec(t_minishell	*ms)
+// {
+// 	t_exe	*exe;
+// 	t_cmd	*cmd;
+// 	int i;
+
+// 	exe = &ms->exe;
+// 	cmd = ms->data.cmd_list;
+// 	while (cmd && cmd->argv[0])
+// 	{
+// 		exe->name = cmd->argv[0];
+// 		exe->argv = cmd->argv;
+// 		exe->envp = ms->envp;
+// 		fork_execve(ms, cmd);
+// 		cmd = cmd->next;
+// 	}
 	
-	exe = &ms->exe;
-	cmd = ms->data.cmd_list;
-	while (cmd && cmd->argv[0])
-	{
-		exe->name = cmd->argv[0];
-		exe->argv = cmd->argv;
-		exe->envp = ms->envp;
-		fork_execve(ms, cmd);
-		cmd = cmd->next;
-	}
-	
-	return (true);
-}
+// 	return (true);
+// }
 
 // ************** GESTIION PIPE ********************
 

@@ -16,7 +16,7 @@ NAME = minishell
 
 BUILTINS = envp.c builtin.c env.c pwd.c exit.c echo.c cd.c export.c var.c error.c
 
-EXEC = execve.c exec.c fork.c
+EXEC = exe.c execute.c pipex.c fd.c execve.c exec.c fork.c
 
 TOKENIZING = tokenizing.c error.c utils_tok1.c split_tokens.c command.c \
 	initialization.c utils_cmd.c path.c free.c utils_tok2.c

@@ -3,6 +3,7 @@
 		"minishell.h": "c",
 		"exec.h": "c",
 		"tokenizing.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"complex": "c"
 	}
 }
