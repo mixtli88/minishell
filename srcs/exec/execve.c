@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:32:25 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/22 12:48:25 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/22 19:26:49 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	find_path_exe(t_minishell *ms)
 
 	d = &ms->data;
 	i = -1;
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(ft_getenv("PATH", *(ms->envp)), ':');
 	while (paths[++i])
 	{
 		free(d->full_path);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 23:41:01 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/22 15:50:43 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/22 17:30:19 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void fork_execve(t_minishell *ms, t_cmd *cmd)
 				free(exe->name);
 		}
 		else if( find_path_exe(ms))
-			execve(exe->path, exe->argv, exe->envp);
+			execve(exe->path, exe->argv, *(exe->envp));
 		else	
 			error_path_cmd(cmd);
 		
