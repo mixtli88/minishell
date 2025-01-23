@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/22 15:50:57 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 15:30:50 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	error_quote(t_minishell *ms)
 	ft_minishell_loop(ms);
 }
 
-void	error_directory(t_minishell *ms)
-{
-	printf("minishell: %s: Is a directory\n", ms->exe.name);
-	ft_minishell_loop(ms);
-}
+// void	error_directory(t_minishell *ms)
+// {
+// 	printf("minishell: %s: Is a directory\n", ms->exe.name);
+// 	ft_minishell_loop(ms);
+// }
