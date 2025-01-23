@@ -6,13 +6,13 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 18:06:02 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/21 14:52:42 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 17:27:22 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_cmd	*creat_cmd(t_minishell *ms)
+t_cmd	*creat_nod(t_minishell *ms)
 {
 	t_cmd	*new;
 	t_cmd	*last;
@@ -43,6 +43,8 @@ void	buil_cmd_list(t_minishell *ms)
 	d->token_cur = d->tok_list;
 	while (d->token_cur)
 	{
+		if(find_path(ms))
+			d->cur_cmd = NULL;
 		if (d->token_cur && d->token_cur->type == CMD)
 			tok_is_cmd(ms);
 		else if (d->token_cur->type == PIPE)

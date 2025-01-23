@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:04:56 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 02:09:06 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 13:49:46 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ bool	builtin(t_minishell *ms)
 		ft_echo(exe->argv);
 	else if (ft_strncmp(exe->name, EXPORT, 6) == 0)
 		ft_export(exe->argv, exe->envp);
-	else if (ft_strncmp(exe->name, CD, 2) == 0)
-		ft_cd(exe->argv, exe->envp);
+	// else if (ft_strncmp(exe->name, CD, 2) == 0)
+	// 	ft_cd(exe->argv, exe->envp);
 	return (true);
 }
 

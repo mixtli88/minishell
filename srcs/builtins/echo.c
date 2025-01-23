@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/20 19:34:41 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 15:04:01 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ bool	ft_echo(char **argv)
 		{
 			ft_putstr_fd(argv[i], STDOUT_FILENO);
 			if (argv[i + 1])
+				// printf("%s", argv[i]);
 				ft_putstr_fd(" ", STDOUT_FILENO);
 		}
 		i++;

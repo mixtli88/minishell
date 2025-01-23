@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:14:36 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 15:18:24 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 15:26:00 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,16 @@ bool	exec(t_minishell	*ms)
 		exe->name = cmd->argv[0];
 		exe->argv = cmd->argv;
 		exe->envp = ms->envp;
-		fork_execve(ms, cmd);
+		if(do_execve(ms, cmd))
+		{
+			builtin(ms);
+			if (exe->name)
+				free(exe->name);
+		}
+		else
+		{
+			fork_execve(ms, cmd);	
+		}
 		cmd = cmd->next;
 	}
 	

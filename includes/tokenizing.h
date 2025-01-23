@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 01:54:38 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 17:34:04 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int					ft_count_char(char *str, char c);
 int					ft_isquote(t_minishell *ms);
 
 void				buil_cmd_list(t_minishell *ms);
-t_cmd				*creat_cmd(t_minishell *ms);
+t_cmd				*creat_nod(t_minishell *ms);
 
 void				tok_is_cmd(t_minishell *ms);
 void				tok_is_redi(t_minishell *ms);
@@ -143,7 +143,7 @@ void				tok_is_pipe(t_minishell *ms);
 void				init_data(t_minishell *ms);
 void				init_new_token(t_token **new);
 void				init_new_cmd(t_cmd **cmd);
-// void				find_path(t_minishell *ms);
+int					find_path(t_minishell *ms);
 
 int					ft_char_is_dolar(char i);
 void				ft_is_var(t_minishell *ms);
@@ -157,7 +157,7 @@ void				handle_pipe_input(t_minishell *ms);
 
 void				error_path_cmd(t_cmd *cmd);
 
-
-
+void 		create_cmd(t_minishell *ms);
+void 		char_is_rdir(t_minishell *ms);
 
 #endif // TOKENIZING_H

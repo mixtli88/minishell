@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 02:02:07 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 13:49:32 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	ft_echo(char **argv);
 void	export_var(t_var new_var, char ***envp);
 void	ft_export(char **argv, char ***envp);
 // cd.c
-bool	ft_cd(char **argv, char ***envp);
+// bool	ft_cd(char **argv, char ***envp);
 
 char	*ft_strtolower(char *str);
 

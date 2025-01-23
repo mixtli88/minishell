@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:50:37 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/23 01:58:43 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 17:36:30 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,7 @@ void	tok_is_cmd(t_minishell *ms)
 	d = &ms->data;
 	tok_tem = d->token_cur;
 	if (!d->cur_cmd)
-	{
-		d->count += 1;
-		d->arg_c = 1;
-		d->i = 0;
-		d->cur_cmd = creat_cmd(ms);
-		d->cur_cmd->id = d->count;
-		free(d->full_path);
-		d->full_path = NULL;
-		while (tok_tem->next && tok_tem->next->type == CMD)
-		{
-			d->arg_c++;
-			tok_tem = tok_tem->next;
-		}
-	}
+		create_cmd(ms);
 	if (!d->cur_cmd->argv)
 		d->cur_cmd->argv = (char **)malloc(sizeof(char *) * (d->arg_c + 1));
 	d->cur_cmd->argv[d->arg_c] = NULL;
@@ -76,9 +63,38 @@ void	tok_is_redi(t_minishell *ms)
 	if (!d->token_cur->next || d->token_cur->next->type != CMD)
 		error_syntax(ms);
 	if (!d->cur_cmd)
+		create_cmd(ms);
+}
+
+void create_cmd(t_minishell *ms)
+{
+	t_data	*d;
+	t_token	*tok_tem;
+
+	d = &ms->data;
+	tok_tem = d->token_cur;
+	d->cur_cmd = creat_nod(ms);
+	char_is_rdir(ms);
+	d->count += 1;
+	d->arg_c = 1;
+	d->i = 0;
+	d->cur_cmd->id = d->count;
+	free(d->full_path);
+	d->full_path = NULL;
+	while (tok_tem->next && tok_tem->next->type == CMD)
 	{
-		d->cur_cmd = creat_cmd(ms);
+		d->arg_c++;
+		tok_tem = tok_tem->next;
 	}
+}
+
+void char_is_rdir(t_minishell *ms)
+{
+	t_data	*d;
+
+	d = &ms->data;
+	if (!d->token_cur->next || d->token_cur->next->type != CMD)
+		error_syntax(ms);
 	if (ft_strncmp(d->token_cur->value, "<", 1) == 0)
 		d->cur_cmd->rdir = SINGLE_IN;
 	else if (ft_strncmp(d->token_cur->value, ">", 1) == 0)

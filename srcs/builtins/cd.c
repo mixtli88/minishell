@@ -6,13 +6,13 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 13:45:59 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 14:02:13 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// // only finish absolute path
+// only finish absolute path
 // bool	ft_cd(char **argv, char ***envp)
 // {
 // 	t_var	oldpwd_var;
@@ -28,57 +28,48 @@
 // 	export_var(pwd_var, envp);
 // 	return (true);
 // // }
-// bool    ft_cd(char **argv, char ***envp)
-// {
-// 	 t_var 	oldpwd_var;
-//     t_var 	pwd_var;
-//     char 	*path;
 
-//     oldpwd_var.name = "OLDPWD";
-//     oldpwd_var.operator = EQUAL;
-//     oldpwd_var.value = ft_getenv("PWD", *envp);
+bool    ft_cd(char **argv, char ***envp)
+{
+	 t_var 	oldpwd_var;
+    t_var 	pwd_var;
+    char 	*path;
 
-//     pwd_var.name = "PWD";
-//     pwd_var.operator = EQUAL;
+    oldpwd_var.name = "OLDPWD";
+    oldpwd_var.operator = EQUAL;
+    oldpwd_var.value = ft_getenv("PWD", *envp);
 
-//     if (!argv[1]) 
-// 	{ 
-//     	path = ft_getenv("HOME", *envp);
-        
-//     }
+    pwd_var.name = "PWD";
+    pwd_var.operator = EQUAL;
 
-// 	else 
-// 	{
-//         if (argv[1][0] == '/') 
-// 			path = ft_strdup(argv[1]);
-//         else
-// 		{
-//            path =ft_strjoin(ft_strjoin(oldpwd_var.value, "/"), argv[1]);
-    
-//         }
-//     }
+    if (!argv[1]) 
+    	path = ft_getenv("HOME", *envp);
+	else if (argv[1][0] == '/') 
+		path = ft_strdup(argv[1]);
+    else
+		path =ft_strjoin(ft_strjoin(oldpwd_var.value, "/"), argv[1]);
 
    
-//     if (chdir(pwd_var.value) != 0) 
-// 	{
-//         error_cd(argv[1]);
-//         free(pwd_var.value);
-//         return (false);
-//     }
+    if (chdir(pwd_var.value) != 0) 
+	{
+        error_cd(argv[1]);
+        free(pwd_var.value);
+        return (false);
+    }
 
     
-//     pwd_var.value = ft_getenv(oldpwd_var.value, NULL); 
-//     if (!pwd_var.value) 
-// 	{
-// 		error_cd(argv[1]);;
+    pwd_var.value = ft_getenv(oldpwd_var.value, NULL); 
+    if (!pwd_var.value) 
+	{
+		error_cd(argv[1]);;
 		
-//         return (false);
-//     }
-//     export_var(oldpwd_var, envp);
-//     export_var(pwd_var, envp);
+        return (false);
+    }
+    export_var(oldpwd_var, envp);
+    export_var(pwd_var, envp);
     
-//     return (true);
-// }
+    return (true);
+}
 
 
 
