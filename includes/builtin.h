@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 10:32:56 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/22 19:24:10 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	builtin_error(char *builtin, char *err_arg, char *err_msg);
 // envp.c
 char	**copy_envp(char **envp, char *env);
 void	free_envp(char ***envp);
+char	*ft_getenv(char *str, char **envp);
 // var.c
 void	free_var(t_var *var);
 bool	set_var(char *format, char *operator, t_var *var);
@@ -47,12 +48,10 @@ bool	find_var(char *format, t_var *var);
 
 /* *****************************   BUILTINS   ***************************** */
 // builtin.c
-// bool	builtin(t_exe *exe);						//fan
-bool	builtin(t_minishell *ms);		//mike
+bool	builtin(t_minishell *ms);
 // env.c
 bool	ft_env(char **argv, char **envp);
 // pwd.c
-char	*ft_getenv(char *str, char **envp);
 bool	ft_pwd(char **argv, char **envp);
 // exit.c
 bool	ft_exit(char **argv);

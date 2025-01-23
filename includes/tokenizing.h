@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 13:38:24 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/22 17:31:08 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_exe
 	char	*name;	
 	char	*path;
 	char	**argv;
-	char	**envp;	
+	char	***envp;	
 }		t_exe;
 
 typedef struct s_data
@@ -92,7 +92,7 @@ typedef struct s_data
 	char			var_buf[1024];
 	char			*var;
 
-	char			**envp;
+	char			***envp;
 	int				arg_c;
 	t_cmd			*cmd_list;
 	t_cmd			*cur_cmd;
@@ -106,7 +106,7 @@ typedef struct s_minishell
 {
 	t_data			data;
 	t_exe			exe;
-	char			**envp;
+	char			***envp;
 }					t_minishell;
 
 // void	tokenizing(void);

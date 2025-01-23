@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 09:22:43 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/22 17:53:24 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	ft_export(char **argv, char ***envp)
 	t_var	new_var;	
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (argv && argv[i])
 	{
 		if (find_var(argv[i], &new_var))

@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:48:39 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/12 22:37:28 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/22 19:22:46 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,23 @@ void	free_envp(char ***envp)
 		free (*envp);
 		*envp = NULL;
 	}
+}
+
+char	*ft_getenv(char *str, char **envp)
+{
+	t_var	old_var;
+	int		len_var;
+	int		i;
+
+	i = 0;
+	while (envp && envp[i])
+	{
+		set_var(envp[i], EQUAL, &old_var);
+		len_var = ft_strlen(old_var.name);
+		if (ft_strncmp(str, old_var.name, len_var) == 0)
+			return (old_var.value);
+		free_var(&old_var);
+		i++;
+	}
+	return (NULL);
 }
