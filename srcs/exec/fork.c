@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 23:41:01 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/22 17:30:19 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 03:40:19 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 void fork_execve(t_minishell *ms, t_cmd *cmd)
 {
-	pid_t	pid;
-	int		status;
+// 	pid_t	pid;
+	// int		status;
 	t_exe	*exe;
 
 	exe = &ms->exe;
-	pid = fork();
-	if(pid == 0)
-	{
+	// pid = fork();
+	// if(pid == 0)
+	// {
 		if(do_execve(ms, cmd))
 		{
 			builtin(ms);
@@ -33,16 +33,17 @@ void fork_execve(t_minishell *ms, t_cmd *cmd)
 			execve(exe->path, exe->argv, *(exe->envp));
 		else	
 			error_path_cmd(cmd);
-		
-	}
-	else if(pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		if (ft_strcmp(exe->name, "exit") == 0|| ft_strcmp(exe->name, "EXIT") == 0)
-			exit(EXIT_SUCCESS);
-	}
-	else
-		perror("fork");
+		// exit(EXIT_SUCCESS);
+	// }
+	// else if(pid > 0)
+	// {
+	// 	waitpid(pid, &status, 0);
+	// }
+	// else
+	// 	perror("fork");
+	
+	// if (ft_strcmp(exe->name, "exit") == 0|| ft_strcmp(exe->name, "EXIT") == 0)
+	// 	exit(EXIT_SUCCESS);
 }
 
 // ************** GESTIION PIPE ********************

@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:50:37 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/22 09:07:33 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 01:58:43 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,18 @@ void	tok_is_cmd(t_minishell *ms)
 {
 	t_data	*d;
 	t_token	*tok_tem;
-
+	
 	d = &ms->data;
 	tok_tem = d->token_cur;
 	if (!d->cur_cmd)
 	{
+		d->count += 1;
 		d->arg_c = 1;
 		d->i = 0;
 		d->cur_cmd = creat_cmd(ms);
+		d->cur_cmd->id = d->count;
 		free(d->full_path);
 		d->full_path = NULL;
-		// find_path(ms);
 		while (tok_tem->next && tok_tem->next->type == CMD)
 		{
 			d->arg_c++;
@@ -34,10 +35,8 @@ void	tok_is_cmd(t_minishell *ms)
 		}
 	}
 	if (!d->cur_cmd->argv)
-	{
 		d->cur_cmd->argv = (char **)malloc(sizeof(char *) * (d->arg_c + 1));
-		d->cur_cmd->argv[d->arg_c] = NULL;
-	}
+	d->cur_cmd->argv[d->arg_c] = NULL;
 	d->cur_cmd->argv[d->i++] = ft_strdup(d->token_cur->value);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:57:47 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 15:43:20 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 02:19:59 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ bool	ft_exit(char **argv)
 			return (false);		
 		}
 	}
-	exit(status);
+	// exit(EXIT_SUCCESS);
+	// exit(status);
 	return (true);
 }

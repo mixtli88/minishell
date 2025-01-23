@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 19:24:10 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 02:02:07 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,7 @@ void	ft_export(char **argv, char ***envp);
 bool	ft_cd(char **argv, char ***envp);
 
 char	*ft_strtolower(char *str);
+
+void error_cd(char *str);
 
 #endif //BUILTIN_H

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 17:31:08 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 01:54:38 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
+	int				id;
 	char			**argv;
 	char			*path;
 	t_redirection	rdir;
@@ -99,6 +100,7 @@ typedef struct s_data
 
 	char			*full_path;
 	int				flag;
+	int 			count;
 }					t_data;
 
 

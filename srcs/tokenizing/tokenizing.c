@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 14:20:23 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 01:59:09 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	ft_minishell_loop(t_minishell *ms)
 // 	while (cmd_curr)
 // 	{
 // 		i = 0;
-// 		printf("t_cmd *node [%d] = {\n", j);
+// 		printf("t_cmd *node [%d] = {\n", cmd_curr->id);
 // 		if (cmd_curr->argv)
 // 		{
 // 			printf("    .argv = {");
