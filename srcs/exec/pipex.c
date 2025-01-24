@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:53:25 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 15:15:30 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 19:04:41 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ bool	pipex(t_minishell	*ms)
 	free_t_fd(&fd);
 	return (true);
 }
-
-
-
 
 // static int	check_diff(char	*limiter, char *newline)
 // {

@@ -6,26 +6,11 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:14:36 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 21:37:24 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 16:39:22 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*ft_strtolower(char *str)
-{
-	char	*tmp_str;
-	int		i;
-
-	tmp_str = ft_strdup(str);
-	i = 0;
-	while (tmp_str && tmp_str[i])
-	{
-		tmp_str[i] = ft_tolower(tmp_str[i]);
-		i++;
-	}
-	return (tmp_str);
-}
 
 
 // bool	exec(t_minishell	*ms)

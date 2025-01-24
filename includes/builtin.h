@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 16:17:36 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 16:58:25 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ bool	find_var(char *format, t_var *var);
 
 /* *****************************   BUILTINS   ***************************** */
 // builtin.c
+bool	is_builtin(t_exe *exe);
 bool	builtin(t_exe	*exe);
 // env.c
 bool	ft_env(char **argv, char **envp);
@@ -62,8 +63,6 @@ void	export_var(t_var new_var, char ***envp);
 void	ft_export(char **argv, char ***envp);
 // cd.c
 bool	ft_cd(char **argv, char ***envp);
-
-char	*ft_strtolower(char *str);
 
 void error_cd(char *str);
 

@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:06:19 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 15:30:29 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 19:17:12 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ static void	get_fd_exe(t_fd *fd, t_cmd	*cmd,  t_exe **exe)
 	if (cmd->id == 1)
 	{
 		(*exe)->infd = fd->infile;
-		(*exe)->outfd = fd->pipe[0][WRITE_PIPE_IDX];
+		if (fd->cmd_num == 1)
+			(*exe)->outfd = fd->outfile;
+		else
+			(*exe)->outfd = fd->pipe[0][WRITE_PIPE_IDX];
 	}
 	else if (cmd->id == fd->cmd_num)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:15:33 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/23 01:53:24 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 17:17:15 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_data(t_minishell *ms)
 	d->input = NULL;
 	d->buf_idx = 0;
 	d->i = 0;
+	d->count = 0;
 	d->quote = 0;
 	d->new_readline = NULL;
 	d->new_inp = NULL;

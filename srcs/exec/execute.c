@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 18:45:51 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 15:19:46 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/23 19:19:44 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	execute_exe(t_exe *exe, t_fd *fd)
 	if (dup2(exe->outfd, STDOUT_FILENO) == -1)
 		return (false);
 	close_fd(fd);
+	if (is_builtin(exe))
+		builtin(exe);
 	if (execve(exe->path, exe->argv, *(exe->envp)) == -1)
 	{
 		ft_putstr_fd("pipex: ", STDERR_FILENO);
@@ -26,6 +28,14 @@ static int	execute_exe(t_exe *exe, t_fd *fd)
 		ft_putendl_fd(": command not found", STDERR_FILENO);
 		return (false);
 	}
+	// if (ft_strncmp(str, "", 1) == 0)
+	// 	error_path_cmd(cmd);
+	// if (ft_strncmp(str, "/", 1) == 0)
+	// 	error_directory(ms);
+	// if (ft_strncmp(str, "!", 1) == 0)
+	// 	error_syntax(ms);
+	// if (ft_strncmp(str, ":", 1) == 0)
+	// 	ft_minishell_loop(ms);	
 	return (true);
 }
 
