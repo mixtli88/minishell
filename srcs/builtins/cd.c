@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/24 00:32:43 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/24 00:56:56 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	ft_cd(char **argv, char ***envp)
 	t_var	oldpwd_var;
 	t_var	pwd_var;
 	char	*path;
-	char	*;
+	// char	*;
 
 	oldpwd_var.name = "OLDPWD";
 	oldpwd_var.operator = EQUAL;
@@ -46,17 +46,17 @@ bool	ft_cd(char **argv, char ***envp)
 	{
 		path = ft_getenv("HOME", *envp);
 	}
-	else if (argv[1][0] == '..')
-	{
+	// else if (argv[1][0] == '..')
+	// {
 		
-	}
-		path = ft_strdup(argv[1]);
+	// }
+	// 	path = ft_strdup(argv[1]);
 	else if (argv[1][0] == '/')
 		path = ft_strdup(argv[1]);
 	else
 		path = ft_strjoin(ft_strjoin(oldpwd_var.value, "/"), argv[1]);
 	if (chdir(path) != 0)
-	{ ft_strrchr
+	{ 
 	printf("%s\n", "entramos");	
 		error_cd(argv[1]);
 		free(path);
