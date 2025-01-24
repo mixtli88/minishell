@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/20 19:34:41 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/24 09:33:37 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 // echo -n a b c => a b c
 bool	ft_echo(char **argv)
 {
+	// ft_putendl_fd("echo", STDOUT_FILENO);
 	bool	flag_new_line;
 	int		i;
 

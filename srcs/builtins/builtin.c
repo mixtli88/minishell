@@ -6,7 +6,7 @@
 /*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:04:56 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 16:58:47 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/24 11:21:11 by fwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ bool is_builtin(t_exe *exe)
 
 bool	builtin(t_exe	*exe)
 {
+	// ft_putendl_fd("builtin", STDOUT_FILENO);
 	// t_exe	*exe;
 	
 	// exe = &ms->exe;
@@ -59,7 +60,7 @@ bool	builtin(t_exe	*exe)
 		ft_echo(exe->argv);
 	else if (ft_strncmp(exe->name, EXPORT, 6) == 0)
 		ft_export(exe->argv, exe->envp);
-	// else if (ft_strncmp(exe->name, CD, 2) == 0)
-	// 	ft_cd(exe->argv, exe->envp);
+	else if (ft_strncmp(exe->name, CD, 2) == 0)
+		ft_cd(exe->argv, exe->envp);
 	return (true);
 }
