@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:57:47 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 02:19:59 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 23:48:10 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 // exit 257   => echo $? = 1
 bool	ft_exit(char **argv)
 {
-	int	status; //use global variable?
+	int		status;
 
 	status = 0;
 	if (argv && argv[1])
 	{
-		status = ft_atoi(argv[1])%256;
+		status = ft_atoi(argv[1]) % 256;
 		if (!ft_isint(argv[1]))
 		{
 			status = 255;
@@ -36,10 +36,10 @@ bool	ft_exit(char **argv)
 		{
 			status = 1;
 			ft_putendl_fd(ERR_EXIT_TOO_MANY_ARGS, STDERR_FILENO);
-			return (false);		
+			return (false);
 		}
 	}
 	// exit(EXIT_SUCCESS);
-	// exit(status);
+	exit(status);
 	return (true);
 }

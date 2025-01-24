@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 17:34:04 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 23:17:20 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
-
 typedef struct s_exe
 {
 	int		infd;
@@ -88,6 +87,7 @@ typedef struct s_data
 
 	t_token			*tok_list;
 	t_token			*token_cur;
+	t_token			*tok_tem;
 	char			quote;
 
 	char			var_buf[1024];
@@ -100,9 +100,8 @@ typedef struct s_data
 
 	char			*full_path;
 	int				flag;
-	int 			count;
+	int				count;
 }					t_data;
-
 
 typedef struct s_minishell
 {
@@ -157,7 +156,7 @@ void				handle_pipe_input(t_minishell *ms);
 
 void				error_path_cmd(t_cmd *cmd);
 
-void 		create_cmd(t_minishell *ms);
-void 		char_is_rdir(t_minishell *ms);
+void				create_cmd(t_minishell *ms);
+void				char_is_rdir(t_minishell *ms);
 
 #endif // TOKENIZING_H

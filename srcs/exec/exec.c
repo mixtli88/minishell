@@ -6,12 +6,11 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:14:36 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 15:26:00 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 23:43:12 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 char	*ft_strtolower(char *str)
 {
@@ -28,12 +27,11 @@ char	*ft_strtolower(char *str)
 	return (tmp_str);
 }
 
-
 bool	exec(t_minishell	*ms)
 {
 	t_exe	*exe;
 	t_cmd	*cmd;
-	
+
 	exe = &ms->exe;
 	cmd = ms->data.cmd_list;
 	while (cmd && cmd->argv[0])
@@ -41,7 +39,7 @@ bool	exec(t_minishell	*ms)
 		exe->name = cmd->argv[0];
 		exe->argv = cmd->argv;
 		exe->envp = ms->envp;
-		if(do_execve(ms, cmd))
+		if (do_execve(ms, cmd))
 		{
 			builtin(ms);
 			if (exe->name)
@@ -49,11 +47,10 @@ bool	exec(t_minishell	*ms)
 		}
 		else
 		{
-			fork_execve(ms, cmd);	
+			fork_execve(ms, cmd);
 		}
 		cmd = cmd->next;
 	}
-	
 	return (true);
 }
 

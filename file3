@@ -1,0 +1,23 @@
+total 376
+drwxr-xr-x  22 mabril  2024_quebec     748 Jan 23 19:02 .
+drwxr-xr-x   8 mabril  2024_quebec     272 Dec 16 18:16 ..
+-rw-r--r--   1 mabril  2024_quebec    6148 Jan  9 19:10 .DS_Store
+drwxr-xr-x  15 mabril  2024_quebec     510 Jan 23 18:12 .git
+drwxr-xr-x   4 mabril  2024_quebec     136 Jan 23 18:03 .vscode
+-rw-r--r--   1 mabril  2024_quebec    3533 Jan 23 18:03 Makefile
+-rw-r--r--   1 mabril  2024_quebec      11 Dec 16 18:12 README.md
+-rw-r--r--   1 mabril  2024_quebec       0 Jan 23 18:57 a.txte
+drwxr-xr-x   2 mabril  2024_quebec      68 Jan 23 18:58 b.txt
+drwxr-xr-x   2 mabril  2024_quebec      68 Jan 23 18:58 c.txt
+drwxr-xr-x   2 mabril  2024_quebec      68 Jan 23 18:58 f.txt
+-rw-r--r--   1 mabril  2024_quebec       0 Jan 23 19:02 file1
+-rw-r--r--   1 mabril  2024_quebec       0 Jan 23 19:02 file2
+-rw-r--r--   1 mabril  2024_quebec       0 Jan 23 19:02 file3
+drwxr-xr-x  10 mabril  2024_quebec     340 Jan 23 18:29 get_next_line
+drwxr-xr-x  10 mabril  2024_quebec     340 Jan 23 18:10 includes
+drwxr-xr-x  97 mabril  2024_quebec    3298 Jan 23 18:29 libft
+-rwxr-xr-x   1 mabril  2024_quebec  166248 Jan 23 18:29 minishell
+drwxr-xr-x  23 mabril  2024_quebec     782 Jan 23 14:44 minishell_tester
+-rw-r--r--   1 mabril  2024_quebec      19 Jan 23 18:51 outfile1
+drwxr-xr-x   7 mabril  2024_quebec     238 Jan 23 18:29 srcs
+-rw-r--r--   1 mabril  2024_quebec       5 Jan 22 15:57 text.txt

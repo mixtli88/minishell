@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 16:41:31 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 23:42:01 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ void	lexer(t_minishell *ms)
 	d = &ms->data;
 	split_input(ms);
 	buil_cmd_list(ms);
-	print_cmd(ms);
-	// printf("\n");
+	// print_cmd(ms);
 }
 
 void	ft_minishell_loop(t_minishell *ms)
@@ -75,7 +74,7 @@ void	ft_minishell_loop(t_minishell *ms)
 		if (d->input)
 			add_history(d->input);
 		lexer(ms);
-		// exec(ms);
+		exec(ms);
 	}
 }
 

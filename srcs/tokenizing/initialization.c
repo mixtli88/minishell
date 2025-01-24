@@ -6,7 +6,7 @@
 /*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:15:33 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/23 01:53:24 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/23 23:40:53 by mabril           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_data(t_minishell *ms)
 	d->var_buf[0] = '\0';
 	d->tok_list = NULL;
 	d->token_cur = NULL;
+	d->tok_tem = NULL;
 	d->cmd_list = NULL;
 	d->cur_cmd = NULL;
 }
@@ -48,7 +49,7 @@ void	init_new_cmd(t_cmd **cmd)
 	t_cmd	*new;
 
 	new = *cmd;
-	new ->id  = 0;
+	new ->id = 0;
 	new->argv = NULL;
 	new->path = NULL;
 	new->rdir = 0;
