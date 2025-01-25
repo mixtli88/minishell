@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/24 00:00:25 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/25 09:49:03 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ bool	find_var(char *format, t_var *var);
 
 /* *****************************   BUILTINS   ***************************** */
 // builtin.c
-bool	builtin(t_minishell *ms);
+bool	is_builtin(t_exe *exe);
+bool	builtin(t_exe	*exe);
 // env.c
 bool	ft_env(char **argv, char **envp);
 // pwd.c

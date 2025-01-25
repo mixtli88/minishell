@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 15:04:01 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/25 09:50:45 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 // echo -n a b c => a b c
 bool	ft_echo(char **argv)
 {
+	// ft_putendl_fd("echo", STDOUT_FILENO);
 	bool	flag_new_line;
 	int		i;
 

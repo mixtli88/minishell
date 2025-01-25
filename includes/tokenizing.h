@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 23:17:20 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/25 09:49:44 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct s_data
 typedef struct s_minishell
 {
 	t_data			data;
-	t_exe			exe;
+	// t_exe			exe;
 	char			***envp;
 }					t_minishell;
 

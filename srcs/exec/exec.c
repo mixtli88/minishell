@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:14:36 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 23:43:12 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/25 09:51:56 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,26 @@ bool	exec(t_minishell	*ms)
 	}
 	return (true);
 }
+
+// bool	exec(t_minishell	*ms)
+// {
+// 	t_exe	*exe;
+// 	t_cmd	*cmd;
+// 	int i;
+
+// 	exe = &ms->exe;
+// 	cmd = ms->data.cmd_list;
+// 	while (cmd && cmd->argv[0])
+// 	{
+// 		exe->name = cmd->argv[0];
+// 		exe->argv = cmd->argv;
+// 		exe->envp = ms->envp;
+// 		fork_execve(ms, cmd);
+// 		cmd = cmd->next;
+// 	}
+	
+// 	return (true);
+// }
 
 // ************** GESTIION PIPE ********************
 
