@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:21:53 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 15:18:33 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/30 16:12:38 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,129 +14,82 @@
 
 #define PERMISSIONS 0664
 
-static void	set_cmd_num(t_fd **fd, t_minishell	ms)
+void rdir_fd(t_minishell *ms, t_cmd *cmd)
 {
-	t_cmd	*cmd;
+	if (cmd->rdir == SINGLE_IN)
+		ms->fd.infile = open(cmd->fd_rdir, O_RDONLY, PERMISSIONS);
+	else if (cmd->rdir == SINGLE_OUT)
+		ms->fd.outfile= open(cmd->fd_rdir, O_WRONLY | O_CREAT | O_TRUNC, PERMISSIONS);
+	else if (cmd->rdir == DOUBLE_IN)
+		ms->fd.infile = open(cmd->fd_rdir, O_RDONLY, PERMISSIONS);
+	else if (cmd->rdir == DOUBLE_OUT)
+		ms->fd.outfile = open(cmd->fd_rdir, O_WRONLY | O_CREAT | O_APPEND, PERMISSIONS);
+	if (ms->fd.infile  == -1 || ms->fd.outfile == -1 )
+		error_open_file(cmd->fd_rdir);
+	
+}
+void error_open_file(char *file)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(file, STDERR_FILENO);
+	ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+	exit(EXIT_FAILURE);
+}
 
-	(*fd)->cmd_num = 0;
-	cmd = ms.data.cmd_list;
-	while (cmd)
+void	prepare_t_fd(t_minishell	*ms, t_cmd *cmd)
+{
+	ms->fd.cmd_num = ms->data.count; 			// cantidad de comandos
+	if (ms->fd.cmd_num > 1)          
+		ms->fd.pipe_num = ms->data.count - 1;	// cantidad de pipes
+	if(cmd->rdir == SINGLE_IN || cmd->rdir == DOUBLE_IN)
 	{
-		(*fd)->cmd_num++;
-		cmd = cmd->next;
+		rdir_fd(ms, cmd);
+		ms->fd.outfile = STDOUT_FILENO;
+	}
+	else if(cmd->rdir == SINGLE_OUT || cmd->rdir == DOUBLE_OUT)
+	{
+		rdir_fd(ms, cmd);
+		ms->fd.infile = STDIN_FILENO;
+	}
+	else
+	{
+		ms->fd.infile = STDIN_FILENO;
+		ms->fd.outfile = STDOUT_FILENO;
+	}	
+}
+
+void	close_fd(t_minishell	*ms, t_cmd *cmd)
+{
+	int i;
+
+	i = 0;
+	while(i < ms->fd.pipe_num)
+	{
+		if(i != cmd->id - 1)
+			close(ms->fd.pipe[i][READ_PIPE_IDX]);
+		if(i != cmd->id)
+			close(ms->fd.pipe[i][WRITE_PIPE_IDX]);
+		i++;	
 	}
 }
 
-// int pipe[arg->pipe_num][2];
-// (*fd)->pipe = pipe;
-static bool	create_t_fd(t_fd **fd, t_minishell	ms)
-{
-	*fd = (t_fd *)ft_calloc(1, sizeof(t_fd));
-	if (!*fd)
-		return (false);	
-	set_cmd_num(fd, ms);
-	if ((*fd)->cmd_num > 1)
-		(*fd)->pipe_num = (*fd)->cmd_num - 1;
-	else
-		(*fd)->pipe_num = 0;
-	(*fd)->pipe = (int (*)[2])ft_calloc((*fd)->pipe_num, sizeof(int [2]));
-	if (!(*fd)->pipe)
-		return (false);
-	return (true);
-}
-
-bool	prepare_t_fd(t_fd **fd, t_minishell	ms)
-{
-	if (!create_t_fd(fd, ms))
-		return (false);
-	(*fd)->infile = STDIN_FILENO;
-	(*fd)->outfile = STDOUT_FILENO;
-	// get_fd_infile(*fd, arg);
-	// get_fd_outfile(*fd, arg);
-	return (true);
-}
-
-void	close_fd(t_fd *fd)
+void	free_t_fd(t_minishell	*ms)
 {
 	int	i;
-
-	// if (fd->infile != INFILE_NOT_EXIST && fd->infile != FILE_OPEN_ERROR)
-	// close(fd->infile);
-	// close(fd->outfile);
+	
 	i = 0;
-	while (i < fd->pipe_num)
+	ms->fd.infile = STDIN_FILENO;
+	ms->fd.outfile = STDOUT_FILENO;
+	ms->fd.pipe_num = 0;	// cantidad de pipes
+	ms->fd.cmd_num = 0; 			// cantidad de comandos
+	if (ms->fd.pipe)
 	{
-		close(fd->pipe[i][READ_PIPE_IDX]);
-		close(fd->pipe[i][WRITE_PIPE_IDX]);
-		i++;
+		while (i < ms->fd.pipe_num)
+		{
+			free(ms->fd.pipe[i]);
+			i++;
+		}
+		free(ms->fd.pipe);
+		ms->fd.pipe = NULL;
 	}
 }
-
-void	free_t_fd(t_fd	**fd)
-{
-	if (!*fd)
-		return ;
-	if ((*fd)->pipe)
-	{
-		free((*fd)->pipe);
-		(*fd)->pipe = NULL;
-	}
-	free(*fd);
-	*fd = NULL;
-}
-
-// // EACCES: Permission denied
-// // ENOENT: No such file or directory
-// static void	get_fd_infile(t_fd *fd, t_arg *arg)
-// {
-// 	char	*file_name;
-
-// 	if (arg->here_doc)
-// 		fd->infile = INFILE_NOT_EXIST;
-// 	else
-// 	{
-// 		file_name = arg->argv[0 + PROGRAM];
-// 		fd->infile = open(file_name, O_RDONLY);
-// 		if (errno == EACCES || errno == ENOENT)
-// 		{
-// 			fd->infile = open("/dev/null", O_RDONLY);
-// 			ft_putstr_fd("pipex: ", STDERR_FILENO);
-// 			ft_putstr_fd(file_name, STDERR_FILENO);
-// 			if (errno == EACCES)
-// 				ft_putendl_fd(": Permission denied", STDERR_FILENO);
-// 			else if (errno == ENOENT)
-// 				ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-// 		}
-// 	}
-// 	if (fd->infile == FILE_OPEN_ERROR || errno == EACCES || errno == ENOENT)
-// 		fd->infile_status = FILE_OPEN_FAIL;
-// 	else
-// 		fd->infile_status = FILE_OPEN_SUCCESS;
-// }
-
-// // EACCES: Permission denied
-// // ENOENT: No such file or directory
-// static void	get_fd_outfile(t_fd *fd, t_arg *arg)
-// {
-// 	int		flag;
-// 	char	*file_name;
-
-// 	if (arg->here_doc)
-// 		flag = O_APPEND;
-// 	else
-// 		flag = O_TRUNC;
-// 	file_name = arg->argv[arg->argc - 1];
-// 	fd->outfile = open(file_name, O_WRONLY | O_CREAT | flag, PERMISSIONS);
-// 	if (access(file_name, W_OK) != 0 && errno == EACCES)
-// 	{
-// 		fd->outfile = open("/dev/null", O_WRONLY | flag, PERMISSIONS);
-// 		ft_putstr_fd("pipex: ", STDERR_FILENO);
-// 		ft_putstr_fd(file_name, STDERR_FILENO);
-// 		ft_putendl_fd(": Permission denied", STDERR_FILENO);
-// 	}
-// 	if (fd->outfile == FILE_OPEN_ERROR
-// 		|| (access(file_name, W_OK) != 0 && errno == EACCES))
-// 		fd->outfile_status = FILE_OPEN_FAIL;
-// 	else
-// 		fd->outfile_status = FILE_OPEN_SUCCESS;
-// }

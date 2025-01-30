@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 10:30:13 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/25 10:59:51 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 # include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
 # include "exec.h"
-// # include "tokenizing.h"
+# include "tokenizing.h"
 # include "builtin.h"
 # include "error.h"
+#include <sys/wait.h>
 
 
 

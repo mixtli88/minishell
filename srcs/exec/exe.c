@@ -3,89 +3,94 @@
 /*                                                        :::      ::::::::   */
 /*   exe.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:06:19 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 19:17:12 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/30 16:13:06 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool	create_t_exe(t_exe **exe)
-{
-	*exe = (t_exe *)ft_calloc(1, sizeof(t_exe));
-	if (!*exe)
-		return (false);
-	return (true);
-}
-
-static char *find_path_exe(char *name, char ***envp)
+static char *find_path_exe(t_minishell *ms)
 {
 	int		i;
 	char	**paths;
 	char	*full_path;
-
-	i = -1;
-	paths = ft_split(ft_getenv("PATH", *envp), ':');
+	char	*tem;
+	i  = -1;
+	tem = ft_getenv("PATH", *(ms->envp));
+	paths = ft_split(tem, ':');
+	free(tem);
 	while (paths[++i])
 	{
-		full_path = ft_strjoin(ft_strjoin(paths[i], "/"), name);
+		tem = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin(tem, ms->exe.name);
 		if (access(full_path, X_OK) == 0)
 		{
 			free_table(paths);
-			return (full_path);
+			free(tem);
+			return(full_path);
 		}
+		free(tem);
+		free(full_path);
 	}
 	free_table(paths);
 	return (NULL);
 }
 
-// execute first cmd
-// execute last cmd
-// execute mid cmd
-static void	get_fd_exe(t_fd *fd, t_cmd	*cmd,  t_exe **exe)
+
+static void	get_fd_exe(t_minishell	*ms, t_cmd *cmd)
 {
 	if (cmd->id == 1)
 	{
-		(*exe)->infd = fd->infile;
-		if (fd->cmd_num == 1)
-			(*exe)->outfd = fd->outfile;
+	
+		ms->exe.infd = ms->fd.infile;
+		if (ms->fd.cmd_num == 1)
+			ms->exe.outfd = ms->fd.outfile;
 		else
-			(*exe)->outfd = fd->pipe[0][WRITE_PIPE_IDX];
+			ms->exe.outfd =ms->fd.pipe[0][WRITE_PIPE_IDX];
 	}
-	else if (cmd->id == fd->cmd_num)
+	else if (cmd->id  == ms->fd.cmd_num)
 	{
-		(*exe)->infd = fd->pipe[fd->pipe_num - 1][READ_PIPE_IDX];
-		(*exe)->outfd = fd->outfile;
+		ms->exe.infd = ms->fd.pipe[ms->fd.pipe_num - 1][READ_PIPE_IDX];
+		ms->exe.outfd = ms->fd.outfile;
 	}
 	else
 	{
-		(*exe)->infd = fd->pipe[cmd->id - 1][READ_PIPE_IDX];
-		(*exe)->outfd = fd->pipe[cmd->id][WRITE_PIPE_IDX];
+		ms->exe.infd = ms->fd.pipe[cmd->id - 1][READ_PIPE_IDX];
+		ms->exe.outfd = ms->fd.pipe[cmd->id][WRITE_PIPE_IDX];
 	}
 }
 
-bool	prepare_t_exe(t_fd *fd, t_cmd	*cmd,  char ***envp, t_exe **exe)
+void	prepare_t_exe(t_minishell *ms, t_cmd *cmd)
 {
-	if (!create_t_exe(exe))
-		return (false);
-	(*exe)->name = cmd->argv[0];
-	(*exe)->path = find_path_exe((*exe)->name, envp);
-	(*exe)->argv = cmd->argv;
-	(*exe)->envp = envp;
-	get_fd_exe(fd, cmd, exe);
-	return (true);
+	if(cmd->argv && cmd->argv[0])
+	{
+		ms->exe.name = ft_strdup(cmd->argv[0]);
+		ms->exe.path = find_path_exe(ms);
+	}
+	ms->exe.argv = cmd->argv;
+	ms->exe.envp = ms->envp;
+	get_fd_exe(ms, cmd);
 }
 
-void	free_t_exe(t_exe **exe)
+void	reset_t_exe(t_minishell *ms)
 {
-	if (!*exe)
-		return ;
-	// free_exe_argv(*exe);
-	free (*exe);
-	*exe = NULL;
+	ms->exe.infd = 0;
+	ms->exe.outfd = 0;
+	if (ms->exe.name)
+		free(ms->exe.name);
+	ms->exe.name = NULL;
+	if (ms->exe.path)
+		free(ms->exe.path);
+	ms->exe.path = NULL;
+	ms->exe.argv = NULL;
+	ms->exe.envp = NULL;
+	
 }
+
+
 
 // static char	**get_exe_argv(char *arg)
 // {

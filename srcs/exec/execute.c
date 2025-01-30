@@ -3,44 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 18:45:51 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/24 11:50:40 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/30 16:15:51 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool	execute_exe(t_exe *exe, t_fd *fd)
+bool	execute_cmd(t_minishell	*ms, t_cmd *cmd)
 {
 	int	status;	
 	int	id = 0;
 	
-	if (is_builtin(exe))
-		builtin(exe);
+	if (is_builtin(ms))
+		builtin(ms);
 	else
 	{
 		id = fork();
 		if (id == -1)
 			return (false);
 		if (id == 0)
-		{		
-			if (dup2(exe->infd, STDIN_FILENO) == -1)
+		{
+			 printf("ms->exe.infd: %d\n", ms->exe.infd);
+			 printf("ms->exe.outfd: %d\n", ms->exe.outfd);
+			if (dup2(ms->exe.infd, STDIN_FILENO) == -1)
 				return (false);
-			if (dup2(exe->outfd, STDOUT_FILENO) == -1)
+			if (dup2(ms->exe.outfd, STDOUT_FILENO) == -1)
 				return (false);
-			close_fd(fd);				
-			if (execve(exe->path, exe->argv, *(exe->envp)) == -1)
+			close_fd(ms, cmd);
+			if (execve(ms->exe.path, ms->exe.argv, *(ms->exe.envp)) == -1)
 			{
-				ft_putstr_fd("pipex: ", STDERR_FILENO);
-				ft_putstr_fd(exe->name, STDERR_FILENO);
-				ft_putendl_fd(": command not found", STDERR_FILENO);
-				return (false);
-			}		
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd(ms->exe.argv[0], STDERR_FILENO);
+				ft_putendl_fd(": command not found", STDERR_FILENO); 
+				exit(127);
+			}
 		}
-		waitpid(id, &status, WNOHANG);
-	}
+		else
+			waitpid(id, &status, 0); // Esperar al hijo
+	}	
+	if (ms->exe.outfd != STDOUT_FILENO)
+				close(ms->exe.outfd); // Cerrar la escritura del pipe actual en el padre
+			if (ms->exe.infd != STDIN_FILENO)
+				close(ms->exe.infd); //
+	return (true);
+}
 	// if (ft_strncmp(str, "", 1) == 0)
 	// 	error_path_cmd(cmd);
 	// if (ft_strncmp(str, "/", 1) == 0)
@@ -49,61 +58,20 @@ static bool	execute_exe(t_exe *exe, t_fd *fd)
 	// 	error_syntax(ms);
 	// if (ft_strncmp(str, ":", 1) == 0)
 	// 	ft_minishell_loop(ms);	
-	return (true);
-}
 
-static int	execute_cmd(t_fd *fd, t_cmd	*cmd, char ***envp)
-{
-	t_exe	*exe;
 
-	if (!prepare_t_exe(fd, cmd, envp, &exe))
-	{
-		free_t_exe(&exe);
-		return (false);
-	}
-	if (!execute_exe(exe, fd))
-	{
-		free_t_exe(&exe);
-		return (false);
-	}
-	free_t_exe(&exe);
-	return (true);
-}
 
-bool	fork_and_execute(t_fd *fd, t_minishell	*ms)
-{
-	int	status;
-	t_cmd	*cmd;
-
-	cmd = ms->data.cmd_list;
-	while (cmd && cmd->argv[0])
-	{
-		if (!execute_cmd(fd, cmd, ms->envp))
-			return (false);
-		// id = fork();
-		// if (id == -1)
-		// 	return (false);
-		// if (id == 0)
-		// {
-		// 	// if (check_execute(i, arg->cmd_num, fd) == FAIL)
-		// 	// 	return (FAIL);
-		// 	if (!execute_cmd(fd, cmd, ms->envp))
-		// 		return (false);
-		// }
-		// waitpid(id, &status, WNOHANG);
+bool	fork_and_execute(t_minishell	*ms, t_cmd *cmd)
+{	
+	while (cmd)
+	{ 
+		prepare_t_exe(ms, cmd);
+		execute_cmd(ms, cmd);
+		reset_t_exe(ms);
+		// free(ms->exe.path);
+		// ms->exe.path = NULL;
 		cmd = cmd->next;
 	}
-	close_fd(fd);
-	wait(&status);
-	close_fd(fd);
+	
 	return (true);
 }
-
-// static int	check_execute(int cur_cmd_idx, int cmd_num, t_fd *fd)
-// {
-// 	if (cur_cmd_idx == 0 && fd->infile_status)
-// 		return (FAIL);
-// 	else if (cur_cmd_idx == cmd_num - 1 && fd->outfile_status)
-// 		return (FAIL);
-// 	return (SUCCESS);
-// }

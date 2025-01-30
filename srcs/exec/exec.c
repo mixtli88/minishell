@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:14:36 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/25 09:51:56 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/29 14:53:41 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,32 +27,32 @@ char	*ft_strtolower(char *str)
 	return (tmp_str);
 }
 
-bool	exec(t_minishell	*ms)
-{
-	t_exe	*exe;
-	t_cmd	*cmd;
+// bool	exec(t_minishell	*ms)
+// {
+// 	t_exe	*exe;
+// 	t_cmd	*cmd;
 
-	exe = &ms->exe;
-	cmd = ms->data.cmd_list;
-	while (cmd && cmd->argv[0])
-	{
-		exe->name = cmd->argv[0];
-		exe->argv = cmd->argv;
-		exe->envp = ms->envp;
-		if (do_execve(ms, cmd))
-		{
-			builtin(ms);
-			if (exe->name)
-				free(exe->name);
-		}
-		else
-		{
-			fork_execve(ms, cmd);
-		}
-		cmd = cmd->next;
-	}
-	return (true);
-}
+// 	// exe = &msexe;
+// 	cmd = ms->data.cmd_list;
+// 	while (cmd && cmd->argv[0])
+// 	{
+// 		exe->name = cmd->argv[0];
+// 		exe->argv = cmd->argv;
+// 		exe->envp = ms->envp;
+// 		if (do_execve(ms, cmd))
+// 		{
+// 			builtin(ms);
+// 			if (exe->name)
+// 				free(exe->name);
+// 		}
+// 		else
+// 		{
+// 			fork_execve(ms, cmd);
+// 		}
+// 		cmd = cmd->next;
+// 	}
+// 	return (true);
+// }
 
 // bool	exec(t_minishell	*ms)
 // {

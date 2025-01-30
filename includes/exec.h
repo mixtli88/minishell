@@ -7,27 +7,18 @@
 # define WRITE_PIPE_IDX 1
 # define READ_PIPE_IDX 0
 
-typedef struct s_fd
-{
-	int	infile;
-	int	outfile;
-	// int	infile_status;
-	// int	outfile_status;
-	int	pipe_num;
-	int	cmd_num;
-	int	(*pipe)[2];
-}	t_fd;
 
 /* ******************************   EXEC   ******************************** */
 // fd.c
-bool	prepare_t_fd(t_fd **fd, t_minishell	ms);
-void	close_fd(t_fd *fd);
-void	free_t_fd(t_fd	**fd);
+void	prepare_t_fd(t_minishell	*ms, t_cmd *cmd);   
+// bool	prepare_t_fd(t_fd **fd, t_minishell	ms);
+void	close_fd(t_minishell    *ms, t_cmd *cmd);
+void	free_t_fd(t_minishell    *ms);
 // exe.c
-void	free_t_exe(t_exe **exe);
-bool	prepare_t_exe(t_fd *fd, t_cmd	*cmd,  char ***envp, t_exe **exe);
+void	reset_t_exe(t_minishell *ms);
+void	prepare_t_exe(t_minishell	*ms, t_cmd *cmd);
 // execute.c
-bool	fork_and_execute(t_fd *fd, t_minishell	*ms);
+bool	fork_and_execute( t_minishell	*ms, t_cmd *cmd);
 // pipex.c
 bool	pipex(t_minishell	*ms);
 

@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/25 09:49:44 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/27 23:45:06 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,15 @@ typedef struct s_exe
 	char	***envp;	
 }		t_exe;
 
+typedef struct s_fd
+{
+	int	infile;
+	int	outfile;
+	int	pipe_num;
+	int	cmd_num;
+	int	**pipe;
+}	t_fd;
+
 typedef struct s_data
 {
 	char			*input;
@@ -106,7 +115,8 @@ typedef struct s_data
 typedef struct s_minishell
 {
 	t_data			data;
-	// t_exe			exe;
+	t_exe			exe;
+	t_fd			fd;
 	char			***envp;
 }					t_minishell;
 
@@ -158,5 +168,7 @@ void				error_path_cmd(t_cmd *cmd);
 
 void				create_cmd(t_minishell *ms);
 void				char_is_rdir(t_minishell *ms);
+
+void if_is_just_quote(t_minishell *ms);
 
 #endif // TOKENIZING_H

@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/25 09:53:26 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/30 15:06:28 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,9 @@ void	creat_token(t_minishell *ms)
 
 void	lexer(t_minishell *ms)
 {
-	t_data	*d;
-
-	d = &ms->data;
 	split_input(ms);
 	buil_cmd_list(ms);
-	// print_cmd(ms);
+	print_cmd(ms);
 }
 
 void	ft_minishell_loop(t_minishell *ms)
@@ -69,6 +66,8 @@ void	ft_minishell_loop(t_minishell *ms)
 		init_data(ms);
 		d->envp = ms->envp;
 		d->input = readline("mini-3.1$ ");
+		// if(ft_strcmp (d->input, "exit") == 0)
+		// 	break ;
 		if (!d->input)
 			break ;
 		if (d->input)

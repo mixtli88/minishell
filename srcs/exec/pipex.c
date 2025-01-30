@@ -3,52 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:53:25 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/23 19:04:41 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/30 16:16:07 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool	pipe_fd(t_fd *fd)
+void	pipe_fd(t_minishell	*ms)
 {
 	int	i;
 
 	i = 0;
-	while (i < fd->pipe_num)
+	ms->fd.pipe = malloc(sizeof(int *) * (ms->fd.pipe_num));
+	while (i < ms->fd.pipe_num)
 	{
-		if (pipe(fd->pipe[i]) == -1)
-			return (false);
+		ms->fd.pipe[i] = malloc(sizeof(int) * 2);
+		if (pipe(ms->fd.pipe[i]) == -1)
+		{
+			perror("pipe error");
+			exit(EXIT_FAILURE);
+	    }
 		i++;
 	}
-	return (true);
 }
 
+
+// mike
 bool	pipex(t_minishell	*ms)
 {
-	t_fd	*fd;
+	t_cmd	*cmd;
 
-	if (!prepare_t_fd(&fd, *ms))
+	cmd = ms->data.cmd_list;
+	if (ms->data.cmd_list)
 	{
-		free_t_fd(&fd);
-		return (false);
+		prepare_t_fd(ms, cmd);
+		if(ms->data.count > 1)
+			pipe_fd(ms);
+		if (!fork_and_execute(ms, cmd))
+		{
+			free_t_fd(ms);
+			return (false);
+		}
+		return (true);
 	}
-	if (!pipe_fd(fd))
-	{
-		free_t_fd(&fd);
-		return (false);
-	}
-	// get_input_from_here_doc(fd, arg);
-	if (!fork_and_execute(fd, ms))
-	{
-		free_t_fd(&fd);
-		return (false);
-	}
-	free_t_fd(&fd);
-	return (true);
+	return (false);
 }
+
+
+
+
+// bool	pipex(t_minishell	*ms) // fan
+// {
+// 	t_fd	*fd;
+
+// 	if (!prepare_t_fd(&fd, ms))
+// 	{
+// 		free_t_fd(&fd);
+// 		return (false);
+// 	}
+// 	if (!pipe_fd(fd))
+// 	{
+// 		free_t_fd(&fd);
+// 		return (false);
+// 	}
+// 	get_input_from_here_doc(fd, arg);
+// 	if (!fork_and_execute(fd, ms))
+// 	{
+// 		free_t_fd(&fd);
+// 		return (false);
+// 	}
+// 	free_t_fd(&fd);
+// 	return (true);
+// }
 
 // static int	check_diff(char	*limiter, char *newline)
 // {

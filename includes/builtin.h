@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/25 09:49:03 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/30 00:35:47 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,17 @@ bool	find_var(char *format, t_var *var);
 
 /* *****************************   BUILTINS   ***************************** */
 // builtin.c
-bool	is_builtin(t_exe *exe);
-bool	builtin(t_exe	*exe);
+bool	is_builtin(t_minishell *ms);
+bool	builtin(t_minishell *ms);
 // env.c
 bool	ft_env(char **argv, char **envp);
 // pwd.c
 bool	ft_pwd(char **argv, char **envp);
 // exit.c
-bool	ft_exit(char **argv);
+bool	ft_exit(t_minishell *ms);
 // echo.c
-bool	ft_echo(char **argv);
+// bool	ft_echo(char **argv);
+bool	ft_echo(t_minishell *ms);
 // export.c
 void	export_var(t_var new_var, char ***envp);
 void	ft_export(char **argv, char ***envp);
@@ -68,4 +69,8 @@ char	*ft_strtolower(char *str);
 
 void	error_cd(char *str);
 
+bool	execute_cmd(t_minishell	*ms, t_cmd *cmd);
+
+void error_open_file(char *file);
+void rdir_fd(t_minishell *ms, t_cmd *cmd);
 #endif //BUILTIN_H

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 00:10:25 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/21 21:39:56 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/30 03:02:37 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,9 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 void				ft_ilstiter(t_ilist *lst, void (*f)(int));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+						
 
 // funcion mike para minishell
 char				*ft_strcat(char **dest, char **src);
-
+char	*ft_strjoinfree(char  *s1, char  *s2);
 #endif // LIBFT_H

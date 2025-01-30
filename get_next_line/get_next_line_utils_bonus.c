@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 13:53:02 by fwu               #+#    #+#             */
-/*   Updated: 2024/03/02 09:47:53 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/30 12:14:25 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ char	*ft_strdup(const char *s1)
 
 	total = ft_strlen(s1);
 	dest = malloc(sizeof(char) * (total + 1));
-	if (!dest)
-		return (0);
+	// if (!dest)
+	// 	return (0);
 	i = 0;
 	while (i < total)
 	{

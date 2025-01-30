@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/12 23:31:09 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/30 01:58:51 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ void	free_var(t_var *var)
 		free(var->value);
 		var->value = NULL;
 	}
+	if (var->value)
+	{
+		free(var->value);
+		var->value = NULL;
+	}
 }
 
 bool	set_var(char *format, char *operator, t_var *var)
@@ -45,6 +50,8 @@ bool	set_var(char *format, char *operator, t_var *var)
 	if (!occurrence)
 	{
 		var->name = ft_strdup(format);
+		free(format);
+		
 		return (false);
 	}
 	pos_occ = occurrence - format;

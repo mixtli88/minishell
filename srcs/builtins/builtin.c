@@ -6,13 +6,13 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:04:56 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/25 09:50:12 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/30 14:55:35 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*ft_strtolower(char *str)
+char	*ft_strtolower(char *str)
 {
 	char	*tmp_str;
 	int		i;
@@ -27,40 +27,42 @@ static char	*ft_strtolower(char *str)
 	return (tmp_str);
 }
 
-bool is_builtin(t_exe *exe)
+bool is_builtin(t_minishell *ms)
 {
 	char *str;
 
-	str = ft_strtolower(exe->name);
+	str = ft_strtolower(ms->exe.name);
 	if (ft_strcmp(str, ENV) == 0 || ft_strcmp(str, PWD) == 0 
 		|| ft_strcmp(str, EXIT) == 0 || ft_strcmp(str, ECHO) == 0
 		|| ft_strcmp(str, EXPORT) == 0 || ft_strcmp(str, CD) == 0)
 	{
+		free(ms->exe.name);
+		ms->exe.name = ft_strdup(str);
 		free(str);
+		str = NULL;
 		return(true);
 	}
-	if (str)
-		free(str);
+	
+	free(str);
+	str = NULL;
 	return(false);
 }
 
-bool	builtin(t_exe	*exe)
+bool	builtin(t_minishell *ms)
 {
-	// ft_putendl_fd("builtin", STDOUT_FILENO);
-	// t_exe	*exe;
-	
-	// exe = &ms->exe;
-	if (ft_strncmp(exe->name, ENV, 3) == 0)
-		ft_env(exe->argv, *(exe->envp));
-	else if (ft_strncmp(exe->name, PWD, 3) == 0)
-		ft_pwd(exe->argv, *(exe->envp));
-	else if (ft_strncmp(exe->name, EXIT, 4) == 0)
-		ft_exit(exe->argv);
-	else if (ft_strncmp(exe->name, ECHO, 4) == 0)
-		ft_echo(exe->argv);
-	else if (ft_strncmp(exe->name, EXPORT, 6) == 0)
-		ft_export(exe->argv, exe->envp);
-	else if (ft_strncmp(exe->name, CD, 2) == 0)
-		ft_cd(exe->argv, exe->envp);
+	if (ft_strncmp(ms->exe.name, ENV, 3) == 0)
+		ft_env(ms->exe.argv, *(ms->exe.envp));
+	else if (ft_strncmp(ms->exe.name, PWD, 3) == 0)
+		ft_pwd(ms->exe.argv, *(ms->exe.envp));
+	else if (ft_strncmp(ms->exe.name, EXIT, 4) == 0)
+		ft_exit(ms);
+	else if (ft_strncmp(ms->exe.name, ECHO, 4) == 0)
+		ft_echo(ms);
+	else if (ft_strncmp(ms->exe.name, EXPORT, 6) == 0)
+		ft_export(ms->exe.argv, ms->exe.envp);
+	else if (ft_strncmp(ms->exe.name, CD, 2) == 0)
+		ft_cd(ms->exe.argv, ms->exe.envp);
+	// free(ms->exe.name);
+	// ms->exe.name = NULL;
 	return (true);
 }

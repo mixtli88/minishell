@@ -3,33 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 02:10:39 by mike              #+#    #+#             */
-/*   Updated: 2025/01/23 17:25:39 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/25 12:47:36 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	find_path(t_minishell *ms)
-{
-	char	**paths;
-	int		i;
-	t_data	*d;
+// int	find_path(t_minishell *ms)
+// {
+// 	char	**paths;
+// 	int		i;
+// 	t_data	*d;
 
-	d = &ms->data;
-	i = -1;
-	paths = ft_split(getenv("PATH"), ':');
-	while (paths[++i])
-	{
-		free(d->full_path);
-		d->full_path = ft_strjoin(ft_strjoin(paths[i], "/"), d->token_cur->value);
-		if (access(d->full_path, X_OK) == 0)
-			return(free_table(paths), 1) ;
-	}
-	return(free_table(paths), 0);
-}
+// 	d = &ms->data;
+// 	i = -1;
+// 	paths = ft_split(getenv("PATH"), ':');
+// 	while (paths[++i])
+// 	{
+// 		free(d->full_path);
+// 		d->full_path = ft_strjoin(ft_strjoin(paths[i], "/"), d->token_cur->value);
+// 		if (access(d->full_path, X_OK) == 0)
+// 			return(free_table(paths), 1) ;
+// 	}
+// 	return(free_table(paths), 0);
+// }
 
 // int	not_path(t_minishell *ms)
 // {

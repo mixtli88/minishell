@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:33:19 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/23 14:55:13 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/29 14:28:02 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 char	*read_aditional(t_minishell *ms)
 {
 	t_data	*d;
-	int		i;
 	char	*n_l;
 
-	i = 0;
 	n_l = ft_strdup("\n");
 	d = &ms->data;
 	while (1)
@@ -41,6 +39,7 @@ void	check_quote(t_minishell *ms)
 	t_data	*d;
 
 	d = &ms->data;
+	d->i++;
 	while (d->input[d->i] != d->quote)
 	{
 		if (ft_char_is_dolar(d->input[d->i]))
@@ -76,7 +75,7 @@ void	split_input(t_minishell *ms)
 			check_quote(ms);
 		else if (ft_char_is_dolar(d->input[d->i]))
 			ft_is_var(ms);
-		else
+		else if (d->input[d->i] != ' ' && d->input[d->i] != '\0')
 			d->buff[d->buf_idx++] = d->input[d->i++];
 	}
 }

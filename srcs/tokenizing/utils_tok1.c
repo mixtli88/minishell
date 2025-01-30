@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_tok1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:00:16 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/21 15:05:26 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/27 23:46:08 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,9 @@ int	ft_isquote(t_minishell *ms)
 		}
 		else if (d->input[d->i] == d->quote)
 			d->count_quote--;
+		if_is_just_quote(ms);
 		if (d->count_quote == 1 && d->input[d->i + 1] != d->quote)
-		{
-			d->i++;
 			break ;
-		}
 		d->i++;
 	}
 	return (d->count_quote);
