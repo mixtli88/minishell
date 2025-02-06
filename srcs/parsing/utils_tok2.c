@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_tok2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:00:58 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/22 08:54:50 by mabril           ###   ########.fr       */
+/*   Updated: 2025/02/06 05:22:34 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	handle_pipe_input(t_minishell *ms)
 	}
 }
 
-void	ft_is_var(t_minishell *ms)
+void	 ft_is_var(t_minishell *ms)
 {
 	int		j;
 	t_data	*d;
@@ -86,6 +86,20 @@ int	ft_is_rdir(t_minishell *ms)
 		creat_token(ms);
 	}
 	return (found);
+}
+
+void if_is_just_quote(t_minishell *ms)
+{
+	t_data	*d;
+
+	d = &ms->data;
+	if (!d->tok_list && d->count_quote == 0 && 
+		d->input[d->i - 1] == d->input[d->i] && 
+		(d->input[d->i + 1] == ' ' || d->input[d->i + 1] == '\0'))
+		{
+			d->buff[d->buf_idx++] = d->quote;
+			d->buff[d->buf_idx++] = d->quote;
+		}
 }
 
 // int ft_is_pipe_o_logic(t_minishell *ms)

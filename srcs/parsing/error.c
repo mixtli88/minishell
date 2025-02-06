@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/23 15:30:50 by fwu              ###   ########.fr       */
+/*   Updated: 2025/02/06 05:48:01 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,10 @@ void	error_syntax(t_minishell *ms)
 	ft_minishell_loop(ms);
 }
 
-void	error_path_cmd(t_cmd *cmd)
+void	error_quote(void)
 {
-	printf("minishell: %s: command not found\n", cmd->argv[0]);
-	exit(EXIT_FAILURE);
+	
+	ft_putstr_fd("minishell: Error, for closing quote\n", STDERR_FILENO);
 }
 
-void	error_quote(t_minishell *ms)
-{
-	printf("Error, for closing quote\n");
-	ft_minishell_loop(ms);
-}
 
-// void	error_directory(t_minishell *ms)
-// {
-// 	printf("minishell: %s: Is a directory\n", ms->exe.name);
-// 	ft_minishell_loop(ms);
-// }

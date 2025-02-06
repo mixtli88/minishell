@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 18:06:02 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/21 14:52:42 by mabril           ###   ########.fr       */
+/*   Updated: 2025/01/29 14:43:02 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_cmd	*creat_cmd(t_minishell *ms)
+t_cmd	*creat_nod(t_minishell *ms)
 {
 	t_cmd	*new;
 	t_cmd	*last;
@@ -49,6 +49,7 @@ void	buil_cmd_list(t_minishell *ms)
 			tok_is_pipe(ms);
 		else if (d->token_cur->type == REDIR)
 			tok_is_redi(ms);
-		d->token_cur = d->token_cur->next;
+		if(d->token_cur)
+			d->token_cur = d->token_cur->next;
 	}
 }

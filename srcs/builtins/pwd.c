@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 21:58:31 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 19:22:35 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/31 08:52:09 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ bool	ft_pwd(char **argv, char **envp)
 		return (false);
 	}
 	ft_putendl_fd(env_pwd, STDOUT_FILENO);
+	free(env_pwd);
 	return (true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/12 23:31:09 by fwu              ###   ########.fr       */
+/*   Updated: 2025/01/31 11:20:17 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ void	free_var(t_var *var)
 	{
 		free(var->name);
 		var->name = NULL;
+	}
+	if (var->value)
+	{
+		free(var->value);
+		var->value = NULL;
 	}
 	if (var->value)
 	{

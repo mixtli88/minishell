@@ -26,7 +26,7 @@ unsigned int start, unsigned int len)
 	return (len + 1);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	* ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char			*str;
 	unsigned int	i;
@@ -35,7 +35,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	tot_len = ft_strlen(s);
 	malloc_len = get_malloc_len(tot_len, start, len);
-	str = malloc(malloc_len);
+	str = malloc(sizeof(char) * malloc_len);
 	if (!str)
 	{
 		return (0);

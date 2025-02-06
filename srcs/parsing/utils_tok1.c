@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_tok1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabril <mabril@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:00:16 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/21 15:05:26 by mabril           ###   ########.fr       */
+/*   Updated: 2025/02/06 05:07:44 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@ int	ft_char_is_dolar(char i)
 		return (1);
 	return (0);
 }
-// int ft_char_is_rdir(char i)
-// {
-// 	if(i == '>' || i == '<')
-// 		return(1);
-// 	return(0);
-// }
 
 int	ft_count_char(char *str, char c)
 {
@@ -104,11 +98,9 @@ int	ft_isquote(t_minishell *ms)
 		}
 		else if (d->input[d->i] == d->quote)
 			d->count_quote--;
+		if_is_just_quote(ms);
 		if (d->count_quote == 1 && d->input[d->i + 1] != d->quote)
-		{
-			d->i++;
 			break ;
-		}
 		d->i++;
 	}
 	return (d->count_quote);
