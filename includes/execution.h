@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/30 00:35:47 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/06 06:15:50 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
-# include "tokenizing.h"
-# include "exec.h"
+# include "parsing.h"
 
+# define EXIT	"exit"
+# define EXPORT	"export"
+
+/* **************************   ERROR MESSAGE   *************************** */
+# define ERR_ENV "ENV ERROR"
+# define ERR_PWD "PWD ERROR"
+# define ERR_EXIT_NOT_NUMER ": numeric argument required"
+# define ERR_EXIT_TOO_MANY_ARGS "exit: too many arguments"
+# define ERR_NOT_VAILD_IDENTIFIER "not a valid identifier"
 
 # define	EQUAL 		"="
 # define	PLAS_EQUAL	"+="
@@ -27,12 +35,8 @@
 # define	EXPORT		"export"
 # define	CD			"cd"
 
-typedef struct s_var
-{
-	char	*name;
-	char	*value;
-	char	*operator;
-}	t_var;
+# define WRITE_PIPE_IDX 1
+# define READ_PIPE_IDX 0
 
 /* ******************************   UTILS   ******************************* */
 // error.c
@@ -49,7 +53,7 @@ bool	find_var(char *format, t_var *var);
 /* *****************************   BUILTINS   ***************************** */
 // builtin.c
 bool	is_builtin(t_minishell *ms);
-bool	builtin(t_minishell *ms);
+bool	builtin(t_minishell *ms, t_cmd *cmd);
 // env.c
 bool	ft_env(char **argv, char **envp);
 // pwd.c
@@ -63,14 +67,32 @@ bool	ft_echo(t_minishell *ms);
 void	export_var(t_var new_var, char ***envp);
 void	ft_export(char **argv, char ***envp);
 // cd.c
-bool	ft_cd(char **argv, char ***envp);
+bool	ft_cd(t_minishell *ms, t_cmd *cmd);
 
 char	*ft_strtolower(char *str);
 
 void	error_cd(char *str);
 
-bool	execute_cmd(t_minishell	*ms, t_cmd *cmd);
+bool	exe_cmd(t_minishell	*ms, t_cmd *cmd);
 
 void error_open_file(char *file);
 void rdir_fd(t_minishell *ms, t_cmd *cmd);
+void get_cd_path(t_minishell *ms, t_cmd *cmd);
+void	perror_cmd(char *str);
+void				error_directory(t_minishell *ms);
+void				error_path_cmd(t_minishell *ms);
+
+/* ******************************   EXEC   ******************************** */
+
+void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd);   
+
+void	close_fd(t_minishell    *ms, t_cmd *cmd);
+void	free_t_fd(t_minishell    *ms);
+// utils_exe.c
+void	reset_t_exe(t_minishell *ms);
+void	prepare_t_exe(t_minishell	*ms, t_cmd *cmd);
+// execute.c
+// execution.c
+void	execution(t_minishell	*ms);
+void	reset_t_var(t_minishell *ms);
 #endif //BUILTIN_H

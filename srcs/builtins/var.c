@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/30 01:58:51 by mike             ###   ########.fr       */
+/*   Updated: 2025/01/31 11:20:17 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ bool	set_var(char *format, char *operator, t_var *var)
 	if (!occurrence)
 	{
 		var->name = ft_strdup(format);
-		free(format);
-		
 		return (false);
 	}
 	pos_occ = occurrence - format;

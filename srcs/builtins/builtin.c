@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:04:56 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/30 14:55:35 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/03 11:23:29 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool is_builtin(t_minishell *ms)
 	return(false);
 }
 
-bool	builtin(t_minishell *ms)
+bool	builtin(t_minishell *ms, t_cmd *cmd)
 {
 	if (ft_strncmp(ms->exe.name, ENV, 3) == 0)
 		ft_env(ms->exe.argv, *(ms->exe.envp));
@@ -61,8 +61,14 @@ bool	builtin(t_minishell *ms)
 	else if (ft_strncmp(ms->exe.name, EXPORT, 6) == 0)
 		ft_export(ms->exe.argv, ms->exe.envp);
 	else if (ft_strncmp(ms->exe.name, CD, 2) == 0)
-		ft_cd(ms->exe.argv, ms->exe.envp);
-	// free(ms->exe.name);
-	// ms->exe.name = NULL;
+		ft_cd(ms, cmd);
+	if (ft_strncmp(ms->exe.name, "", 1) == 0)
+		error_path_cmd(ms);
+	if (ft_strncmp(ms->exe.name, "/", 1) == 0)
+		error_directory(ms);
+	if (ft_strncmp(ms->exe.name, "!", 1) == 0)
+		error_syntax(ms);
+	if (ft_strncmp(ms->exe.name, ":", 1) == 0)
+		ft_minishell_loop(ms);	
 	return (true);
 }

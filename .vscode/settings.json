@@ -2,6 +2,8 @@
     "files.associations": {
         "typeinfo": "c",
         "libft.h": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "builtin.h": "c",
+        "parsing.h": "c"
     }
 }

@@ -16,7 +16,7 @@ RESET = \033[0m
 
 # BUILTINS = envp.c builtin.c env.c pwd.c exit.c echo.c cd.c export.c var.c error.c
 
-# EXEC = exe.c execute.c pipex.c fd.c execve.c exec.c fork.c
+# EXEC = utils_exe.c execution.c fd.c fork.c
 
 # TOKENIZING = tokenizing.c error.c utils_tok1.c split_tokens.c command.c \
 # 	initialization.c utils_cmd.c path.c free.c utils_tok2.c
@@ -78,28 +78,25 @@ RESET = \033[0m
 
 # # windows 
 
-
 #  Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 NAME = minishell
 
-BUILTINS = envp.c builtin.c env.c pwd.c exit.c echo.c cd.c export.c var.c error.c
-EXEC = exe.c execute.c pipex.c fd.c execve.c fork.c  
-TOKENIZING = tokenizing.c error.c utils_tok1.c split_tokens.c command.c \
-	initialization.c utils_cmd.c path.c free.c utils_tok2.c
+BUILTINS = envp.c builtin.c env.c pwd.c exit.c echo.c cd.c export.c var.c error.c utils_build.c
+EXEC = utils_exe.c execution.c fd.c   
+PARSING = program.c error.c utils_tok1.c split_tokens.c command.c \
+	initialization.c utils_cmd.c free.c utils_tok2.c
 MAIN = main.c 
 
 BUILTINS_DIR = builtins/
 EXEC_DIR = exec/
 PARSING_DIR = parsing/
-TOKENIZING_DIR = tokenizing/
 
 SRC = $(addprefix $(BUILTINS_DIR), $(BUILTINS)) \
 		$(addprefix $(EXEC_DIR), $(EXEC)) \
 		$(addprefix $(PARSING_DIR), $(PARSING)) \
-		$(addprefix $(TOKENIZING_DIR), $(TOKENIZING)) \
 		$(MAIN)
 SRC_DIR = srcs/
 SRC_OBJ = $(addprefix $(SRC_DIR), $(SRC:.c=.o))
@@ -111,10 +108,7 @@ GET_OBJ = $(addprefix $(GET_DIR), $(GET:.c=.o))
 INC_DIR = includes/
 INCLUDES = -I $(INC_DIR),
 
-
-
 LIBRL_DIR	=	$(INC_DIR)librd/shlib/
-
 
 LIBFT_DIR = libft/
 LIBFT_OBJ = $(addprefix $(LIBFT_DIR), libft.a)

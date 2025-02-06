@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:21:53 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/30 16:12:38 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/06 03:45:02 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,8 @@ void error_open_file(char *file)
 	exit(EXIT_FAILURE);
 }
 
-void	prepare_t_fd(t_minishell	*ms, t_cmd *cmd)
+void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd)
 {
-	ms->fd.cmd_num = ms->data.count; 			// cantidad de comandos
-	if (ms->fd.cmd_num > 1)          
-		ms->fd.pipe_num = ms->data.count - 1;	// cantidad de pipes
 	if(cmd->rdir == SINGLE_IN || cmd->rdir == DOUBLE_IN)
 	{
 		rdir_fd(ms, cmd);

@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:00:16 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/27 23:46:08 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/06 05:07:44 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@ int	ft_char_is_dolar(char i)
 		return (1);
 	return (0);
 }
-// int ft_char_is_rdir(char i)
-// {
-// 	if(i == '>' || i == '<')
-// 		return(1);
-// 	return(0);
-// }
 
 int	ft_count_char(char *str, char c)
 {

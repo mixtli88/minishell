@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:15:33 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/25 09:53:14 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/04 01:34:47 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_data(t_minishell *ms)
 	d->input = NULL;
 	d->buf_idx = 0;
 	d->i = 0;
-	d->count = 0;
+	d->count_cmd = 0;
 	d->quote = 0;
 	d->new_readline = NULL;
 	d->new_inp = NULL;
@@ -34,6 +34,8 @@ void	init_data(t_minishell *ms)
 	d->tok_tem = NULL;
 	d->cmd_list = NULL;
 	d->cur_cmd = NULL;
+	d->path = NULL;
+	d->last_slash = NULL;
 }
 
 void	init_new_token(t_token **new)

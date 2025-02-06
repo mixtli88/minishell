@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:00:58 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/27 23:45:21 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/06 05:22:34 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	handle_pipe_input(t_minishell *ms)
 	}
 }
 
-void	ft_is_var(t_minishell *ms)
+void	 ft_is_var(t_minishell *ms)
 {
 	int		j;
 	t_data	*d;
@@ -87,6 +87,7 @@ int	ft_is_rdir(t_minishell *ms)
 	}
 	return (found);
 }
+
 void if_is_just_quote(t_minishell *ms)
 {
 	t_data	*d;

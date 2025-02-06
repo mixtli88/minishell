@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe.c                                              :+:      :+:    :+:   */
+/*   utils_exe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:06:19 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/30 16:13:06 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/06 04:46:43 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char *find_path_exe(t_minishell *ms)
 }
 
 
-static void	get_fd_exe(t_minishell	*ms, t_cmd *cmd)
+static void	 get_fd_exe(t_minishell	*ms, t_cmd *cmd)
 {
 	if (cmd->id == 1)
 	{
@@ -53,13 +53,13 @@ static void	get_fd_exe(t_minishell	*ms, t_cmd *cmd)
 	}
 	else if (cmd->id  == ms->fd.cmd_num)
 	{
-		ms->exe.infd = ms->fd.pipe[ms->fd.pipe_num - 1][READ_PIPE_IDX];
+		ms->exe.infd = ms->fd.pipe[ms->fd.pipe_num - 2][READ_PIPE_IDX];
 		ms->exe.outfd = ms->fd.outfile;
 	}
 	else
 	{
-		ms->exe.infd = ms->fd.pipe[cmd->id - 1][READ_PIPE_IDX];
-		ms->exe.outfd = ms->fd.pipe[cmd->id][WRITE_PIPE_IDX];
+		ms->exe.infd = ms->fd.pipe[cmd->id - 2][READ_PIPE_IDX];
+		ms->exe.outfd = ms->fd.pipe[cmd->id - 1][WRITE_PIPE_IDX];
 	}
 }
 
@@ -90,31 +90,17 @@ void	reset_t_exe(t_minishell *ms)
 	
 }
 
-
-
-// static char	**get_exe_argv(char *arg)
-// {
-// 	return (ft_split(arg, ' '));
-// }
-
-// static int	get_exe_arg(int cur_cmd_idx, t_exe *exe, t_arg *arg)
-// {
-// 	int		arg_cmd_idx;
-// 	char	*cmd;
-
-// 	if (arg->here_doc)
-// 		arg_cmd_idx = PROGRAM + arg->here_doc + LIMITER + cur_cmd_idx;
-// 	else
-// 		arg_cmd_idx = PROGRAM + arg->here_doc + INFILE + cur_cmd_idx;
-// 	cmd = arg->argv[arg_cmd_idx];
-// 	exe->argv = get_exe_argv(cmd);
-// 	if (!exe->argv)
-// 		return (FAIL);
-// 	exe->name = exe->argv[0];
-// 	exe->path = get_exe_path(arg->env_path, exe->name);
-// 	if (!exe->path)
-// 		return (FAIL);
-// 	exe->envp = arg->envp;
-// 	return (SUCCESS);
-// }
-
+void	reset_t_var(t_minishell *ms)
+{
+	ms->oldpwd_var.name = NULL;
+	ms->oldpwd_var.operator = NULL;
+	if(ms->oldpwd_var.value)
+		free (ms->oldpwd_var.value);
+	ms->oldpwd_var.value = NULL;
+	
+	ms->pwd_var.name = NULL;
+	ms->pwd_var.operator = NULL;
+	if(ms->pwd_var.value)
+		free(ms->pwd_var.value);
+	ms->pwd_var.value = NULL;
+}

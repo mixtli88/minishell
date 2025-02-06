@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizing.h                                       :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/27 23:45:06 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/06 06:14:58 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENIZING_H
-# define TOKENIZING_H
+#ifndef PARSING_H
+# define PARSING_H
 
 # include <unistd.h>
 # include "../libft/libft.h"
@@ -75,11 +75,11 @@ typedef struct s_exe
 
 typedef struct s_fd
 {
+	int	cmd_num;
+	int	pipe_num;
+	int	**pipe;
 	int	infile;
 	int	outfile;
-	int	pipe_num;
-	int	cmd_num;
-	int	**pipe;
 }	t_fd;
 
 typedef struct s_data
@@ -109,33 +109,42 @@ typedef struct s_data
 
 	char			*full_path;
 	int				flag;
-	int				count;
-}					t_data;
+	int				count_cmd;
 
+	char			*path;
+	char 			*last_slash;
+	
+}					t_data;
+typedef struct s_var
+{
+	char	*name;
+	char	*value;
+	char	*operator;
+}	t_var;
 typedef struct s_minishell
 {
 	t_data			data;
 	t_exe			exe;
 	t_fd			fd;
+	t_var			oldpwd_var;
+	t_var			pwd_var;
 	char			***envp;
 }					t_minishell;
 
-// void	tokenizing(void);
-void				lexer(t_minishell *ms);
-int					error_sy(char *str);
+void	tokenizing(void);
+
 void				free_table(char **str);
 void				free_cmd_list(t_cmd **cmd_list);
 void				free_token_list(t_token *token_list);
-
 void				free_data(t_minishell *ms);
+
 void				error_syntax(t_minishell *ms);
-void				error_quote(t_minishell *ms);
+void				error_quote(void);
 
 void				creat_token(t_minishell *ms);
 
 t_type				type_token(char *token);
-char				*read_aditional(t_minishell *ms);
-void				check_quote(t_minishell *ms);
+
 void				split_input(t_minishell *ms);
 
 int					ft_isaspace_inp(t_minishell *ms);
@@ -152,23 +161,20 @@ void				tok_is_pipe(t_minishell *ms);
 void				init_data(t_minishell *ms);
 void				init_new_token(t_token **new);
 void				init_new_cmd(t_cmd **cmd);
-int					find_path(t_minishell *ms);
 
 int					ft_char_is_dolar(char i);
 void				ft_is_var(t_minishell *ms);
 int					ft_is_rdir(t_minishell *ms);
 
-void				print_cmd(t_minishell *ms);
-int					not_path(t_minishell *ms);
-void				error_directory(t_minishell *ms);
+
 int					ft_is_pipe(t_minishell *ms);
 void				handle_pipe_input(t_minishell *ms);
 
-void				error_path_cmd(t_cmd *cmd);
 
-void				create_cmd(t_minishell *ms);
-void				char_is_rdir(t_minishell *ms);
 
-void if_is_just_quote(t_minishell *ms);
+void 				if_is_just_quote(t_minishell *ms);
+
+// void				print_cmd(t_minishell *ms);
+
 
 #endif // TOKENIZING_H

@@ -6,12 +6,48 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:33:19 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/29 14:28:02 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/06 05:06:20 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+
+t_type	type_token(char *token)
+{
+	if (ft_strncmp(token, "|", 1) == 0)
+		return (PIPE);
+	else if (ft_strncmp(token, ">", 1) == 0)
+		return (REDIR);
+	else if (ft_strncmp(token, "<", 1) == 0)
+		return (REDIR);
+	else
+		return (CMD);
+}
+
+void	creat_token(t_minishell *ms)
+{
+	t_data	*d;
+	t_token	*new;
+	t_token	*last;
+
+	d = &ms->data;
+	last = NULL;
+	new = malloc(sizeof(t_token));
+	init_new_token(&new);
+	new->value = ft_strdup(d->buff);
+	new->type = type_token(d->buff);
+	new->next = NULL;
+	if (d->tok_list == NULL)
+		d->tok_list = new;
+	else
+	{
+		last = d->tok_list;
+		while (last->next != NULL)
+			last = last->next;
+		last->next = new;
+	}
+}
 char	*read_aditional(t_minishell *ms)
 {
 	t_data	*d;
@@ -24,7 +60,7 @@ char	*read_aditional(t_minishell *ms)
 		(d->new_readline) = NULL;
 		d->new_readline = readline(">");
 		if (!d->new_readline)
-			error_quote(ms);
+			error_quote();
 		d->new_readline = ft_strcat(&n_l, &d->new_readline);
 		d->new_inp = ft_strcat(&d->new_inp, &d->new_readline);
 		d->count_quote = ft_count_char(d->new_inp, d->quote);
@@ -50,8 +86,6 @@ void	check_quote(t_minishell *ms)
 		{
 			d->new_inp = read_aditional(ms);
 			d->input = ft_strcat(&d->input, &d->new_inp);
-			free(d->new_inp);
-			d->new_inp = NULL;
 		}
 		ft_isquote(ms);
 		if (d->count_quote == 0 && (d->input[d->i] == '<'
