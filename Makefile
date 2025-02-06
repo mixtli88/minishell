@@ -84,8 +84,8 @@ CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 NAME = minishell
 
-BUILTINS = envp.c builtin.c env.c pwd.c exit.c echo.c cd.c export.c var.c error.c utils_build.c
-EXEC = utils_exe.c execution.c fd.c   
+BUILTINS = envp.c builtin.c env.c pwd.c exit.c echo.c cd.c export.c var.c error.c utils_build.c unset.c
+EXEC = utils_exe.c execution.c fd.c 
 PARSING = program.c error.c utils_tok1.c split_tokens.c command.c \
 	initialization.c utils_cmd.c free.c utils_tok2.c
 MAIN = main.c 

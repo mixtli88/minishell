@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:04:56 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/03 11:23:29 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/06 13:23:25 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ bool is_builtin(t_minishell *ms)
 	str = ft_strtolower(ms->exe.name);
 	if (ft_strcmp(str, ENV) == 0 || ft_strcmp(str, PWD) == 0 
 		|| ft_strcmp(str, EXIT) == 0 || ft_strcmp(str, ECHO) == 0
-		|| ft_strcmp(str, EXPORT) == 0 || ft_strcmp(str, CD) == 0)
+		|| ft_strcmp(str, EXPORT) == 0 || ft_strcmp(str, CD) == 0 
+		|| ft_strcmp(str, UNSET) == 0)
 	{
 		free(ms->exe.name);
 		ms->exe.name = ft_strdup(str);
@@ -62,6 +63,8 @@ bool	builtin(t_minishell *ms, t_cmd *cmd)
 		ft_export(ms->exe.argv, ms->exe.envp);
 	else if (ft_strncmp(ms->exe.name, CD, 2) == 0)
 		ft_cd(ms, cmd);
+	else if (ft_strncmp(ms->exe.name, UNSET, 2) == 0)
+		ft_unset(ms, cmd->argv[1]);
 	if (ft_strncmp(ms->exe.name, "", 1) == 0)
 		error_path_cmd(ms);
 	if (ft_strncmp(ms->exe.name, "/", 1) == 0)

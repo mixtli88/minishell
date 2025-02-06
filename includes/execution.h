@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/06 06:15:50 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/06 13:10:36 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define	ECHO		"echo"
 # define	EXPORT		"export"
 # define	CD			"cd"
+# define	UNSET		"unset"
 
 # define WRITE_PIPE_IDX 1
 # define READ_PIPE_IDX 0
@@ -95,4 +96,5 @@ void	prepare_t_exe(t_minishell	*ms, t_cmd *cmd);
 // execution.c
 void	execution(t_minishell	*ms);
 void	reset_t_var(t_minishell *ms);
+void	ft_unset(t_minishell *ms, char *var);
 #endif //BUILTIN_H
