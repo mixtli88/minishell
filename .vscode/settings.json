@@ -4,6 +4,15 @@
         "libft.h": "c",
         "minishell.h": "c",
         "builtin.h": "c",
-        "parsing.h": "c"
+        "parsing.h": "c",
+        "system_error": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "signal.h": "c",
+        "execution.h": "c",
+        "get_next_line.h": "c"
     }
 }

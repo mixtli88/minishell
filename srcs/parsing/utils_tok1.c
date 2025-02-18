@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:00:16 by mabril            #+#    #+#             */
-/*   Updated: 2025/02/06 05:07:44 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/15 23:31:06 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,15 @@ int	ft_is_pipe(t_minishell *ms)
 	{
 		if (!d->tok_list)
 			error_syntax(ms);
-		found = 1;
-		if (d->buf_idx == 0)
-			d->buff[d->buf_idx++] = d->input[d->i++];
-		handle_pipe_input(ms);
-		d->buff[d->buf_idx] = '\0';
-		creat_token(ms);
+		else
+		{
+			found = 1;
+			if (d->buf_idx == 0)
+				d->buff[d->buf_idx++] = d->input[d->i++];
+			handle_pipe_input(ms);
+			d->buff[d->buf_idx] = '\0';
+			creat_token(ms);
+		}
 	}
 	return (found);
 }

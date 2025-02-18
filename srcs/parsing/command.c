@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 18:06:02 by mabril            #+#    #+#             */
-/*   Updated: 2025/01/29 14:43:02 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/13 12:26:39 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,34 @@ void	buil_cmd_list(t_minishell *ms)
 			tok_is_pipe(ms);
 		else if (d->token_cur->type == REDIR)
 			tok_is_redi(ms);
-		if(d->token_cur)
-			d->token_cur = d->token_cur->next;
+		if (d->flag == -1)
+			break;
+	}
+}
+
+
+void creat_nod_rdir(t_minishell *ms)
+{
+	t_data	*d;
+	t_rdir	*new = NULL;
+	t_rdir	*last = NULL;
+	
+	d = &ms->data;
+	// new = NULL;
+	// last = NULL;
+	last = NULL;
+	new = malloc(sizeof(t_rdir));
+	value_rdir(ms, &new);
+	// init_new_rdir(ms, &new);
+	new->next = NULL;
+	new->fd_rdir = ft_strdup(d->token_cur->next->value);
+	if (d->cur_cmd->rdir == NULL)
+		d->cur_cmd->rdir = new;
+	else
+	{
+		last = d->cur_cmd->rdir;
+		while (last->next != NULL)
+			last = last->next;
+		last->next = new;
 	}
 }

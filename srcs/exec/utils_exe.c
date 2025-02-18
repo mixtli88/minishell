@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:06:19 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/06 04:46:43 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/13 21:46:27 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,36 @@ static char *find_path_exe(t_minishell *ms)
 
 
 static void	 get_fd_exe(t_minishell	*ms, t_cmd *cmd)
-{
+{	
+	ms->exe.infd = ms->fd.infile;
+	ms->exe.outfd = ms->fd.outfile;
 	if (cmd->id == 1)
 	{
-	
-		ms->exe.infd = ms->fd.infile;
-		if (ms->fd.cmd_num == 1)
-			ms->exe.outfd = ms->fd.outfile;
-		else
-			ms->exe.outfd =ms->fd.pipe[0][WRITE_PIPE_IDX];
+		if (ms->fd.cmd_num != 1 )
+			if(ms->fd.outfile == STDOUT_FILENO)
+			{
+				ms->exe.outfd =ms->fd.pipe[0][WRITE_PIPE_IDX];
+				// ms->data.pipe_use = true;
+			}
 	}
 	else if (cmd->id  == ms->fd.cmd_num)
 	{
-		ms->exe.infd = ms->fd.pipe[ms->fd.pipe_num - 2][READ_PIPE_IDX];
-		ms->exe.outfd = ms->fd.outfile;
+		if(ms->fd.infile == STDIN_FILENO)
+			ms->exe.infd = ms->fd.pipe[ms->fd.cmd_num - 2][READ_PIPE_IDX];
 	}
 	else
 	{
-		ms->exe.infd = ms->fd.pipe[cmd->id - 2][READ_PIPE_IDX];
-		ms->exe.outfd = ms->fd.pipe[cmd->id - 1][WRITE_PIPE_IDX];
-	}
+		if(ms->fd.infile == STDIN_FILENO)
+		{
+			ms->exe.infd = ms->fd.pipe[cmd->id - 2][READ_PIPE_IDX];
+			ms->data.pipe_use = false;
+		}
+		else if(ms->fd.outfile == STDOUT_FILENO)
+		{
+			ms->exe.outfd = ms->fd.pipe[cmd->id - 1][WRITE_PIPE_IDX];
+			ms->data.pipe_use = true;
+		}
+	}	
 }
 
 void	prepare_t_exe(t_minishell *ms, t_cmd *cmd)
@@ -87,6 +97,8 @@ void	reset_t_exe(t_minishell *ms)
 	ms->exe.path = NULL;
 	ms->exe.argv = NULL;
 	ms->exe.envp = NULL;
+	ms->fd.infile = STDIN_FILENO;
+	ms->fd.outfile = STDOUT_FILENO;
 	
 }
 

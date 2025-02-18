@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 13:53:02 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/30 14:19:01 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/13 11:46:12 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,25 +61,26 @@ int	ft_strlen(const char *str)
 	return (count);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	int		total;
-	char	*dest;
-	int		i;
+// char	*ft_strdup(const char *s1)
+// {
+// 	int		total;
+// 	char	*dest;
+// 	int		i;
 
-	total = ft_strlen(s1);
-	dest = malloc(sizeof(char) * (total + 1));
-	if (!dest)
-		return (0);
-	i = 0;
-	while (i < total)
-	{
-		dest[i] = s1[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
+// 	total = ft_strlen(s1);
+// 	dest = NULL;
+// 	dest = malloc(sizeof(char) * (total + 1));
+// 	if (!dest)
+// 		return (0);
+// 	i = 0;
+// 	while (i < total)
+// 	{
+// 		dest[i] = s1[i];
+// 		i++;
+// 	}
+// 	dest[i] = '\0';
+// 	return (dest);
+// }
 
 void	*ft_calloc(size_t count, size_t size)
 {

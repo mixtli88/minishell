@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:57:47 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/30 12:27:31 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/07 13:25:24 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ bool	ft_exit(t_minishell *ms)
 			return (false);
 		}
 	}
-	// free_table(ms->exe.argv);
-	// free(ms->exe.path);
-	// free(ms->exe.name);
+	ms->status = 0;
 	exit(status);
 	return (true);
 }

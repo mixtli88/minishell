@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fwu <fwu@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/22 17:53:24 by fwu              ###   ########.fr       */
+/*   Updated: 2025/02/07 14:23:57 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,15 @@ void	mod_var(t_var new_var, t_var old_var, char **envp)
 void	export_var(t_var new_var, char ***envp)
 {
 	t_var	old_var;
-	int		len_var;
+	// int		len_var;
 	int		i;
 
 	i = 0;
 	while (*envp && (*envp)[i])
 	{
 		set_var((*envp)[i], EQUAL, &old_var);
-		len_var = ft_strlen(old_var.name);
-		if (ft_strncmp(new_var.name, old_var.name, len_var) == 0)
+		// len_var = ft_strlen(old_var.name);
+		if (ft_strcmp(new_var.name, old_var.name) == 0)
 		{
 			mod_var(new_var, old_var, &((*envp)[i]));
 			free_var(&old_var);
@@ -97,7 +97,7 @@ void	export_var(t_var new_var, char ***envp)
 // export TE+S=T      => false
 // export a=1 =3 b=2  => a = 1, false, b = 2 
 // export s           => nothing change
-void	ft_export(char **argv, char ***envp)
+void	ft_export(t_minishell *ms, char **argv, char ***envp)
 {
 	t_var	new_var;	
 	int	i;
@@ -112,6 +112,5 @@ void	ft_export(char **argv, char ***envp)
 		}
 		i++;
 	}
-	// if (i == 0)
-	// 	print_declare(*envp);
+	ms->status = 0;
 }

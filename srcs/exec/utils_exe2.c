@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   utils_exe2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/21 21:58:31 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/07 13:12:32 by mike             ###   ########.fr       */
+/*   Created: 2024/04/28 15:06:19 by fwu               #+#    #+#             */
+/*   Updated: 2025/02/10 11:48:54 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_pwd(t_minishell *ms, char **envp)
+void	free_int_double(t_minishell *ms)
 {
-	
-	char *env_pwd;
+	int	i;
 
-	env_pwd = ft_getenv("PWD", envp);
-	if (!env_pwd)
+	i = 0;
+	while (i < ms->fd.pipe_num)
 	{
-		ft_putendl_fd(ERR_PWD, STDERR_FILENO);
-		ms->status = 1;
-		return (false);
+		free(ms->fd.pipe[i]);
+		ms->fd.pipe[i] = NULL;
+		i++;
 	}
-	ft_putendl_fd(env_pwd, STDOUT_FILENO);
-	ms->status = 0;
-	free(env_pwd);
-	return (true);
+	free(ms->fd.pipe);
+	ms->fd.pipe = NULL;
+}
+
+void	reset_t_fd(t_minishell *ms)
+{
+	if (ms->fd.pipe)
+		free_int_double(ms);
+	ms->fd.cmd_num = 0;
+	ms->fd.infile = 0;
+	ms->fd.outfile = 0;
+	ms->fd.pipe_num = 0;
 }

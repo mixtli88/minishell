@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/06 13:10:36 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/15 13:59:26 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,17 @@ bool	find_var(char *format, t_var *var);
 bool	is_builtin(t_minishell *ms);
 bool	builtin(t_minishell *ms, t_cmd *cmd);
 // env.c
-bool	ft_env(char **argv, char **envp);
+bool	ft_env(t_minishell *ms, char **envp);
 // pwd.c
-bool	ft_pwd(char **argv, char **envp);
+bool	ft_pwd(t_minishell *ms,  char **envp);
 // exit.c
 bool	ft_exit(t_minishell *ms);
 // echo.c
-// bool	ft_echo(char **argv);
+
 bool	ft_echo(t_minishell *ms);
 // export.c
 void	export_var(t_var new_var, char ***envp);
-void	ft_export(char **argv, char ***envp);
+void	ft_export(t_minishell *ms, char **argv, char ***envp);
 // cd.c
 bool	ft_cd(t_minishell *ms, t_cmd *cmd);
 
@@ -76,9 +76,9 @@ void	error_cd(char *str);
 
 bool	exe_cmd(t_minishell	*ms, t_cmd *cmd);
 
-void error_open_file(char *file);
-void rdir_fd(t_minishell *ms, t_cmd *cmd);
-void get_cd_path(t_minishell *ms, t_cmd *cmd);
+void    error_open_file(t_minishell *ms, char *file);
+void    rdir_fd(t_minishell *ms, t_cmd *cmd);
+void    get_cd_path(t_minishell *ms, t_cmd *cmd);
 void	perror_cmd(char *str);
 void				error_directory(t_minishell *ms);
 void				error_path_cmd(t_minishell *ms);
@@ -97,4 +97,7 @@ void	prepare_t_exe(t_minishell	*ms, t_cmd *cmd);
 void	execution(t_minishell	*ms);
 void	reset_t_var(t_minishell *ms);
 void	ft_unset(t_minishell *ms, char *var);
+void	reset_t_fd(t_minishell *ms);
+
+
 #endif //BUILTIN_H

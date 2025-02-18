@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/28 12:41:06 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/13 08:02:57 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,32 @@
 // echo -n a b c => a b c
 bool	ft_echo(t_minishell *ms)
 {
-	// ft_putendl_fd("echo", STDOUT_FILENO);
 	bool	flag_new_line;
 	int		i;
+	int		j;
 
+	j = 2;
 	flag_new_line = true;
 	i = 1;
-	while (ms->exe.argv && ms->exe.argv[i])
+	while (ms->exe.argv[i] && ft_strncmp(ms->exe.argv[i], "-n", 2) == 0)
 	{
-		if (i == 1 && ft_strncmp(ms->exe.argv[1], "-n", 2) == 0)
+		while (ms->exe.argv[i][j] == ms->exe.argv[i][j - 1])
+			j++;
+		if(ms->exe.argv[i][j] == '\0')
 			flag_new_line = false;
 		else
-		{
+			break;
+		i++;
+	}
+	while (ms->exe .argv && ms->exe.argv[i])
+	{
 			ft_putstr_fd(ms->exe.argv[i], ms->exe.outfd);
 			if (ms->exe.argv[i + 1])
 				ft_putstr_fd(" ", ms->exe.outfd);
-		}
 		i++;
 	}
 	if (flag_new_line)
 		ft_putstr_fd("\n", ms->exe.outfd);
+	ms->status = 0;
 	return (true);
 }

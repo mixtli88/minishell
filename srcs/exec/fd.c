@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:21:53 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/06 03:45:02 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/14 09:47:28 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,44 +16,88 @@
 
 void rdir_fd(t_minishell *ms, t_cmd *cmd)
 {
-	if (cmd->rdir == SINGLE_IN)
-		ms->fd.infile = open(cmd->fd_rdir, O_RDONLY, PERMISSIONS);
-	else if (cmd->rdir == SINGLE_OUT)
-		ms->fd.outfile= open(cmd->fd_rdir, O_WRONLY | O_CREAT | O_TRUNC, PERMISSIONS);
-	else if (cmd->rdir == DOUBLE_IN)
-		ms->fd.infile = open(cmd->fd_rdir, O_RDONLY, PERMISSIONS);
-	else if (cmd->rdir == DOUBLE_OUT)
-		ms->fd.outfile = open(cmd->fd_rdir, O_WRONLY | O_CREAT | O_APPEND, PERMISSIONS);
+	if (cmd->rdir->type == SINGLE_IN)
+		ms->fd.infile = open(cmd->rdir->fd_rdir, O_RDONLY, PERMISSIONS);
+	else if (cmd->rdir->type == SINGLE_OUT)
+		ms->fd.outfile= open(cmd->rdir->fd_rdir, O_WRONLY | O_CREAT | O_TRUNC, PERMISSIONS);
+	else if (cmd->rdir->type == DOUBLE_IN)
+		ms->fd.infile = open(cmd->rdir->fd_rdir, O_RDONLY, PERMISSIONS);
+	else if (cmd->rdir->type == DOUBLE_OUT)
+		ms->fd.outfile = open(cmd->rdir->fd_rdir, O_WRONLY | O_CREAT | O_APPEND, PERMISSIONS);
 	if (ms->fd.infile  == -1 || ms->fd.outfile == -1 )
-		error_open_file(cmd->fd_rdir);
+		error_open_file(ms, cmd->rdir->fd_rdir);
 	
 }
-void error_open_file(char *file)
+void error_open_file(t_minishell *ms,   char *file)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(file, STDERR_FILENO);
 	ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-	exit(EXIT_FAILURE);
+	ms->status = 1;
+	ms->data.flag = -1;
 }
+
+// void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd)
+// {
+// 	while(cmd->rdir)
+// 	{
+		
+// 		if (cmd->rdir->type == SINGLE_IN)
+// 		ms->fd.infile = open(cmd->rdir->fd_rdir, O_RDONLY, PERMISSIONS);
+// 		else if (cmd->rdir->type == SINGLE_OUT)
+// 			ms->fd.outfile= open(cmd->rdir->fd_rdir, O_WRONLY | O_CREAT | O_TRUNC, PERMISSIONS);
+// 		else if (cmd->rdir->type == DOUBLE_IN)
+// 			ms->fd.infile = open(cmd->rdir->fd_rdir, O_RDONLY, PERMISSIONS);
+// 		else if (cmd->rdir->type == DOUBLE_OUT)
+// 			ms->fd.outfile = open(cmd->rdir->fd_rdir, O_WRONLY | O_CREAT | O_APPEND, PERMISSIONS);
+// 		if (ms->fd.infile  == -1 || ms->fd.outfile == -1 )
+// 			error_open_file(cmd->rdir->fd_rdir);
+// 		cmd->rdir = cmd->rdir->next;
+// 	}
+// }
 
 void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd)
 {
-	if(cmd->rdir == SINGLE_IN || cmd->rdir == DOUBLE_IN)
+	t_rdir *tem;
+	
+	tem = cmd->rdir;
+	while(tem)
 	{
-		rdir_fd(ms, cmd);
-		ms->fd.outfile = STDOUT_FILENO;
+		if (tem->type == SINGLE_IN)
+		ms->fd.infile = open(tem ->fd_rdir, O_RDONLY, PERMISSIONS);
+		else if (tem->type == SINGLE_OUT)
+			ms->fd.outfile= open(tem->fd_rdir, O_WRONLY | O_CREAT | O_TRUNC, PERMISSIONS);
+		else if (tem->type == DOUBLE_IN)
+			ms->fd.infile = open(tem->fd_rdir, O_RDONLY, PERMISSIONS);
+		else if (tem->type == DOUBLE_OUT)
+			ms->fd.outfile = open(tem->fd_rdir, O_WRONLY | O_CREAT | O_APPEND, PERMISSIONS);
+		if (ms->fd.infile  == -1 || ms->fd.outfile == -1 )
+			error_open_file(ms, tem->fd_rdir);
+		if(ms->data.flag == -1)
+			break;
+		tem = tem->next;
 	}
-	else if(cmd->rdir == SINGLE_OUT || cmd->rdir == DOUBLE_OUT)
-	{
-		rdir_fd(ms, cmd);
-		ms->fd.infile = STDIN_FILENO;
-	}
-	else
-	{
-		ms->fd.infile = STDIN_FILENO;
-		ms->fd.outfile = STDOUT_FILENO;
-	}	
 }
+
+
+// void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd)
+// {
+// 	if(cmd->rdir->type == SINGLE_IN || cmd->rdir->type == DOUBLE_IN)
+// 	{
+// 		rdir_fd(ms, cmd);
+// 		ms->fd.outfile = STDOUT_FILENO;
+// 	}
+// 	else if(cmd->rdir->type == SINGLE_OUT || cmd->rdir->type == DOUBLE_OUT)
+// 	{
+// 		rdir_fd(ms, cmd);
+// 		ms->fd.infile = STDIN_FILENO;
+// 	}
+// 	else
+// 	{
+// 		ms->fd.infile = STDIN_FILENO;
+// 		ms->fd.outfile = STDOUT_FILENO;
+// 	}	
+// }
 
 void	close_fd(t_minishell	*ms, t_cmd *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/06 06:14:58 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/18 12:41:18 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,23 @@
 # include "readline/history.h"
 # include "readline/readline.h"
 
-typedef enum e_type
+typedef enum e_typecmd
 {
 	N_T,
 	CMD,
 	PIPE,
 	REDIR,
 	// LOGIC,
-}					t_type;
+}					t_typecmd;
 
-typedef enum e_redirection
+typedef enum e_typerdir
 {
 	NOT,
 	SINGLE_IN,
 	SINGLE_OUT,
 	DOUBLE_IN,
 	DOUBLE_OUT,
-}					t_redirection;
-typedef enum e_logic
-{
-	NO,
-	OR,
-	AND,
-}			t_logic;
+}					t_typerdir;
 
 /* ***************************   TOKENIZING   ***************************** */
 
@@ -48,18 +42,24 @@ typedef enum e_logic
 
 typedef struct s_token
 {
-	t_type			type;
+	t_typecmd			type;
 	char			*value;
 	struct s_token	*next;
 }					t_token;
+
+typedef struct s_rdir
+{
+	t_typerdir			type;
+	char			*fd_rdir;
+	struct s_rdir	*next;
+}					t_rdir;
 
 typedef struct s_cmd
 {
 	int				id;
 	char			**argv;
 	char			*path;
-	t_redirection	rdir;
-	char			*fd_rdir;
+	t_rdir			*rdir;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -113,14 +113,20 @@ typedef struct s_data
 
 	char			*path;
 	char 			*last_slash;
+	bool			pipe_use;
+	
+	int 			g_stdin;
+	int				flag_readline;
 	
 }					t_data;
+
 typedef struct s_var
 {
 	char	*name;
 	char	*value;
 	char	*operator;
 }	t_var;
+
 typedef struct s_minishell
 {
 	t_data			data;
@@ -128,24 +134,28 @@ typedef struct s_minishell
 	t_fd			fd;
 	t_var			oldpwd_var;
 	t_var			pwd_var;
+	int 			status;
 	char			***envp;
 }					t_minishell;
 
-void	tokenizing(void);
+
+
+void				tokenizing(void);
 
 void				free_table(char **str);
 void				free_cmd_list(t_cmd **cmd_list);
 void				free_token_list(t_token *token_list);
 void				free_data(t_minishell *ms);
 
-void				error_syntax(t_minishell *ms);
+bool				error_syntax(t_minishell *ms);
 void				error_quote(void);
+void				error_pipe(t_minishell *ms);
 
 void				creat_token(t_minishell *ms);
 
-t_type				type_token(char *token);
+t_typecmd				type_token(char *token);
 
-void				split_input(t_minishell *ms);
+bool				split_input(t_minishell *ms);
 
 int					ft_isaspace_inp(t_minishell *ms);
 int					ft_count_char(char *str, char c);
@@ -170,11 +180,15 @@ int					ft_is_rdir(t_minishell *ms);
 int					ft_is_pipe(t_minishell *ms);
 void				handle_pipe_input(t_minishell *ms);
 
-
+void creat_nod_rdir(t_minishell *ms);
 
 void 				if_is_just_quote(t_minishell *ms);
 
-// void				print_cmd(t_minishell *ms);
-
-
+void handle_question_mark(t_minishell *ms);
+void				print_cmd(t_minishell *ms);
+void	init_new_rdir(t_minishell *ms, t_rdir **rdir);
+void	value_rdir(t_minishell *ms, t_rdir **new);
+void	free_rdir_list(t_rdir *rdir_list);
+char	*ft_strdup(const char *s1);
+void set_sig_local(t_minishell *ms);
 #endif // TOKENIZING_H

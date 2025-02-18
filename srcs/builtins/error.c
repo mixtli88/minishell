@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 21:29:45 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/06 05:50:28 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/07 20:18:10 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ void	perror_cmd(char *str)
 
 void	error_directory(t_minishell *ms)
 {
+	ms->status = 126;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(ms->exe.argv[0], STDERR_FILENO);
-	ft_putendl_fd(": Is a directory\n", STDERR_FILENO);
+	ft_putendl_fd(": Is a directory", STDERR_FILENO);
 }
 void	error_path_cmd(t_minishell *ms)
 {
+	ms->status = 127;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(ms->exe.argv[0], STDERR_FILENO);
 	ft_putendl_fd(": command not found", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 11:52:32 by mabril            #+#    #+#             */
-/*   Updated: 2025/02/03 13:02:12 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/18 12:45:57 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,31 @@ void	free_table(char **str)
 
 	i = 0;
 	while (str[i])
-		free(str[i++]);
+	{
+		free(str[i]);
+		// str[i] = NULL;
+		i++;
+	}
 	free(str);
+	// str = NULL;
 }
 
 void	free_cmd_list(t_cmd **cmd_list)
 {
-	t_cmd	*current;
-	t_cmd	*head;
-
-	head = *cmd_list;
-	while (head)
+	t_cmd	*tem;
+	
+	while ((*cmd_list))
 	{
-		if (head->next)
-			current = head->next;
-		else
-			current = NULL;
-		if (head->argv)
-			free_table(head->argv);
-		if (head->path)
-			free(head->path);
-		if (head->fd_rdir)
-			free(head->fd_rdir);
-		init_new_cmd(&head);
-		free(head);
-		head = NULL;
-		head = current;
+		tem = (*cmd_list);
+		(*cmd_list) = (*cmd_list)->next;
+		if (tem->argv)
+			free_table(tem->argv);
+		if (tem->path)
+			free(tem->path);
+		if (tem->rdir)
+			free_rdir_list(tem->rdir);
+		init_new_cmd(&tem);
+		free(tem);
 	}
 }
 
@@ -62,11 +61,24 @@ void	free_token_list(t_token *token_list)
 			current = NULL;
 		if (head->value)
 			free(head->value);
-		init_new_token(&head);
+		head->value = NULL;
+		head->type = 0;
 		free(head);
 		head = NULL;
 		head = current;
 	}
+}
+void	free_rdir_list(t_rdir *rdir_list)
+{
+	t_rdir *temp;
+
+    while (rdir_list) 
+	{
+        temp = rdir_list;
+        rdir_list = rdir_list->next;
+        free(temp->fd_rdir);
+        free(temp);
+    }
 }
 
 void	free_data(t_minishell *ms)
@@ -88,7 +100,10 @@ void	free_data(t_minishell *ms)
 			free_token_list(d->tok_list);
 		if (d->cmd_list)
 			free_cmd_list(&d->cmd_list);
+		// free_fd(ms);
 		init_data(ms);
 		d = NULL;
+		if (isatty(STDIN_FILENO) == 0)
+			dup2(ms->data.g_stdin, STDIN_FILENO);
 	}
 }
