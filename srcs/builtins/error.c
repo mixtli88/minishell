@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 21:29:45 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/07 20:18:10 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/20 01:32:53 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,24 @@ void	builtin_error(char *builtin, char *err_arg, char *err_msg)
 	ft_putendl_fd(err_msg, STDOUT_FILENO);
 }
 
-void	error_cd(char *str)
+void	error_cd(char *str, int err)
 {
-	printf("minishell: cd: %s: No such file or directory\n", str);
+	if (err == ENOENT) 
+	{
+		ft_putstr_fd("mini: ", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putendl_fd("cd : No such file or directory", STDERR_FILENO);
+	}
+	else if (err == ENOTDIR) 
+	{
+		ft_putstr_fd("minil: ", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putendl_fd(" cd : Not a directory", STDERR_FILENO);
+	}
+	else
+	{
+		ft_putstr_fd("cd", STDERR_FILENO);
+	}
 }
 
 void	perror_cmd(char *str)

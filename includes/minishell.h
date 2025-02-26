@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/18 11:55:49 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/19 13:53:48 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "execution.h"
 #include <sys/wait.h>
 #include <signal.h>
+#include <sys/stat.h>
+#include <errno.h> 
 // #include <bits/sigaction.h>
 extern int g_signal_status;
 /* ******************************   MAIN   ******************************** */

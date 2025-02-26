@@ -19,6 +19,20 @@ void     get_cd_path(t_minishell *ms, t_cmd *cmd)
         else if (cmd->argv[1][0] == '/')
             d->path = ft_strdup(cmd->argv[1]);
         else
-            d->path = ft_strcat(&(char *){ft_strjoin(ms->oldpwd_var.value, "/")},
-                &(char *){ft_strdup(cmd->argv[1])}); 
+            d->path = ft_strcat(&(char *){ft_strjoin(ms->oldpwd_var.value, "/")}, &(char *){ft_strdup(cmd->argv[1])}); 
+}
+
+void	reset_t_var(t_minishell *ms)
+{
+	ms->oldpwd_var.name = NULL;
+	ms->oldpwd_var.operator = NULL;
+	if(ms->oldpwd_var.value)
+		free (ms->oldpwd_var.value);
+	ms->oldpwd_var.value = NULL;
+	
+	ms->pwd_var.name = NULL;
+	ms->pwd_var.operator = NULL;
+	if(ms->pwd_var.value)
+		free(ms->pwd_var.value);
+	ms->pwd_var.value = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:00:58 by mabril            #+#    #+#             */
-/*   Updated: 2025/02/18 12:44:29 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/24 18:39:44 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,8 @@ void	handle_pipe_input(t_minishell *ms)
 			d->flag = 1;
 			g_signal_status = 1;
 			d->new_inp = readline(">");
-			if (g_signal_status == 2 || !d->new_inp)
-			{
-				if (!d->new_inp)
-					error_pipe(ms);
-				d->flag = -1;
-				return;
-			}
+			if (on_signal(ms))
+				break;
 			d->input = ft_strcat(&d->input, &d->new_inp);
 			free(d->new_inp);
 			d->new_inp = NULL;
@@ -109,6 +104,7 @@ void if_is_just_quote(t_minishell *ms)
 			d->buff[d->buf_idx++] = d->quote;
 		}
 }
+
 void handle_question_mark(t_minishell *ms)
 {
 	t_data	*d;

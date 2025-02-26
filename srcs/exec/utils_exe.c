@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:06:19 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/13 21:46:27 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/25 19:25:54 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,40 +39,6 @@ static char *find_path_exe(t_minishell *ms)
 	return (NULL);
 }
 
-
-static void	 get_fd_exe(t_minishell	*ms, t_cmd *cmd)
-{	
-	ms->exe.infd = ms->fd.infile;
-	ms->exe.outfd = ms->fd.outfile;
-	if (cmd->id == 1)
-	{
-		if (ms->fd.cmd_num != 1 )
-			if(ms->fd.outfile == STDOUT_FILENO)
-			{
-				ms->exe.outfd =ms->fd.pipe[0][WRITE_PIPE_IDX];
-				// ms->data.pipe_use = true;
-			}
-	}
-	else if (cmd->id  == ms->fd.cmd_num)
-	{
-		if(ms->fd.infile == STDIN_FILENO)
-			ms->exe.infd = ms->fd.pipe[ms->fd.cmd_num - 2][READ_PIPE_IDX];
-	}
-	else
-	{
-		if(ms->fd.infile == STDIN_FILENO)
-		{
-			ms->exe.infd = ms->fd.pipe[cmd->id - 2][READ_PIPE_IDX];
-			ms->data.pipe_use = false;
-		}
-		else if(ms->fd.outfile == STDOUT_FILENO)
-		{
-			ms->exe.outfd = ms->fd.pipe[cmd->id - 1][WRITE_PIPE_IDX];
-			ms->data.pipe_use = true;
-		}
-	}	
-}
-
 void	prepare_t_exe(t_minishell *ms, t_cmd *cmd)
 {
 	if(cmd->argv && cmd->argv[0])
@@ -85,34 +51,17 @@ void	prepare_t_exe(t_minishell *ms, t_cmd *cmd)
 	get_fd_exe(ms, cmd);
 }
 
-void	reset_t_exe(t_minishell *ms)
+int creat_tem_heredoc(char *heredoc)
 {
-	ms->exe.infd = 0;
-	ms->exe.outfd = 0;
-	if (ms->exe.name)
-		free(ms->exe.name);
-	ms->exe.name = NULL;
-	if (ms->exe.path)
-		free(ms->exe.path);
-	ms->exe.path = NULL;
-	ms->exe.argv = NULL;
-	ms->exe.envp = NULL;
-	ms->fd.infile = STDIN_FILENO;
-	ms->fd.outfile = STDOUT_FILENO;
-	
-}
+	int fd;
+	char *heredoc_file;
 
-void	reset_t_var(t_minishell *ms)
-{
-	ms->oldpwd_var.name = NULL;
-	ms->oldpwd_var.operator = NULL;
-	if(ms->oldpwd_var.value)
-		free (ms->oldpwd_var.value);
-	ms->oldpwd_var.value = NULL;
-	
-	ms->pwd_var.name = NULL;
-	ms->pwd_var.operator = NULL;
-	if(ms->pwd_var.value)
-		free(ms->pwd_var.value);
-	ms->pwd_var.value = NULL;
+	heredoc_file = "/tmp/heredoc";
+	fd = open(heredoc_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if(fd == -1)
+		return (-1);
+	if(heredoc)
+		write(fd, heredoc, ft_strlen(heredoc));
+	close(fd);
+	return (open(heredoc_file, O_RDONLY));
 }

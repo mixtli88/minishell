@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:50:37 by mabril            #+#    #+#             */
-/*   Updated: 2025/02/13 13:24:21 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/25 12:49:41 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ void	tok_is_pipe(t_minishell *ms)
 	d->token_cur = d->token_cur->next;
 }
 
-void	value_rdir(t_minishell *ms, t_rdir **new)
+void	type_rdir(t_minishell *ms, t_rdir **new)
 {
 	t_data	*d;
 	
 	d = &ms->data;
-	if (ft_strncmp(d->token_cur->value, "<", 1) == 0)
+	if (ft_strcmp(d->token_cur->value, "<") == 0)
 		(*new)->type = SINGLE_IN;
 	else if (ft_strncmp(d->token_cur->value, ">", 1) == 0)
 		(*new)->type = SINGLE_OUT;
-	else if (ft_strncmp(d->token_cur->value, "<<", 2) == 0)
+	else if (ft_strcmp(d->token_cur->value, "<<") == 0)
 		(*new)->type = DOUBLE_IN;
-	else if (ft_strncmp(d->token_cur->value, ">>", 2) == 0)
+	else if (ft_strcmp(d->token_cur->value, ">>") == 0)
 		(*new)->type = DOUBLE_OUT;
 	
 }
@@ -102,5 +102,4 @@ void	tok_is_redi(t_minishell *ms)
 		d->token_cur = d->token_cur->next;
 	}
 }
-
 

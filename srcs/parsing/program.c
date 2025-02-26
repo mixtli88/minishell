@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:15:33 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/18 11:55:10 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/26 09:18:53 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@ void	 ft_minishell_loop(t_minishell *ms)
 	t_data	*d;
 
 	d = &ms->data;
-	set_sig_local(ms);
 	while (1)
 	{
-		d->envp = ms->envp;
+		set_sig_local(ms);
+		init_data(ms);
 		d->input = readline("mini-3.1$ ");
+		// d->envp = ms->envp;
 		if (!d->input)
 			break ;
 		if (d->input)
-			add_history(d->input);
+		add_history(d->input);
 		if (d->flag != -1)
 			parsing(ms);
 		if(d->cmd_list && d->flag != 1 )
 			execution(ms);
 		free_data(ms);
-		init_data(ms);
 	}
 }
 

@@ -6,14 +6,12 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:48:39 by fwu               #+#    #+#             */
-/*   Updated: 2025/01/30 02:40:54 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/18 19:42:21 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// copy the original envp to another envp that you create
-// you can store one more env or not(NULL)
 char	**copy_envp(char **envp, char *env)
 {
 	char	**new_envp;

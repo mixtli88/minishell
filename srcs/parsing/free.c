@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 11:52:32 by mabril            #+#    #+#             */
-/*   Updated: 2025/02/18 12:45:57 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/19 23:54:40 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	free_token_list(t_token *token_list)
 		head = current;
 	}
 }
+
 void	free_rdir_list(t_rdir *rdir_list)
 {
 	t_rdir *temp;
@@ -100,10 +101,10 @@ void	free_data(t_minishell *ms)
 			free_token_list(d->tok_list);
 		if (d->cmd_list)
 			free_cmd_list(&d->cmd_list);
-		// free_fd(ms);
 		init_data(ms);
 		d = NULL;
 		if (isatty(STDIN_FILENO) == 0)
 			dup2(ms->data.g_stdin, STDIN_FILENO);
+		free_t_fd(ms);
 	}
 }

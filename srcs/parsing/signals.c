@@ -26,6 +26,15 @@ void handle_signal(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();	
 	}
+	
+}
+void handle_signal_son(int sig)
+{
+	(void)sig;
+	if(sig == SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO); // Imprime un salto de línea
+	else if(sig == SIGINT)
+		ft_putstr_fd("\n", STDOUT_FILENO); // Imprime un salto de línea
 }
 
 void set_sig_local(t_minishell *ms)

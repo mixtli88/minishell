@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 18:06:02 by mabril            #+#    #+#             */
-/*   Updated: 2025/02/13 12:26:39 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/26 09:37:08 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ void creat_nod_rdir(t_minishell *ms)
 	t_rdir	*last = NULL;
 	
 	d = &ms->data;
-	// new = NULL;
-	// last = NULL;
 	last = NULL;
 	new = malloc(sizeof(t_rdir));
-	value_rdir(ms, &new);
-	// init_new_rdir(ms, &new);
+	type_rdir(ms, &new);
 	new->next = NULL;
-	new->fd_rdir = ft_strdup(d->token_cur->next->value);
+	if(its_heredoc(ms))
+		ft_heredoc(ms, new);
+	else
+		new->fd_rdir = ft_strdup(d->token_cur->next->value);
 	if (d->cur_cmd->rdir == NULL)
 		d->cur_cmd->rdir = new;
 	else
@@ -79,4 +79,50 @@ void creat_nod_rdir(t_minishell *ms)
 			last = last->next;
 		last->next = new;
 	}
+}
+
+bool its_heredoc(t_minishell *ms)
+{
+	t_data	*d;
+	
+	d = &ms->data;
+	if (ft_strcmp(d->token_cur->value, "<<") == 0)
+	{
+		if(d->new_readline)
+		{
+			free(d->new_readline);
+			d->new_readline = NULL;			
+		}
+		return (true);
+	}
+	return (false);
+}
+void ft_heredoc(t_minishell *ms, t_rdir *new)
+{
+	t_data *d;
+	char *n_l;
+
+	d = &ms->data;
+	new->fd_rdir = NULL;
+	while(1)
+	{
+		n_l = ft_strdup("\n");
+		g_signal_status = 1;
+		d->new_readline = readline(">");
+		if (g_signal_status == 2 || !d->new_readline)
+		{
+			if (!d->new_readline)
+				error_quote();
+			d->flag = -1;
+			free(n_l);
+			return ;
+		}
+		if(ft_strcmp(d->new_readline, d->token_cur->next->value) == 0)
+		{
+			free(n_l);
+			break;
+		}
+		d->new_readline = ft_strcat(&d->new_readline, &n_l);
+		new->fd_rdir = ft_strcat(&new->fd_rdir, &d->new_readline);
+	}	
 }

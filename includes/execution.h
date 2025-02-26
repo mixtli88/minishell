@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/15 13:59:26 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/25 19:26:08 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@
 /* ******************************   UTILS   ******************************* */
 // error.c
 void	builtin_error(char *builtin, char *err_arg, char *err_msg);
+void	error_cd(char *str, int err);
+void	perror_cmd(char *str);
+void	error_directory(t_minishell *ms);
+void	error_path_cmd(t_minishell *ms);
 // envp.c
 char	**copy_envp(char **envp, char *env);
 void	free_envp(char ***envp);
@@ -62,42 +66,39 @@ bool	ft_pwd(t_minishell *ms,  char **envp);
 // exit.c
 bool	ft_exit(t_minishell *ms);
 // echo.c
-
 bool	ft_echo(t_minishell *ms);
 // export.c
 void	export_var(t_var new_var, char ***envp);
 void	ft_export(t_minishell *ms, char **argv, char ***envp);
 // cd.c
 bool	ft_cd(t_minishell *ms, t_cmd *cmd);
+void handle_signal_son(int sig);
 
-char	*ft_strtolower(char *str);
 
-void	error_cd(char *str);
-
-bool	exe_cmd(t_minishell	*ms, t_cmd *cmd);
-
-void    error_open_file(t_minishell *ms, char *file);
-void    rdir_fd(t_minishell *ms, t_cmd *cmd);
-void    get_cd_path(t_minishell *ms, t_cmd *cmd);
-void	perror_cmd(char *str);
-void				error_directory(t_minishell *ms);
-void				error_path_cmd(t_minishell *ms);
 
 /* ******************************   EXEC   ******************************** */
-
-void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd);   
-
-void	close_fd(t_minishell    *ms, t_cmd *cmd);
-void	free_t_fd(t_minishell    *ms);
 // utils_exe.c
-void	reset_t_exe(t_minishell *ms);
 void	prepare_t_exe(t_minishell	*ms, t_cmd *cmd);
-// execute.c
 // execution.c
 void	execution(t_minishell	*ms);
+// error_exc.c
+void    error_execve(t_minishell *ms);
+void    error_open_file(t_minishell *ms,   char *file);
+// fd.c
+void    rdir_fd(t_minishell *ms, t_cmd *cmd);
+void	fd_and_pipe(t_minishell	*ms);
+void    get_rdir_for_fd(t_minishell	*ms, t_cmd *cmd);   
+void	get_fd_exe(t_minishell	*ms, t_cmd *cmd);
+// free_exe_fd.c
+void	close_fd(t_minishell    *ms, t_cmd *cmd);
+void	close_fd_exe(t_minishell	*ms);
+void	free_t_fd(t_minishell    *ms);
+void	reset_t_exe(t_minishell *ms);
+
+void    get_cd_path(t_minishell *ms, t_cmd *cmd);
 void	reset_t_var(t_minishell *ms);
 void	ft_unset(t_minishell *ms, char *var);
-void	reset_t_fd(t_minishell *ms);
 
+int creat_tem_heredoc(char *heredoc);
 
-#endif //BUILTIN_H
+#endif 

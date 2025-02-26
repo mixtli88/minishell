@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:25:24 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/18 12:41:18 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/24 22:42:23 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_cmd
 
 typedef struct s_exe
 {
+	int 	id;
 	int		infd;
 	int		outfd;
 	char	*name;	
@@ -118,6 +119,7 @@ typedef struct s_data
 	int 			g_stdin;
 	int				flag_readline;
 	
+	char 			*heredoc;
 }					t_data;
 
 typedef struct s_var
@@ -139,56 +141,56 @@ typedef struct s_minishell
 }					t_minishell;
 
 
+void		free_table(char **str);
+void		free_cmd_list(t_cmd **cmd_list);
+void		free_token_list(t_token *token_list);
+void		free_data(t_minishell *ms);
 
-void				tokenizing(void);
+bool		error_syntax(t_minishell *ms);
+void		error_quote(void);
+void		error_pipe(t_minishell *ms);
 
-void				free_table(char **str);
-void				free_cmd_list(t_cmd **cmd_list);
-void				free_token_list(t_token *token_list);
-void				free_data(t_minishell *ms);
+void		creat_token(t_minishell *ms);
 
-bool				error_syntax(t_minishell *ms);
-void				error_quote(void);
-void				error_pipe(t_minishell *ms);
+t_typecmd	type_token(char *token);
 
-void				creat_token(t_minishell *ms);
+bool		split_input(t_minishell *ms);
 
-t_typecmd				type_token(char *token);
+int			ft_isaspace_inp(t_minishell *ms);
+int			ft_count_char(char *str, char c);
+int			ft_isquote(t_minishell *ms);
 
-bool				split_input(t_minishell *ms);
+void		buil_cmd_list(t_minishell *ms);
+t_cmd		*creat_nod(t_minishell *ms);
 
-int					ft_isaspace_inp(t_minishell *ms);
-int					ft_count_char(char *str, char c);
-int					ft_isquote(t_minishell *ms);
+void		tok_is_cmd(t_minishell *ms);
+void		tok_is_redi(t_minishell *ms);
+void		tok_is_pipe(t_minishell *ms);
 
-void				buil_cmd_list(t_minishell *ms);
-t_cmd				*creat_nod(t_minishell *ms);
+void		init_data(t_minishell *ms);
+void		init_new_token(t_token **new);
+void		init_new_cmd(t_cmd **cmd);
 
-void				tok_is_cmd(t_minishell *ms);
-void				tok_is_redi(t_minishell *ms);
-void				tok_is_pipe(t_minishell *ms);
-
-void				init_data(t_minishell *ms);
-void				init_new_token(t_token **new);
-void				init_new_cmd(t_cmd **cmd);
-
-int					ft_char_is_dolar(char i);
-void				ft_is_var(t_minishell *ms);
-int					ft_is_rdir(t_minishell *ms);
+int			ft_char_is_dolar(char i);
+void		ft_is_var(t_minishell *ms);
+int			ft_is_rdir(t_minishell *ms);
 
 
-int					ft_is_pipe(t_minishell *ms);
-void				handle_pipe_input(t_minishell *ms);
+int			ft_is_pipe(t_minishell *ms);
+void		handle_pipe_input(t_minishell *ms);
 
-void creat_nod_rdir(t_minishell *ms);
+void 		creat_nod_rdir(t_minishell *ms);
 
-void 				if_is_just_quote(t_minishell *ms);
+void 		if_is_just_quote(t_minishell *ms);
 
-void handle_question_mark(t_minishell *ms);
-void				print_cmd(t_minishell *ms);
-void	init_new_rdir(t_minishell *ms, t_rdir **rdir);
-void	value_rdir(t_minishell *ms, t_rdir **new);
-void	free_rdir_list(t_rdir *rdir_list);
-char	*ft_strdup(const char *s1);
-void set_sig_local(t_minishell *ms);
-#endif // TOKENIZING_H
+void 		handle_question_mark(t_minishell *ms);
+void		print_cmd(t_minishell *ms);
+void		type_rdir(t_minishell *ms, t_rdir **new);
+void		free_rdir_list(t_rdir *rdir_list);
+char		*ft_strdup(const char *s1);
+void 		set_sig_local(t_minishell *ms);
+bool 		on_signal(t_minishell *ms); 
+void ft_heredoc(t_minishell *ms, t_rdir *new);
+bool its_heredoc(t_minishell *ms);
+
+#endif

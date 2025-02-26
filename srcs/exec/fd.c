@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:21:53 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/14 09:47:28 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/26 08:00:57 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,35 +28,31 @@ void rdir_fd(t_minishell *ms, t_cmd *cmd)
 		error_open_file(ms, cmd->rdir->fd_rdir);
 	
 }
-void error_open_file(t_minishell *ms,   char *file)
+
+void	fd_and_pipe(t_minishell	*ms)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(file, STDERR_FILENO);
-	ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-	ms->status = 1;
-	ms->data.flag = -1;
+	int	i;
+
+	i = 0;
+	ms->fd.cmd_num = ms->data.count_cmd;
+	ms->fd.pipe_num = ms->fd.cmd_num  - 1;
+	ms->fd.infile = STDIN_FILENO;
+	ms->fd.outfile = STDOUT_FILENO;
+	if(ms->data.count_cmd > 1)
+		ms->fd.pipe = malloc(sizeof(int *) * (ms->fd.pipe_num));
+	while (i < ms->fd.pipe_num)
+	{
+		ms->fd.pipe[i] = malloc(sizeof(int) * 2);
+		if (pipe(ms->fd.pipe[i]) == -1)
+		{
+			perror("pipe error");
+			exit(EXIT_FAILURE);
+	    }
+		i++;
+	}
 }
 
-// void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd)
-// {
-// 	while(cmd->rdir)
-// 	{
-		
-// 		if (cmd->rdir->type == SINGLE_IN)
-// 		ms->fd.infile = open(cmd->rdir->fd_rdir, O_RDONLY, PERMISSIONS);
-// 		else if (cmd->rdir->type == SINGLE_OUT)
-// 			ms->fd.outfile= open(cmd->rdir->fd_rdir, O_WRONLY | O_CREAT | O_TRUNC, PERMISSIONS);
-// 		else if (cmd->rdir->type == DOUBLE_IN)
-// 			ms->fd.infile = open(cmd->rdir->fd_rdir, O_RDONLY, PERMISSIONS);
-// 		else if (cmd->rdir->type == DOUBLE_OUT)
-// 			ms->fd.outfile = open(cmd->rdir->fd_rdir, O_WRONLY | O_CREAT | O_APPEND, PERMISSIONS);
-// 		if (ms->fd.infile  == -1 || ms->fd.outfile == -1 )
-// 			error_open_file(cmd->rdir->fd_rdir);
-// 		cmd->rdir = cmd->rdir->next;
-// 	}
-// }
-
-void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd)
+void	get_rdir_for_fd(t_minishell	*ms, t_cmd *cmd)
 {
 	t_rdir *tem;
 	
@@ -68,7 +64,7 @@ void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd)
 		else if (tem->type == SINGLE_OUT)
 			ms->fd.outfile= open(tem->fd_rdir, O_WRONLY | O_CREAT | O_TRUNC, PERMISSIONS);
 		else if (tem->type == DOUBLE_IN)
-			ms->fd.infile = open(tem->fd_rdir, O_RDONLY, PERMISSIONS);
+			ms->fd.infile = creat_tem_heredoc(tem->fd_rdir);
 		else if (tem->type == DOUBLE_OUT)
 			ms->fd.outfile = open(tem->fd_rdir, O_WRONLY | O_CREAT | O_APPEND, PERMISSIONS);
 		if (ms->fd.infile  == -1 || ms->fd.outfile == -1 )
@@ -79,58 +75,26 @@ void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd)
 	}
 }
 
-
-// void	get_fd_for_cmd(t_minishell	*ms, t_cmd *cmd)
-// {
-// 	if(cmd->rdir->type == SINGLE_IN || cmd->rdir->type == DOUBLE_IN)
-// 	{
-// 		rdir_fd(ms, cmd);
-// 		ms->fd.outfile = STDOUT_FILENO;
-// 	}
-// 	else if(cmd->rdir->type == SINGLE_OUT || cmd->rdir->type == DOUBLE_OUT)
-// 	{
-// 		rdir_fd(ms, cmd);
-// 		ms->fd.infile = STDIN_FILENO;
-// 	}
-// 	else
-// 	{
-// 		ms->fd.infile = STDIN_FILENO;
-// 		ms->fd.outfile = STDOUT_FILENO;
-// 	}	
-// }
-
-void	close_fd(t_minishell	*ms, t_cmd *cmd)
-{
-	int i;
-
-	i = 0;
-	while(i < ms->fd.pipe_num)
+void	 get_fd_exe(t_minishell	*ms, t_cmd *cmd)
+{	
+	ms->exe.infd = ms->fd.infile;
+	ms->exe.outfd = ms->fd.outfile;
+	if (cmd->id == 1)
 	{
-		if(i != cmd->id - 1)
-			close(ms->fd.pipe[i][READ_PIPE_IDX]);
-		if(i != cmd->id)
-			close(ms->fd.pipe[i][WRITE_PIPE_IDX]);
-		i++;	
+		if (ms->fd.cmd_num != 1 )
+			if(ms->fd.outfile == STDOUT_FILENO)
+				ms->exe.outfd =ms->fd.pipe[0][WRITE_PIPE_IDX];
 	}
-}
-
-void	free_t_fd(t_minishell	*ms)
-{
-	int	i;
-	
-	i = 0;
-	ms->fd.infile = STDIN_FILENO;
-	ms->fd.outfile = STDOUT_FILENO;
-	ms->fd.pipe_num = 0;	// cantidad de pipes
-	ms->fd.cmd_num = 0; 			// cantidad de comandos
-	if (ms->fd.pipe)
+	else if (cmd->id  == ms->fd.cmd_num)
 	{
-		while (i < ms->fd.pipe_num)
-		{
-			free(ms->fd.pipe[i]);
-			i++;
-		}
-		free(ms->fd.pipe);
-		ms->fd.pipe = NULL;
+		if(ms->fd.infile == STDIN_FILENO)
+			ms->exe.infd = ms->fd.pipe[ms->fd.cmd_num - 2][READ_PIPE_IDX];
 	}
+	else
+	{
+		if(ms->fd.infile == STDIN_FILENO)
+			ms->exe.infd = ms->fd.pipe[cmd->id - 2][READ_PIPE_IDX];
+		if(ms->fd.outfile == STDOUT_FILENO)
+			ms->exe.outfd = ms->fd.pipe[cmd->id - 1][WRITE_PIPE_IDX];
+	}	
 }

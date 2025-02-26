@@ -6,12 +6,11 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:33:19 by mabril            #+#    #+#             */
-/*   Updated: 2025/02/18 12:51:20 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/25 11:34:19 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 t_typecmd	type_token(char *token)
 {
@@ -47,16 +46,18 @@ void	creat_token(t_minishell *ms)
 			last = last->next;
 		last->next = new;
 	}
+	d->token_cur = new;
 }
+
 void 	read_aditional(t_minishell *ms)
 {
 	t_data	*d;
 	char	*n_l;
 
-	n_l = ft_strdup("\n");
 	d = &ms->data;
 	while (1)
 	{
+		n_l = ft_strdup("\n");
 		(d->new_readline) = NULL;
 		g_signal_status = 1;
 		d->new_readline = readline(">");
@@ -74,7 +75,6 @@ void 	read_aditional(t_minishell *ms)
 		if (d->count_quote % 2 != 0)
 			break ;
 	}
-
 }
 
 void	check_quote(t_minishell *ms)
@@ -116,7 +116,7 @@ bool	split_input(t_minishell *ms)
 			d->buf_idx = 0;
 		else if (ft_isquote(ms))
 			check_quote(ms);
-		else if (ft_char_is_dolar(d->input[d->i]))
+		else if (ft_char_is_dolar(d->input[d->i]) && ft_strcmp(d->token_cur->value, "<<") != 0) 
 			ft_is_var(ms);
 		else if (d->input[d->i] != ' ' && d->input[d->i] != '\0')
 			d->buff[d->buf_idx++] = d->input[d->i++];

@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/07 13:34:15 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/19 11:32:23 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,6 @@ bool	check_var(t_var var)
 	return (true);
 }
 
-	// ft_putendl_fd(var->name, STDOUT_FILENO);
-	// ft_putendl_fd(var->operator, STDOUT_FILENO);
-	// ft_putendl_fd(var->value, STDOUT_FILENO);
 bool	find_var(char *format, t_var *var)
 {
 	if (!set_var(format, PLAS_EQUAL, var))

@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/07 14:23:57 by mike             ###   ########.fr       */
+/*   Updated: 2025/02/19 12:53:20 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,6 @@ void	export_var(t_var new_var, char ***envp)
 	add_var(new_var, envp);
 }
 
-// bool	print_declare(char **envp)
-// {
-// 	(void) envp;
-// 	return (true);
-// }
-
-// export a=          => a = ''
-// export a=1         => a = 1
-// export a=1 b=2     => a = 1, b = 2
-// export a=1=2       => a = '1=2'
-// export a==1 b==2   => a = '=1', b = '=2'
-// export S=+T        => S = '+T'
-// export S+=T        => S = T
-// export S+=T        => S = 'TT'
-// export +aaaaa=     => false
-// export +aaaaa=     => false
-// export =3          => false
-// export 1=1         => false
-// export 1ddd=1      => false
-// export TE+S=T      => false
-// export a=1 =3 b=2  => a = 1, false, b = 2 
-// export s           => nothing change
 void	ft_export(t_minishell *ms, char **argv, char ***envp)
 {
 	t_var	new_var;	
