@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/19 11:32:23 by mike             ###   ########.fr       */
+/*   Updated: 2025/03/21 06:49:45 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,18 @@ bool	check_var(t_var var)
 	return (true);
 }
 
-bool	find_var(char *format, t_var *var)
+bool	find_var(t_minishell *ms, char *format, t_var *var)
 {
 	if (!set_var(format, PLAS_EQUAL, var))
 	{
 		free_var(var);
 		set_var(format, EQUAL, var);
+		ms->status = 0;
 	}
 	if (!check_var(*var))
 	{
 		free_var(var);
-		builtin_error(EXPORT, format, ERR_NOT_VAILD_IDENTIFIER);
+		builtin_error(ms, format );
 		return (false);
 	}
 	if (!var->operator)

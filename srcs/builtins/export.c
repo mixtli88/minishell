@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/19 12:53:20 by mike             ###   ########.fr       */
+/*   Updated: 2025/03/24 11:33:14 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	mod_var(t_var new_var, t_var old_var, char **envp)
 void	export_var(t_var new_var, char ***envp)
 {
 	t_var	old_var;
-	// int		len_var;
 	int		i;
 
 	i = 0;
@@ -78,17 +77,26 @@ void	export_var(t_var new_var, char ***envp)
 void	ft_export(t_minishell *ms, char **argv, char ***envp)
 {
 	t_var	new_var;	
+	char ** envptmp;
 	int	i;
-
-	i = 1;
-	while (argv && argv[i])
+	envptmp = *(envp);
+	i = 0;
+	while (argv && argv[++i])
 	{
-		if (find_var(argv[i], &new_var))
+		if (find_var(ms, argv[i], &new_var))
 		{
 			export_var(new_var, envp);
 			free_var(&new_var);
 		}
-		i++;
 	}
-	ms->status = 0;
+	if (!argv[1])
+	{
+		i = -1;
+		while (envptmp && envptmp[++i])
+		{
+			ft_putstr_fd("export ", STDOUT_FILENO);
+			ft_putendl_fd(envptmp[i], STDOUT_FILENO);
+		}
+		ms->status = 0;
+	}
 }

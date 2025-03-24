@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:21:53 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/26 08:00:57 by mike             ###   ########.fr       */
+/*   Updated: 2025/03/24 11:25:55 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void rdir_fd(t_minishell *ms, t_cmd *cmd)
 		ms->fd.outfile = open(cmd->rdir->fd_rdir, O_WRONLY | O_CREAT | O_APPEND, PERMISSIONS);
 	if (ms->fd.infile  == -1 || ms->fd.outfile == -1 )
 		error_open_file(ms, cmd->rdir->fd_rdir);
-	
 }
 
 void	fd_and_pipe(t_minishell	*ms)
@@ -60,7 +59,7 @@ void	get_rdir_for_fd(t_minishell	*ms, t_cmd *cmd)
 	while(tem)
 	{
 		if (tem->type == SINGLE_IN)
-		ms->fd.infile = open(tem ->fd_rdir, O_RDONLY, PERMISSIONS);
+			ms->fd.infile = open(tem ->fd_rdir, O_RDONLY, PERMISSIONS);
 		else if (tem->type == SINGLE_OUT)
 			ms->fd.outfile= open(tem->fd_rdir, O_WRONLY | O_CREAT | O_TRUNC, PERMISSIONS);
 		else if (tem->type == DOUBLE_IN)

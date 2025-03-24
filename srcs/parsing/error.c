@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:03:29 by mabril            #+#    #+#             */
-/*   Updated: 2025/02/18 12:40:01 by mike             ###   ########.fr       */
+/*   Updated: 2025/03/24 10:40:17 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,15 @@ bool	error_syntax(t_minishell *ms)
 
 	strerror = NULL;
 	d = &ms->data;
-	if (!d->token_cur)
+	if (d->token_cur && d->token_cur->type == PIPE)
+		strerror =  "|";
+	else if (!d->token_cur)
 	{
-		strerror = "|";
+		d->buff[d->buf_idx++] = d->input[d->i++];
+		if(d->input[d->i -1] == d->input[d->i])
+			d->buff[d->buf_idx++] = d->input[d->i++];
+		d->buff[d->buf_idx] = '\0';
+		strerror = d->buff;
 		ms->status = 2;
 	}
 	else if (!d->token_cur->next)
@@ -38,6 +44,7 @@ void	error_quote(void)
 	ft_putstr_fd("minishell: unexpected EOF while looking for matching `\"\'\n", STDERR_FILENO);
 	ft_putstr_fd("minishell: syntax error: unexpected end of file\n", STDERR_FILENO);
 }
+
 void	error_pipe(t_minishell *ms)
 {
 	ft_putstr_fd("mini: syntax error: unexpected end of file\n", STDERR_FILENO);

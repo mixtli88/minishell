@@ -1,15 +1,14 @@
 #include "../../includes/minishell.h"
 
-void	close_fd(t_minishell	*ms, t_cmd *cmd)
+void	close_fd(t_minishell	*ms)
 {
 	int i;
-
 	i = 0;
 	while(i < ms->fd.pipe_num)
 	{
-		if(i != cmd->id - 1)
-			close(ms->fd.pipe[i][READ_PIPE_IDX]);
-		if(i != cmd->id)
+		if (ms->fd.pipe[i][READ_PIPE_IDX] != STDIN_FILENO) 
+            close(ms->fd.pipe[i][READ_PIPE_IDX]);
+		if (ms->fd.pipe[i][WRITE_PIPE_IDX] != STDOUT_FILENO)
 			close(ms->fd.pipe[i][WRITE_PIPE_IDX]);
 		i++;	
 	}
@@ -46,6 +45,10 @@ void	free_t_fd(t_minishell	*ms)
 
 void	reset_t_exe(t_minishell *ms)
 {
+	if (ms->exe.infd != STDIN_FILENO)
+		close(ms->exe.infd);
+	if (ms->exe.outfd != STDOUT_FILENO)
+		close(ms->exe.outfd);
 	ms->exe.infd = 0;
 	ms->exe.outfd = 0;
 	if (ms->exe.name)

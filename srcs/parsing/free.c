@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 11:52:32 by mabril            #+#    #+#             */
-/*   Updated: 2025/02/19 23:54:40 by mike             ###   ########.fr       */
+/*   Updated: 2025/03/24 08:52:31 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,20 +91,21 @@ void	free_data(t_minishell *ms)
 	{
 		if (d->input)
 			free(d->input);
+		if (d->var)
+			free(d->var);
 		if (d->new_readline)
 			free(d->new_readline);
 		if (d->new_inp)
 			free(d->new_inp);
 		if (d->full_path)
 			free(d->full_path);
-		if (d->tok_list)
-			free_token_list(d->tok_list);
+		if (d->token_list)
+			free_token_list(d->token_list);
 		if (d->cmd_list)
 			free_cmd_list(&d->cmd_list);
-		init_data(ms);
 		d = NULL;
+		free_t_fd(ms);
 		if (isatty(STDIN_FILENO) == 0)
 			dup2(ms->data.g_stdin, STDIN_FILENO);
-		free_t_fd(ms);
 	}
 }

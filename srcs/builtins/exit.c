@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:57:47 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/07 13:25:24 by mike             ###   ########.fr       */
+/*   Updated: 2025/03/24 11:33:54 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,23 @@ bool	ft_exit(t_minishell *ms)
 	int		status;
 
 	status = 0;
+	if (ms->exe.arcg > 2)
+	{
+		ms->status = 1;
+		ft_putendl_fd(ERR_EXIT_TOO_MANY_ARGS, STDERR_FILENO);
+		return (false);
+	}
 	if (ms->exe.argv && ms->exe.argv[1])
 	{
 		status = ft_atoi(ms->exe.argv[1]) % 256;
 		if (!ft_isint(ms->exe.argv[1]))
 		{
-			status = 255;
+			status = 2;
 			ft_putstr_fd("exit: ", STDERR_FILENO);
 			ft_putstr_fd(ms->exe.argv[1], STDERR_FILENO);
 			ft_putendl_fd(ERR_EXIT_NOT_NUMER, STDERR_FILENO);
 		}
-		else if (ms->exe.argv[2])
-		{
-			status = 1;
-			ft_putendl_fd(ERR_EXIT_TOO_MANY_ARGS, STDERR_FILENO);
-			return (false);
-		}
 	}
-	ms->status = 0;
 	exit(status);
 	return (true);
 }

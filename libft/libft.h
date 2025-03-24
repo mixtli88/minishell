@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 00:10:25 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/02 17:52:51 by mike             ###   ########.fr       */
+/*   Updated: 2025/03/13 09:36:23 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 						
 
-// funcion mike para minishell
-char				*ft_strcat(char **dest, char **src);
+						// funcion mike para minishell
+char    *ft_strtok(char *str, int delim);
+char	*ft_strcat(char **dest, char **src);
 char	*ft_strjoinfree(char  *s1, char  *s2);
+char 	*ft_strncpy(char *dest, const char *src, size_t n) ;
+int		ft_isnum(int c);
 #endif // LIBFT_H

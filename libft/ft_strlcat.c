@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 21:49:26 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/02 19:57:07 by mike             ###   ########.fr       */
+/*   Updated: 2025/03/19 00:37:22 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	}
 	return (idx_dst + (size_t)ft_strlen(src));
 }
-char *ft_strcat(char **dest, char **src)
+char *
+ft_strcat(char **dest, char **src)
 {
     size_t dest_len = 0;
     size_t src_len = 0;

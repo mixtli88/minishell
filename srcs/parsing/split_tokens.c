@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 20:33:19 by mabril            #+#    #+#             */
-/*   Updated: 2025/02/25 11:34:19 by mike             ###   ########.fr       */
+/*   Updated: 2025/03/24 09:37:19 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 t_typecmd	type_token(char *token)
 {
-	if (ft_strncmp(token, "|", 1) == 0)
+	if (ft_strcmp(token, "|") == 0)
 		return (PIPE);
-	else if (ft_strncmp(token, ">", 1) == 0)
+	else if (ft_strcmp(token, ">") == 0)
 		return (REDIR);
-	else if (ft_strncmp(token, "<", 1) == 0)
+	else if (ft_strcmp(token, "<") == 0)
+		return (REDIR);
+	else if (ft_strcmp(token, ">>") == 0)
+		return (REDIR);
+	else if (ft_strcmp(token, "<<") == 0)
 		return (REDIR);
 	else
 		return (CMD);
@@ -37,16 +41,18 @@ void	creat_token(t_minishell *ms)
 	new->value = ft_strdup(d->buff);
 	new->type = type_token(d->buff);
 	new->next = NULL;
-	if (d->tok_list == NULL)
-		d->tok_list = new;
+	if (d->token_list == NULL)
+		d->token_list = new;
 	else
 	{
-		last = d->tok_list;
+		last = d->token_list;
 		while (last->next != NULL)
 			last = last->next;
 		last->next = new;
 	}
 	d->token_cur = new;
+	d->buf_idx = 0;
+	d->buff[0] = '\0';
 }
 
 void 	read_aditional(t_minishell *ms)
@@ -60,7 +66,7 @@ void 	read_aditional(t_minishell *ms)
 		n_l = ft_strdup("\n");
 		(d->new_readline) = NULL;
 		g_signal_status = 1;
-		d->new_readline = readline(">");
+		d->new_readline = readline(BLUE"> "RESET);
 		if (g_signal_status == 2 || !d->new_readline)
 		{
 			if (!d->new_readline)
@@ -77,13 +83,14 @@ void 	read_aditional(t_minishell *ms)
 	}
 }
 
-void	check_quote(t_minishell *ms)
+void	 check_quote(t_minishell *ms)
 {
 	t_data	*d;
 
 	d = &ms->data;
-	d->i++;
-	while (d->input[d->i] != d->quote)
+	if(d->count_quote == 0)
+		return ;
+	while (d->input[d->i] != d->quote )
 	{
 		if (ft_char_is_dolar(d->input[d->i]))
 			ft_is_var(ms);
@@ -92,16 +99,17 @@ void	check_quote(t_minishell *ms)
 		if (!d->input[d->i] && d->count_quote != 0)
 		{
 			read_aditional(ms);
-			if (!d->new_inp)  // Si hubo Ctrl-C o Ctrl-D
+			if (!d->new_inp)  
                 return;
 			d->input = ft_strcat(&d->input, &d->new_inp);
 		}
 		ft_isquote(ms);
-		if (d->count_quote == 0 && (d->input[d->i] == '<'
-				|| d->input[d->i] == '>' || d->input[d->i] == ' '
-				|| !d->input[d->i]))
+		if (d->count_quote == 0 && (d->input[d->i] == '<'|| d->input[d->i] 
+				== '>' || d->input[d->i] == ' '	|| d->input[d->i] == '\"' 
+				|| d->input[d->i] == '\'' || !d->input[d->i]))
 			break ;
 	}
+	d->in_quotes = 0;
 }
 
 bool	split_input(t_minishell *ms)
@@ -116,8 +124,8 @@ bool	split_input(t_minishell *ms)
 			d->buf_idx = 0;
 		else if (ft_isquote(ms))
 			check_quote(ms);
-		else if (ft_char_is_dolar(d->input[d->i]) && ft_strcmp(d->token_cur->value, "<<") != 0) 
-			ft_is_var(ms);
+		else if (ft_char_is_dolar(d->input[d->i]) )
+				ft_is_var(ms);
 		else if (d->input[d->i] != ' ' && d->input[d->i] != '\0')
 			d->buff[d->buf_idx++] = d->input[d->i++];
 		if (d->flag == -1)

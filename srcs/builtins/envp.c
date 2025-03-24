@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:48:39 by fwu               #+#    #+#             */
-/*   Updated: 2025/02/18 19:42:21 by mike             ###   ########.fr       */
+/*   Updated: 2025/03/05 12:13:30 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,21 @@ void	free_envp(char ***envp)
 char	*ft_getenv(char *str, char **envp)
 {
 	char 	*value;
+	char 	*str2;
 	int		i;
 
 	i = 0;
+	str2 = ft_strjoin(str, "=");
 	while (envp && envp[i])
 	{
-		if(ft_strncmp(envp[i], str, ft_strlen(str)) == 0)
+		if(ft_strncmp(envp[i], str2, ft_strlen(str2)) == 0)
 		{
 			value =ft_strdup(ft_strchr(envp[i], '='));
+			free(str2);
 			return (value);
 		}		
 		i++;
 	}
+	free(str2);
 	return (NULL);
 }
