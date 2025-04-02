@@ -38,7 +38,7 @@ t_cmd	*creat_nod(t_minishell *ms)
 bool	cmd_if_not_exits_cur_cmd(t_minishell *ms)
 {
 	t_data	*d;
-	
+
 	d = &ms->data;
 	d->cur_cmd = creat_nod(ms);
 	d->count_cmd += 1;
@@ -46,7 +46,7 @@ bool	cmd_if_not_exits_cur_cmd(t_minishell *ms)
 	d->i = 0;
 	d->cur_cmd->id = d->count_cmd;
 	d->token_tem = d->token_cur;
-	if(!d->token_tem)
+	if (!d->token_tem)
 		return(true);		
 	while (d->token_tem && d->token_tem->type != PIPE)
 	{

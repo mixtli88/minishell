@@ -6,7 +6,7 @@
 /*   By: mike <mike@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:17:40 by fwu               #+#    #+#             */
-/*   Updated: 2025/03/19 14:06:02 by mike             ###   ########.fr       */
+/*   Updated: 2025/04/02 06:43:20 by mike             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	ft_cd(t_minishell *ms, t_cmd *cmd)
 	int err;
 	
 	d = &ms->data;
-	if(cmd->argv[2])
+	if(cmd->argv[1] && cmd->argv[2])
 		return (error_cd(ms, cmd->argv[1], EMARG), false);
 	ms->oldpwd_var.name = "OLDPWD";
 	ms->oldpwd_var.operator = EQUAL;
